@@ -26,6 +26,17 @@ public class ListNode {
         this.val = val;
         this.next = next;
     }
+
+    // Find length
+    public static int getLength(ListNode head) {
+        int length = 0;
+        while(head != null) {
+            length++;
+            head = head.next;
+        }
+        return length;
+    }
+
 }
 
 public class LinkedListExample {
@@ -39,16 +50,71 @@ public class LinkedListExample {
         node2.next = node3;
         node3.next = node4;
 
-    // Traverse a linked list
-    let curNode = node1;
-    while (curNode) {
-        System.out.print(cur.val + " ");
-        curNode = curNode.next;
-    }
-
-    
+        // Traverse a linked list
+        ListNode curNode = node1;
+        while (curNode != null) {
+            System.out.print(cur.val + " ");
+            curNode = curNode.next;
+        }
     }    
 }
 ```
 
 ## Implementation - creat, read, update and remove
+```Java
+public class ListNode {
+    int val;
+    ListNode next;
+
+     public ListNode(int val){
+        this.val = val;
+    }
+}
+
+public class MyLinkedList {
+    private ListNode dummy = new ListNode(-1); //dummy node for easier operation
+
+    // insert a new node at certain location
+    public void add(int location, int value) {
+        ListNode pre = dummy; // start from dummy node, and we want to get to the previous node (right before node at certain location)
+        for (int i = 0; i < location; ++i) {
+            pre = pre.next
+        }
+
+        ListNode newNode = new ListNode(value);
+        newNode.next = pre.next; //always link new node to the node after it first 
+        pre.next = newNode; // then break link with old node
+    }
+
+    // read or get a node's value at certain location
+     public int get(int location) {
+        Listnode curNode = dummy.next // start from head node not dummy
+        for (int i = 0; i < location; ++i) {
+            curNode = curNode.next;
+        }
+        return curNode.val;
+     }
+
+      // update value of a node at certain postion      
+      public void set(int location, int newValue) {
+        Listnode curNode = dummy.next // start from head node not dummy
+        for (int i = 0; i < location; ++i) {
+            curNode = curNode.next;
+        }
+        curNode.val = newValue;
+     }
+
+     // remove node at certain postion
+     public int remove(int location) {
+         ListNode pre = dummy; // start from dummy node, and we want to get to the previous node (right before node at certain location)
+        for (int = 0; i < location; ++i) {
+            pre = pre.next;
+        }
+        res = pre.next;
+        pre.next = pre.next.next;
+
+        return res;
+     }
+
+}    
+```
