@@ -1,5 +1,5 @@
 # 203. Remove Linked List Elements
-[Leetcode 203][203]
+[Leetcode 203 (Easy)][203]
 
 [Neetcode walkthrough][neetcode203]
 

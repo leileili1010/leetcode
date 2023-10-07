@@ -1,6 +1,6 @@
 # 206. Reverse Linked List
 
-[Leetcode 206][206]
+[Leetcode 206 (Easy)][206]
 
 [206]: https://leetcode.com/problems/reverse-linked-list/
 

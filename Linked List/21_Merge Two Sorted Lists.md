@@ -1,5 +1,5 @@
 # 21. Merge Two Sorted Lists
-[Leetcode 21][21]
+[Leetcode 21 (Easy)][21]
 
 [Neetcode walkthrough][neetcode21]
 

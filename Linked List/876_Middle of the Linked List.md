@@ -1,5 +1,5 @@
 # Middle of the Linked List
-[Leetcode 876][876]
+[Leetcode 876 (Easy)][876]
 
 [876]: https://leetcode.com/problems/middle-of-the-linked-list/
 
