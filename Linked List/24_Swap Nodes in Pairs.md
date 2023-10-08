@@ -7,7 +7,11 @@
 - number of nodes range [0, 100], means the list could be empty
 
 ## Approach
-
+- Set dummy node to avoid edge case when linked list is empty or only one node;
+- Although we could use multiple pointers in solving this problem, there must be one pointing at the node before the two nodes we want to swap, or the swap prosess is impossible.
+- neetcode's method is easier to understand, everytime we set nextpair pointer (to move cur to) and second pointer(to link)
+- everytime we move pre to cur (the node right before the two nodes to be swapped) and move cur to next pair
+- Be careful about the while loop condition, cur != null must be written ahead of cur.next != null
 
 
 ```Java
