@@ -1,7 +1,46 @@
 # Hash Map Learning Notes
-## How to implement?
-- Define pair (key, value), class and constructor;
-- Define class MaplistNode, pair and next;
-- Define class MyMapChainningHashing, capacity, size, MapListNode [] data, Load_factor;
-  - construcotr: capacity, size, data = new MapListNode [capacity]
+## Set / HashSet
 
+**Features:**
+- set中元素没有重复
+- set中元素没有顺序
+- 增删查改time: O(1)
+
+**Features:**
+- 用于去重；
+- 快速的增删查改；
+
+
+![Alt text](./images/set.png)
+
+Example: 
+![Alt text](./images/set-1.png)
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        int k = 2;
+        int numsArr[] = {1, 7, 3, 4, 5};
+
+        System.out.println(KDifference(numsArr,k));
+    }
+
+    public static int KDifference(int[] nums, int target) {
+        int counter = 0;
+        Set<Integer> set = new HashSet<>();
+
+        for (int num : nums) {
+            if (set.contains(num - target)) counter++;
+            if (set.contains(num + target)) counter++;
+            set.add(num);
+        }
+        return counter;
+    }
+}
+```
+
+## dic / HashMap
+![Alt text](./images/hashmap.png)
