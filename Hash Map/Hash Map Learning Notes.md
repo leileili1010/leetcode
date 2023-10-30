@@ -40,7 +40,18 @@ public class Main {
         return counter;
     }
 }
+
+// Time comlexity: O(n)
+// the above codes only works when all array elements are unique
+// if not unique, we should use 
 ```
 
 ## dic / HashMap
 ![Alt text](./images/hashmap.png)
+
+## 小技巧：前缀和 prefixSum
+前缀和是累积量
+
+![Alt text](./images/prefixSum.png)
+
+![Alt text](image.png)
