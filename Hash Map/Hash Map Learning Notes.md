@@ -54,4 +54,11 @@ public class Main {
 
 ![Alt text](./images/prefixSum.png)
 
+![Alt text](./images/prefixSum-contruction.png))
+
+适用于需要多次求解不同子数组之和。构建该前缀和数组为O(n)时间。 
+
 ![Alt text](image.png)
+
+
+ 
