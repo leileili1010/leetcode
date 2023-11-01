@@ -73,9 +73,9 @@ public static int searchSubarray(int[] arr, int k) {
 
         if (hashMap.containsKey(prefixSum-k))
             return i - hashMap.get(prefixSum-k);
-        //如果hashMap里面已经存在prefixSum, 再遇到同样就不要    
+        //如果hashMap里面已经存在prefixSum, 再遇到同样就不要覆盖，因为我们需要的位置靠前的subarray  
         if (!hashMap.containsKey(prefixSum)) 
-            hashMap.put(prefixSum, i);
+            hashMap.put(prefixSum, i); //value 存放的是end index, 因为所有的prefixSum的其实位置都是一样的 -- 0
     }
     return -1;
 }
