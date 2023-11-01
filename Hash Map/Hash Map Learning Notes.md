@@ -60,5 +60,24 @@ public class Main {
 
 ![Alt text](image.png)
 
+![Alt text](image-1.png)
 
+```java
+public static int searchSubarray(int[] arr, int k) {
+    HashMap<Long, Integer> hashMap = new HashMap<>();
+    hashMap.put((long)0, -1);
+    long prefixSum = 0;
+
+    for (int i = 0; i < arr.length; i++) {
+        prefixSum += (long)arr[i];
+
+        if (hashMap.containsKey(prefixSum-k))
+            return i - hashMap.get(prefixSum-k);
+        //如果hashMap里面已经存在prefixSum, 再遇到同样就不要    
+        if (!hashMap.containsKey(prefixSum)) 
+            hashMap.put(prefixSum, i);
+    }
+    return -1;
+}
+```
  
