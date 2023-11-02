@@ -80,4 +80,6 @@ public static int searchSubarray(int[] arr, int k) {
     return -1;
 }
 ```
+ ![Alt text](image-2.png)
  
+ ![Alt text](image-3.png)
