@@ -83,3 +83,50 @@ public static int searchSubarray(int[] arr, int k) {
  ![Alt text](image-2.png)
  
  ![Alt text](image-3.png)
+
+ ```java
+     public static int countRabbit(int[] answer) {
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        for(int num:answer) {
+            hashMap.put(num,hashMap.getOrDefault(num,0)+1);
+        }
+
+        int rabbitSum = 0;
+
+        for(Map.Entry<Integer, Integer> e:hashMap.entrySet()) {
+            int numPerGroup = e.getKey()+1;
+            int replyCount = e.getValue();
+            int numOfGroup = replyCount / numPerGroup;
+            if(replyCount % numPerGroup != 0) {
+                numOfGroup++;
+            }
+            rabbitSum += numOfGroup * numPerGroup;
+        }
+        return rabbitSum;
+    }
+
+    // by Lei
+        public static int countRabit(int[] answer) {
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        for (int num:answer) {
+            if (!hashMap.containsKey(num))
+                hashMap.put(num,1);
+            else hashMap.put(num, hashMap.get(num)+1);
+        }
+
+        int sum = 0;
+        for (int key:hashMap.keySet()) {
+            int value = hashMap.get(key);
+            if (value % (key+1) != 0) {
+                hashMap.put(key,(value/(key+1)+1)*(key+1));
+            }
+            sum += hashMap.get(key);
+        }
+        return sum;
+    }
+ ```
+ ![Alt text](image-4.png)
+
+ ![Alt text](image-5.png)
+
+![Alt text](image-7.png)
