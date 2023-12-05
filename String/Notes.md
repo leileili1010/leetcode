@@ -44,4 +44,6 @@ Two pointers:
 
 ![Alt text](image-11.png)
 
+![Alt text](image-16.png)
+
 
