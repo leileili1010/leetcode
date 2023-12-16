@@ -1,6 +1,6 @@
 # Commonly Used Methods
 
-## String
+## 1. String
 ### properties and methods
 
 ```java
@@ -91,7 +91,7 @@ sb.insert(0,true); // "trueabcdef"
 
 ```
 
-## Array
+## 2. Array
 
 ```java
 // array inilization
@@ -111,7 +111,7 @@ nums.length // no () after length
 num[1] // element at index 1
 
 // methods
-Arrays.sort(nums) // sort array in ascending order
+Arrays.sort(nums) // sort array in ascending order, time: O(nlogn);
 Arrays.equals(nums, counter) // if two arrays are equal
 for(int i=0; i<c1.length; i++) { 
     if(nums[i] != counter[i]) {
