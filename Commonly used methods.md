@@ -1,6 +1,7 @@
 # Commonly Used Methods
 
 ## String
+### properties and methods
 
 ```java
 String s = "Hello World";
@@ -25,18 +26,60 @@ String floatStr = String.valueOf(3.14); // turn float 3.14 to string "3.14"
 // turn string to num - Integer.parseInt("num") or Float.parseFloat("float")
 int intNum = Integer.parseInt("3"); // turn string "3" to num 3
 float floatNum = Float.parseFloat("3.14"); // turn string "3.14" to num 3.14
+// turn num to char using (char) and turn char to num using (int)
+System.out.println((char)(2+'a')); // 'c'
+System.out.println((char)(97)); // 'a'
+System.out.println((int)'a'); // 97
 
 // methods for charater in a string
 Character.toLowerCase(s.charAt(2));
 Character.isLetterOrDigit(s.charAt(2));
 Character.isLetter(s.charAt(2));
 Character.isDigit(s.charAt(2));
-
-// stringBuilder
-// - String is immuable while stringBuildr could not modified 
-
 ```
+### stringBuilder
+- stringBuilder is mutable, while string is immutable
+- default capacity is 16 if not specified
+- StringBuilder will auto increase capacity if num of characters stored exceed the current capacity
 
+![Alt text](image.png)
+
+#### initialization and properties
+![Alt text](image-2.png)
+
+```java
+String str = "gf";
+Stringbuilder sb = new StringBuilder(10); //specify capacity as 10
+Stringbuilder sb1 = new StringBuilder("abcd");
+Stringbuilder sb = new StringBuilder(); // capacity default to 16
+Stringbuilder sb1 = new StringBuilder("abcd");
+
+sb.length();
+sb.capacity();
+sb.toString();
+sb.charAt(idx:int);
+sb.substring(startIdx, endIdx)
+```
+#### Stringbuilder methods
+![Alt text](image-1.png)
+```java
+String str = "abcdef"
+Stringbuilder sb = new StringBuilder(str);
+
+// append
+sb.append(s);
+sb.append(1);
+sb.append("xy");
+
+sb.delete(1, 3); // "adef", [1,3), delete(startIdx, endIdx)
+sb.deleteCharAt(0); // "bcdef"
+sb.reverse(); // "fedcba"
+sb.replace(0, 2, "Hello"); // "Hellocdef", [0, 2), replace(startIdx, endIdx, "string")
+sb.setCharAt(0,'x'); // "xbcdef", sb.setCharAt(idx, 'a'), has to be single quotes, just one letter 
+sb.insert(0,"XXX"); // "xxxabcdef"
+sb.insert(0,1); // "1abcdef"
+sb.insert(0,true); // "trueabcdef"
+```
 ### 解题套路
 ```java
 // how to count occurence of different letters in a string?
