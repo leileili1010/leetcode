@@ -163,3 +163,25 @@ for (HashMap.Entry<Character, Integer> entry: map1.entrySet()) {
 };
 ```
 ## HashSet
+
+```java
+// initialization
+Set<Integer> set1 = new HashSet<>();
+Set<String> set2 = new HashSet<>();
+
+// methods
+set1.add(1);
+set1.add(2);
+set2.add("great");
+set.remove(1);
+
+// properties
+set1.contains(1);
+set1.size();
+System.out.println(set); // can print all ele in set
+
+// iteration
+  for (int num:set1) {
+    System.out.println(num);
+  }
+```
