@@ -30,6 +30,10 @@ float floatNum = Float.parseFloat("3.14"); // turn string "3.14" to num 3.14
 System.out.println((char)(2+'a')); // 'c'
 System.out.println((char)(97)); // 'a'
 System.out.println((int)'a'); // 97
+// compare strings, using equals is always better
+String str1 = "abc";
+String str2 = "bcd";
+System.out.println(str1.equals(str2));
 
 // methods for charater in a string
 Character.toLowerCase(s.charAt(2));
@@ -88,7 +92,6 @@ sb.insert(0,true); // "trueabcdef"
         letterCount[s.charAt(i)-'a']++; // we can use an array to store letter count, 'a'-'a' = 0, 'b'-'a' = 1, these are index
         letterCount[t.charAt(i)-'a']--;
     }
-
 ```
 
 ## 2. Array
@@ -120,3 +123,43 @@ for(int i=0; i<c1.length; i++) {
 } // another method to see if two arrays are equal
 
 ```
+## HashMap
+```java
+String str = "abbcdcce";
+
+// initialization
+HashMap<Integer, String> map = new HashMap<>();
+HashMap<Character, Integer> map1 = new HashMap<>(); // e.g. used to store num of occurence of each char
+System.out.println(map); // you'll see all entry in map
+
+// properties
+map.size(); 
+
+// methods
+map.put(1, "January");
+map.putIfAbsent(1, "February"); // have no effect, because we already have key 1 with value "January"
+map.outIfAbsent(2, "February"); // this will work
+
+for (char letter: str.toCharArray()) {
+    map1.put(letter, map1.getOrDefault(letter,0)+1); // use to calculate num of occurence of each char 
+};
+
+map.remove(1);
+map.get(1); // "January"
+map.containsKey(1); //true
+map.containsValue("January"); //true
+
+// loop through hashmap, e.g. map1
+for (char key: map1.keySet()) {
+    System.Out.println(key+ ": " + map1.get(key)); //loop key and its value
+};
+
+for (int value: map1.values()) {
+    System.out.println(value);
+};
+
+for (HashMap.Entry<Character, Integer> entry: map1.entrySet()) {
+    System.out.println(entry);
+};
+```
+## HashSet
