@@ -19,6 +19,7 @@ s.toUpperCase();
 s.replaceAll("[^a-z0-9]", ""); // turn anything that's not a num or letter into "", ^ means not
 s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
+letters.substring(1);
 letters.indexOf("bc") // 1
 // turn num/float to string - String.valueOf(num);
 String intStr = String.valueOf(3); // turn num 3 to string "3"
