@@ -21,20 +21,25 @@ s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
 letters.indexOf("bc") // 1
+
 // turn num/float to string - String.valueOf(num);
 String intStr = String.valueOf(3); // turn num 3 to string "3"
 String floatStr = String.valueOf(3.14); // turn float 3.14 to string "3.14"
 // turn string to num - Integer.parseInt("num") or Float.parseFloat("float")
 int intNum = Integer.parseInt("3"); // turn string "3" to num 3
 float floatNum = Float.parseFloat("3.14"); // turn string "3.14" to num 3.14
+
 // turn num to char using (char) and turn char to num using (int)
 System.out.println((char)(2+'a')); // 'c'
 System.out.println((char)(97)); // 'a'
 System.out.println((int)'a'); // 97
+
 // compare strings, using equals is always better
 String str1 = "abc";
 String str2 = "bcd";
-System.out.println(str1.equals(str2));
+str1.equals(str2);
+str1.startsWith(str2);
+str1.endsWith(str2);
 
 // methods for charater in a string
 Character.toLowerCase(s.charAt(2));
