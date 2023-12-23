@@ -40,6 +40,11 @@ String str2 = "bcd";
 str1.equals(str2);
 str1.startsWith(str2);
 str1.endsWith(str2);
+str1.constains("a");
+//however below will not work as string contains string not char
+str1.contains(str2.charAt(0)) // wrong
+str1.contains(String.valueOf(str2.charAt(0))) right
+
 
 // methods for charater in a string
 Character.toLowerCase(s.charAt(2));
