@@ -12,7 +12,6 @@ s.length();
 s.charAt(2); // character at index 2 in string s
 
 // methods:
-char[] = s.toCharArray(); // turn string s to an array ['H','e','l','l','o',' ','W','o','r','l','d']
 s.isEmpty(); // output true or false
 s.toLowerCase();
 s.toUpperCase();
@@ -21,6 +20,14 @@ s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
 letters.indexOf("bc") // 1
+
+// string to array and array to string
+// string could be convert to char[] array;
+char[] = s.toCharArray(); // turn string s to an array ['H','e','l','l','o',' ','W','o','r','l','d']
+//char[] array could be converted to string
+// int[], string[] array could not be converted string, this only works for char[] array.
+char[] chars= {'a', 'b'};
+System.out.println(new String(chars));
 
 // turn num/float to string - String.valueOf(num);
 String intStr = String.valueOf(3); // turn num 3 to string "3"
