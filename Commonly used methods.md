@@ -21,7 +21,25 @@ s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
 
-// string to array and array to string
+//string to string array
+String str = "a good day";
+String sentence = "Hi there, nice to meet you!";
+
+String[] strArr = str.split(" "); // ["a", "good", "day"]; 
+String[] strArr1 = new String[] {"a", "good", "day"}; //["a", "good", "day"];
+String[] strArr2 = new String[] {str, "nice"}; //["a good day", "nice"];
+String[] myArray = sentence.split("[-,.!;?]\\s*" ); // ["Hi", "there", "nice", "to", "meet", "you"]
+// \\s: This represents any whitespace character, including spaces, tabs, and line breaks.
+//*: This quantifier means "zero or more occurrences." It allows for matching a sequence of zero or more whitespace characters.
+//So, \\s* allows for the presence of zero or more whitespace characters (spaces, tabs, or line breaks) after any of the specified punctuation characters ([-,.!;?])
+
+// String array to string -- String.join(divisor, stringarray or string elements) 
+String gfg1 = String.join(" < ", "Four", "Five", "Six", "Seven");  // "Four < Five < Six < Seven"
+String[] strArr1 = new String[] {"a", "good", "day"};
+String joinStr = String.join(" ", strArr1); // "a good day"
+
+
+// string to char array and char array to string
 // string could be convert to char[] array;
 char[] = s.toCharArray(); // turn string s to an array ['H','e','l','l','o',' ','W','o','r','l','d']
 //char[] array could be converted to string
