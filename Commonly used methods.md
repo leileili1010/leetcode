@@ -20,6 +20,8 @@ s.replaceAll("[^a-z0-9]", ""); // turn anything that's not a num or letter into 
 s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
+String str = " hello    world   "; //remove leading and trailing spaces. very slow...
+str.trim(); // "hello   world" 
 
 //string to string array
 String str = "a good day";
@@ -28,10 +30,13 @@ String sentence = "Hi there, nice to meet you!";
 String[] strArr = str.split(" "); // ["a", "good", "day"]; 
 String[] strArr1 = new String[] {"a", "good", "day"}; //["a", "good", "day"];
 String[] strArr2 = new String[] {str, "nice"}; //["a good day", "nice"];
-String[] myArray = sentence.split("[-,.!;?]\\s*" ); // ["Hi", "there", "nice", "to", "meet", "you"]
+String[] myArray = sentence.split("[-,.!;?]\\s*" ); // ["Hi there", "nice to meet you"]
 // \\s: This represents any whitespace character, including spaces, tabs, and line breaks.
 //*: This quantifier means "zero or more occurrences." It allows for matching a sequence of zero or more whitespace characters.
 //So, \\s* allows for the presence of zero or more whitespace characters (spaces, tabs, or line breaks) after any of the specified punctuation characters ([-,.!;?])
+str1 = "    hello    world    ";
+String[] arr1 = str1.split(" "); // .split(" ") will auto remove the trailing spaces (still keep leading and any spaces between words) -- [, , , , , hello, , , , , world]
+String[] arr2 = str1.split("\\s+"); //.split("\\s+") will auto remove the trailing spaces and any spaces between words, however, still keep leading space (only one leading space) -- [, hello, world]
 
 // String array to string -- String.join(divisor, stringarray or string elements) 
 String gfg1 = String.join(" < ", "Four", "Five", "Six", "Seven");  // "Four < Five < Six < Seven"
@@ -119,6 +124,7 @@ sb.setCharAt(0,'x'); // "xbcdef", sb.setCharAt(idx, 'a'), has to be single quote
 sb.insert(0,"XXX"); // "xxxabcdef"
 sb.insert(0,1); // "1abcdef"
 sb.insert(0,true); // "trueabcdef"
+sb.setLength(0) // set sb to null
 ```
 ### 解题套路
 ```java
