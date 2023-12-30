@@ -125,6 +125,14 @@ sb.insert(0,"XXX"); // "xxxabcdef"
 sb.insert(0,1); // "1abcdef"
 sb.insert(0,true); // "trueabcdef"
 sb.setLength(0) // set sb to null
+
+//sb.getChars(begIdx, endIdx, char[] chars, begIdx)
+char[] c= {'a', 'b', 'b', 'b', 'c','b', 'b','b', 'b','b', 'b','b', 'b'};
+StringBuilder sb = new StringBuilder("x?y?");
+sb.getChars(0,4, c, 0);
+System.out.println(Arrays.toString(c)); // [x, ?, y, ?, c, b, b, b, b, b, b, b, b]
+
+
 ```
 ### 解题套路
 ```java
@@ -163,6 +171,13 @@ for(int i=0; i<c1.length; i++) {
         return false;
     }
 } // another method to see if two arrays are equal
+
+
+//subArray -- Arrays.copyofRange(arr, startIndex, endIndex); 
+int[] num = {1,2,3};
+int[] subNum = Arrays.copyOfRange(num, 0, 2); // [0, 2)
+System.out.println(Arrays.toString(subNum));
+
 
 ```
 ## HashMap
