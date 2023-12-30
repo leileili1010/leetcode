@@ -10,6 +10,7 @@ String letters = "abced";
 // properties: 
 s.length();
 s.charAt(2); // character at index 2 in string s
+letters.indexOf("bc") // 1
 
 // methods:
 s.isEmpty(); // output true or false
@@ -19,7 +20,6 @@ s.replaceAll("[^a-z0-9]", ""); // turn anything that's not a num or letter into 
 s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
-letters.indexOf("bc") // 1
 
 // string to array and array to string
 // string could be convert to char[] array;
