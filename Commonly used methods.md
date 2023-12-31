@@ -182,6 +182,7 @@ System.out.println(Arrays.toString(subNum));
 ### ArrayList
 #### Difference between array and array list
 - Example 1
+
 ```java
 String[] friendsArray = new String[4]; // cannot grow or shrink, always will be size 4;
 String[] friendsArray2 = {"Jon", "Chris", "Eric", "Luke"};
@@ -221,12 +222,70 @@ System.out.println(friendsArrList2); // [Eric, Luke, Mitch]
 ```
 
 - Example 2
+
 ```java
+ int[] gradeeeess = {60, 75, 80};
+List<Integer> grades = new ArrayList<>();
+List<Integer> grades2 = new ArrayList<>(Arrays.asList(90, 89, 95));
+//      List<Integer> grades3 = new ArrayList<>(Arrays.asList(gradeeeess)); // this does work. The issue is that you are trying to convert an array of primitive int to a List<Integer>. The Arrays.asList() method is not suitable for primitive arrays; it works with objects.
 
+// add ele
+grades.add(90);
+grades.add(89);
+grades.add(2,95);
 
+// get ele
+grades.get(0); //90
+grades.indexOf(90); //0
 
+// remove ele
+while(!grades.isEmpty()) {
+    System.out.println(grades.remove(0)); //return the removed ele, arraylist becomes empty when we done this loop
+}
+
+grades.clear(); //clear all ele and grades becomes empty
+
+// compare
+grades.contains(90); //true
+grades.isEmpty(); //false
+
+// convert to array
+grades2.toArray();
+Arrays.toString(grades2.toArray()); // convert to array so we can use Arrays.toString(arr);
+
+// print arraylist
+System.out.println(grades); //[90, 89, 95]
+System.out.println(Arrays.toString(grades2.toArray()));
+
+// loop through
+for (int i = 0; i<grades2.size(); i++) {
+    grades2.set(i, grades2.get(i) * 2);
+    System.out.println(grades2.get(i));
+}
+
+for (int grade: grades2) {
+    System.out.println(grade);
+}
+
+// sort and reverse arrayList
+Collections.sort(grades2);
+Collections.reverse(grades2);
+
+// 2D list
+List<List<Integer>> allGrades = new ArrayList<>();
+allGrades.add(Arrays.asList(50, 60, 70));
+allGrades.add(Arrays.asList(95, 100, 90));
+allGrades.add(Arrays.asList(80, 87, 85));
+
+System.out.println(allGrades); //[[50, 60, 70], [95, 100, 90], [80, 87, 85]]
+
+for (List<Integer> allGrade: allGrades) {
+    for (int score: allGrade) {
+        System.out.print(score + " ");
+    }
+    System.out.println();
+}
 ```
-
 
 ## HashMap
 ```java
