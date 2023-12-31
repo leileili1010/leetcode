@@ -145,14 +145,14 @@ System.out.println(Arrays.toString(c)); // [x, ?, y, ?, c, b, b, b, b, b, b, b, 
 ```
 
 ## 2. Array
-
+### properties and methods
 ```java
 // array inilization
 int[] counter = new int[26];
 int[] nums = {1, 2, 3, 4};
-
 int[] array
 arry = new int[]{1,2,3,4}
+int[] empty = new int[] {} // an empty array
 
 // loop
 for (int num: nums) {
@@ -165,7 +165,7 @@ num[1] // element at index 1
 
 // methods
 Arrays.sort(nums) // sort array in ascending order, time: O(nlogn);
-Arrays.equals(nums, counter) // if two arrays are equal
+Arrays.equals(arr1, arr2) // if two arrays are equal
 for(int i=0; i<c1.length; i++) { 
     if(nums[i] != counter[i]) {
         return false;
@@ -177,9 +177,57 @@ for(int i=0; i<c1.length; i++) {
 int[] num = {1,2,3};
 int[] subNum = Arrays.copyOfRange(num, 0, 2); // [0, 2)
 System.out.println(Arrays.toString(subNum));
+```
+
+### ArrayList
+#### Difference between array and array list
+- Example 1
+```java
+String[] friendsArray = new String[4]; // cannot grow or shrink, always will be size 4;
+String[] friendsArray2 = {"Jon", "Chris", "Eric", "Luke"};
+
+List<String> friendsArrList = new ArrayList<>(); // no need to specify size, arraylist can dynamically resize
+List<String> friendsArrList2 = new ArrayList<>(Arrays.asList("Jon", "Chris", "Eric", "Luke")); //[Jon, Chris, Eric, Luke]
+List<String> friendsArrList3 = new ArrayList<>(Arrays.asList(friendsArray2));// [Jon, Chris, Eric, Luke]
+
+//get an element
+System.out.println(friendsArray2[1]);
+System.out.println(friendsArrList2.get(1));
+
+// get size
+System.out.println(friendsArray2.length);
+System.out.println(friendsArrList2.size());
+
+//how to add ele?
+// cannot do it with Array
+friendsArrList2.add("Mitch");
+System.out.println(friendsArrList2.get(4));
+
+//set an ele
+friendsArray2[0] = "Carl";
+friendsArrList2.set(0, "Carl");
+
+System.out.println(friendsArray2[0]);
+System.out.println(friendsArrList2.get(0));
+
+//remove an ele
+//cannot do this with array
+friendsArrList2.remove("Chris");
+friendsArrList2.remove(0);
+
+//printing
+System.out.println(friendsArray2); // [Ljava.lang.String;@6acbcfc0
+System.out.println(friendsArrList2); // [Eric, Luke, Mitch]
+```
+
+- Example 2
+```java
+
 
 
 ```
+
+
 ## HashMap
 ```java
 String str = "abbcdcce";
