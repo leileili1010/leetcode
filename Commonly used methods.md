@@ -11,17 +11,18 @@ String letters = "abced";
 s.length();
 s.charAt(2); // character at index 2 in string s
 letters.indexOf("bc") // 1
+s.isEmpty(); // output true or false
 
 // methods:
-s.isEmpty(); // output true or false
-s.toLowerCase();
-s.toUpperCase();
-s.replaceAll("[^a-z0-9]", ""); // turn anything that's not a num or letter into "", ^ means not
-s.replaceALL("is", "was");
+// as String is immutable, methods do not modify the original string but instead returns a new string with the specified change. all these changes to String has to be reassign to string, or it wont work.
+s = s.toLowerCase();
+s = s.toUpperCase();
+s = s.replaceAll("[^a-z0-9]", ""); // turn anything that's not a num or letter into "", ^ means not
+s = s.replaceALL("is", "was");
 letters.substring(1,4) // "bce" [1,4) 
 letters.substring(1);
-String str = " hello    world   "; //remove leading and trailing spaces. very slow...
-str.trim(); // "hello   world" 
+String str = " hello    world   "; 
+str.trim(); // "hello   world", //remove leading and trailing spaces. very slow... 
 
 //string to string array
 String str = "a good day";
@@ -325,6 +326,9 @@ for (int value: map1.values()) {
 for (HashMap.Entry<Character, Integer> entry: map1.entrySet()) {
     System.out.println(entry);
 };
+
+//printing
+System.out.println(map); //可以直接printing出entry
 ```
 ## HashSet
 
