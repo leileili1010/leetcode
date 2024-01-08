@@ -286,8 +286,22 @@ for (List<Integer> allGrade: allGrades) {
     }
     System.out.println();
 }
-```
 
+// anther example 
+List<List<Integer>> res = new ArrayList<>(2);
+res.add(new ArrayList<>()); //没有declare俩个空list的话，res.get[0], res.get[1] 会报错
+res.add(new ArrayList<>());
+
+int[] nums = {2,3,4};
+Set<Integer> set = new HashSet<>();
+for (int num: nums) {
+    set1.add(num);
+}
+res.get(0).addAll(set); //addAll只能用于两个collections之间, 一次把一个集合的所有元素放入另一个集合
+
+// example - 合并两个list
+Arrays.asList(list1, list2)
+```
 ## HashMap
 ```java
 String str = "abbcdcce";
