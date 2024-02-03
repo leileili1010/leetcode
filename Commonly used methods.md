@@ -68,6 +68,7 @@ System.out.println((int)'a'); // 97
 // compare strings, using equals is always better
 String str1 = "abc";
 String str2 = "bcd";
+
 str1.equals(str2);
 str1.startsWith(str2);
 str1.endsWith(str2);
@@ -317,7 +318,7 @@ map.size();
 // methods
 map.put(1, "January");
 map.putIfAbsent(1, "February"); // have no effect, because we already have key 1 with value "January"
-map.outIfAbsent(2, "February"); // this will work
+map.putIfAbsent(2, "February"); // this will work
 
 for (char letter: str.toCharArray()) {
     map1.put(letter, map1.getOrDefault(letter,0)+1); // use to calculate num of occurence of each char 
