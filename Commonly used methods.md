@@ -133,17 +133,6 @@ char[] c= {'a', 'b', 'b', 'b', 'c','b', 'b','b', 'b','b', 'b','b', 'b'};
 StringBuilder sb = new StringBuilder("x?y?");
 sb.getChars(0,4, c, 0);
 System.out.println(Arrays.toString(c)); // [x, ?, y, ?, c, b, b, b, b, b, b, b, b]
-
-
-```
-### 解题套路
-```java
-// how to count occurence of different letters in a string?
- int[] letterCount = new int[26];
-    for (int i = 0; i < s.length(); i++) {
-        letterCount[s.charAt(i)-'a']++; // we can use an array to store letter count, 'a'-'a' = 0, 'b'-'a' = 1, these are index
-        letterCount[t.charAt(i)-'a']--;
-    }
 ```
 
 ## 2. Array
