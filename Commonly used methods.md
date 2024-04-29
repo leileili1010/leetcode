@@ -114,7 +114,7 @@ String str = "abcdef"
 Stringbuilder sb = new StringBuilder(str);
 
 // append
-sb.append(s);
+sb.append("s");
 sb.append(1);
 sb.append("xy");
 
