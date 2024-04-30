@@ -1,7 +1,8 @@
 
 
-| No.         | Name       | Topic   | Difficulty   
-| ---         |    ----     |          ---  |          ---  |         
-| [1768](https://github.com/leileili1010/leetcode/blob/main/String/Practice/1768.%20Merge%20Strings%20Alternately_easy.md)     | Merge Strings Alternately|  <span style="color:yellow">String, Two Pointers </span> |Easy  
-| [1071](https://github.com/leileili1010/leetcode/blob/main/String/Practice/1071.%20Greatest%20Common%20Divisor%20of%20Strings_easy.md)     | Greatest Common Divisor of Strings|  <span style="color:yellow">String</span> |Easy  
-| [1431](https://github.com/leileili1010/leetcode/blob/main/Array/1431.%20Kids%20With%20the%20Greatest%20Number%20of%20Candies_easy.md)| Kids With the Greatest Number of Candies|  <span style="color:yellow">Array</span> |Easy  
+| No.         | Name       | Topic   | Difficulty   | LeetCode
+| ---         |    ----     |          ---  |          ---  |   ---  |       
+| [1768](https://github.com/leileili1010/leetcode/blob/main/String/Practice/1768.%20Merge%20Strings%20Alternately_easy.md)     | Merge Strings Alternately|  <span style="color:yellow">String, Two Pointers </span> |Easy  | [Leetcode](https://leetcode.com/problems/merge-strings-alternately/description/?envType=study-plan-v2&envId=leetcode-75)
+| [1071](https://github.com/leileili1010/leetcode/blob/main/String/Practice/1071.%20Greatest%20Common%20Divisor%20of%20Strings_easy.md)     | Greatest Common Divisor of Strings|  <span style="color:yellow">String</span> |Easy | [Leetcode](https://leetcode.com/problems/greatest-common-divisor-of-strings/?envType=study-plan-v2&envId=leetcode-75)  
+| [1431](https://github.com/leileili1010/leetcode/blob/main/Array/1431.%20Kids%20With%20the%20Greatest%20Number%20of%20Candies_easy.md)| Kids With the Greatest Number of Candies|  <span style="color:yellow">Array</span> |Easy | [Leetcode](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/?envType=study-plan-v2&envId=leetcode-75)
+| [605](https://github.com/leileili1010/leetcode/blob/main/Array/605.%20Can%20Place%20Flowers_easy.md)| Can Place Flowers|  <span style="color:yellow">Array</span> |Easy | [Leetcode](https://leetcode.com/problems/can-place-flowers/description/?envType=study-plan-v2&envId=leetcode-75)
