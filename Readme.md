@@ -2,6 +2,7 @@
 | Name       | Topic       | Link  
 | ---         |    ----     |          ---               
 | Summary of Functions |  <span style="color:yellow">All </span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Commonly%20used%20methods.md) 
+| String Notes |  <span style="color:yellow">Stringk, Prefix Sum </span> | [Here](https://github.com/leileili1010/leetcode/blob/main/String/Notes.md) 
 
 
 
