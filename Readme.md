@@ -17,6 +17,7 @@
 | [443](https://github.com/leileili1010/leetcode/blob/main/String/Practice/443.%20String%20Compression_medium.md)| String Compression|  <span style="color:yellow">String, Two Pointers</span> |Medium | [Leetcode](https://leetcode.com/problems/string-compression/description/?envType=study-plan-v2&envId=leetcode-75)
 | [238](https://github.com/leileili1010/leetcode/blob/main/Array/238.%20Product%20of%20Array%20Except%20Self_medium.md)| Product of Array Except Self|  <span style="color:yellow">Array, Prefix Sum</span> |Medium | [Leetcode](https://leetcode.com/problems/product-of-array-except-self/description/?envType=study-plan-v2&envId=leetcode-75)
 | [283](https://github.com/leileili1010/leetcode/blob/main/Array/283.%20Move%20Zeroes_easy.md)| Move Zeros|  <span style="color:yellow">Array, Two Pointers</span> |Easy | [Leetcode](https://leetcode.com/problems/move-zeroes/?envType=study-plan-v2&envId=leetcode-75)
+| [392](https://github.com/leileili1010/leetcode/blob/main/Array/392.%20Is%20Subsequence_easy.md)| Is Subsequence|  <span style="color:yellow">String, Two Pointers, DP</span> |Easy | [Leetcode](https://leetcode.com/problems/is-subsequence/description/?envType=study-plan-v2&envId=leetcode-75)
 
 
 
