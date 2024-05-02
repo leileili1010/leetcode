@@ -1,8 +1,9 @@
 
 | Name       | Topic       | Link  
 | ---         |    ----     |          ---               
-| Summary of Functions |  <span style="color:yellow">All </span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Commonly%20used%20methods.md) 
-| String Notes |  <span style="color:yellow">String, Prefix Sum </span> | [Here](https://github.com/leileili1010/leetcode/blob/main/String/Notes.md) 
+| Summary of Functions |  <span style="color:yellow">All</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Commonly%20used%20methods.md) 
+| String Notes |  <span style="color:yellow">String</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/String/Notes.md) 
+| HashMap Notes |  <span style="color:yellow">HashMap, Prefix Sum</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Hash%20Map/Hash%20Map%20Learning%20Notes.md) 
 
 
 
