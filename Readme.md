@@ -24,6 +24,7 @@
 | [1679](https://github.com/leileili1010/leetcode/blob/main/Array/1679.%20Max%20Number%20of%20K-Sum%20Pairs_medium.md)| Max Number of K-Sum Pairs| <span style="color:yellow">Array, Two Pointers, HashMap</span> |Medium | [Leetcode](https://leetcode.com/problems/max-number-of-k-sum-pairs/description/?envType=study-plan-v2&envId=leetcode-75)
 | [2215](https://github.com/leileili1010/leetcode/blob/main/Hash%20Map/2215.%20Find%20the%20Difference%20of%20Two%20Arrays_esay.md)| Max Number of K-Sum Pairs| <span style="color:yellow">Array, HashMap</span> |Easy | [Leetcode](https://leetcode.com/problems/find-the-difference-of-two-arrays/description/?envType=study-plan-v2&envId=leetcode-75)
 | [1207](https://github.com/leileili1010/leetcode/blob/main/Hash%20Map/1207.%20Unique%20Number%20of%20Occurrences_easy.md)| Unique Number of Occurrences | <span style="color:yellow">Array, HashMap</span> |Easy | [Leetcode](https://leetcode.com/problems/unique-number-of-occurrences/description/?envType=study-plan-v2&envId=leetcode-75)
+| [1657](https://github.com/leileili1010/leetcode/blob/main/Hash%20Map/1657.%20Determine%20if%20Two%20Strings%20Are%20Close_medium.md)| Determine if Two Strings Are Close | <span style="color:yellow">HashMap, String, Sorting</span> |Medium | [Leetcode](https://leetcode.com/problems/determine-if-two-strings-are-close/description/?envType=study-plan-v2&envId=leetcode-75)
 
 
 
