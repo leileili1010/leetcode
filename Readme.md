@@ -37,6 +37,6 @@
 | [2095](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/2095.%20Delete%20the%20Middle%20Node%20of%20a%20Linked%20List.md)| Delete the Middle Node of a Linked List | <span style="color:yellow">Linked List</span> |Medium | [Leetcode](https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
 | [328](https://leetcode.com/problems/odd-even-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)| Odd Even Linked List | <span style="color:yellow">Linked List</span> |Medium | [Leetcode](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/328.%20Odd%20Even%20Linked%20List.md)
 | [206](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/206_Reverse%20Linked%20List_easy.md)| Reverse Linked List | <span style="color:yellow">Linked List</span> |Easy| [Leetcode](https://leetcode.com/problems/reverse-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
-
+| [2130]()| Maximum Twin Sum of a Linked List | <span style="color:yellow">Linked List</span> |Medium| [Leetcode](https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
 
 
