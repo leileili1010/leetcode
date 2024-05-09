@@ -4,6 +4,14 @@
 
 [206]: https://leetcode.com/problems/reverse-linked-list/
 
+- two pointers
+
+![alt text](image-5.png)
+
+- recursion
+
+![alt text](image-6.png)
+
 ```Java
 /**
  * Definition for singly-linked list.
@@ -15,8 +23,6 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-
-
 // 双指针法 
 // Time: O(n), Space: O(1)
 class Solution {
@@ -34,6 +40,26 @@ class Solution {
             cur = temp; //cur移动到下一个位置
         }
         return pre;
+    }
+}
+
+// a smilar to above
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return null;
+
+        ListNode cur = head;
+        ListNode temp = head;
+
+        while (cur != null) {
+            cur = cur.next;
+            temp.next = cur.next;
+            cur.next = head;
+            head = cur;
+            cur = temp;
+        
+        }
+        return head;
     }
 }
 
