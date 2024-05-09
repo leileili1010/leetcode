@@ -1,4 +1,6 @@
 
+## Summary of Notes
+
 | Name       | Topic       | Link  
 | ---         |    ----     |          ---               
 | Summary of Functions |  <span style="color:yellow">All</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Commonly%20used%20methods.md) 
@@ -7,7 +9,7 @@
 | Sliding Window Notes |  <span style="color:yellow">Sliding Window, Array, String</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Sliding%20Window/Sliding%20Window%20Notes.md) 
 | Linked List Notes |  <span style="color:yellow">Linked List</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/Linked%20list%20learning%20notes.md) 
 
-
+## Leetcode 75
 
 | No.         | Name       | Topic   | Difficulty   | LeetCode
 | ---         |    ----     |          ---  |          ---  |   ---  |       
@@ -32,6 +34,7 @@
 | [1456](https://github.com/leileili1010/leetcode/blob/main/Sliding%20Window/1453.%20Max%20Num%20of%20Vowels%20in%20a%20substring%20of%20given%20len_medium.md)| Max Num of Vowels in a substring of given length | <span style="color:yellow">String, Sliding Window</span> |Medium | [Leetcode](https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/?envType=study-plan-v2&envId=leetcode-75)
 | [1004](https://github.com/leileili1010/leetcode/blob/main/Sliding%20Window/1004.%20Max%20Consecutive%20Ones%20III.md)| Max Consecutive Ones III | <span style="color:yellow">Array, Sliding Window, Binary Search</span> |Medium | [Leetcode](https://leetcode.com/problems/max-consecutive-ones-iii/description/?envType=study-plan-v2&envId=leetcode-75)
 | [1493](https://github.com/leileili1010/leetcode/blob/main/Sliding%20Window/1493.%20Longest%20Subarray%20of%201's%20After%20Deleteing%20One%20Element.md)| Longest Subarray of 1's After Deleteing One Element | <span style="color:yellow">Array, Sliding Window, DP</span> |Medium | [Leetcode](https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/description/?envType=study-plan-v2&envId=leetcode-75)
-| [2095](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/2095.%20Delete%20the%20Middle%20Node%20of%20a%20Linked%20List.md)| Delete the Middle Node of a Linked List | <span style="color:yellow">Array, Sliding Window, DP</span> |Medium | [Leetcode](https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
+| [2095](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/2095.%20Delete%20the%20Middle%20Node%20of%20a%20Linked%20List.md)| Delete the Middle Node of a Linked List | <span style="color:yellow">Linked List</span> |Medium | [Leetcode](https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
+| [328](https://leetcode.com/problems/odd-even-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)| Odd Even Linked List | <span style="color:yellow">Linked List</span> |Medium | [Leetcode](https://leetcode.com/problems/odd-even-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
 
 
