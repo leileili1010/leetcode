@@ -8,6 +8,7 @@
 | HashMap Notes |  <span style="color:yellow">HashMap, Prefix Sum</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Hash%20Map/Hash%20Map%20Learning%20Notes.md) 
 | Sliding Window Notes |  <span style="color:yellow">Sliding Window, Array, String</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Sliding%20Window/Sliding%20Window%20Notes.md) 
 | Linked List Notes |  <span style="color:yellow">Linked List</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/Linked%20list%20learning%20notes.md) 
+| Stack and Queue |  <span style="color:yellow">Stack, Queue</span> | [Here](https://github.com/leileili1010/leetcode/blob/main/Stack%20and%20Queue/Stack%20and%20Queue%20Learning%20Notes.md) 
 
 ## Leetcode 75
 
