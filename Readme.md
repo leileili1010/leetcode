@@ -38,5 +38,4 @@
 | [328](https://leetcode.com/problems/odd-even-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)| Odd Even Linked List | <span style="color:yellow">Linked List</span> |Medium | [Leetcode](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/328.%20Odd%20Even%20Linked%20List.md)
 | [206](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/206_Reverse%20Linked%20List_easy.md)| Reverse Linked List | <span style="color:yellow">Linked List</span> |Easy| [Leetcode](https://leetcode.com/problems/reverse-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
 | [2130](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/2130.%20Maximum%20Twin%20Sum%20of%20a%20Linked%20List.md)| Maximum Twin Sum of a Linked List | <span style="color:yellow">Linked List</span> |Medium| [Leetcode](https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/description/?envType=study-plan-v2&envId=leetcode-75)
-
-
+| [394](https://github.com/leileili1010/leetcode/blob/main/Linked%20List/2130.%20Maximum%20Twin%20Sum%20of%20a%20Linked%20List.md)| Decode String | <span style="color:yellow">String, Stack, Recursion</span> |Medium| [Leetcode](https://leetcode.com/problems/decode-string/?envType=study-plan-v2&envId=leetcode-75)
