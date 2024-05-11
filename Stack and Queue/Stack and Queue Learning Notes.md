@@ -2,7 +2,7 @@
 ## Stack
 Stack is a data structure, last in first out(LIFO).
 
-Common operation:
+### Common operation:
 - push (put data to stack)
 - pop (take data outof stack)
 - peek (getTop)
@@ -29,7 +29,7 @@ Common operation:
 // 5
 //10
 ```
-## stack的实现 - 用linked list 实现
+### stack的实现 - 用linked list 实现
 ```java
 // push
 public void push(int value) {
@@ -67,5 +67,81 @@ public void clear() {
 
 ```
 
-## 应用
+### 应用
 - 当遇到外面（数字）+ 里面的结构，需要把外面暂存起来去研究里面，之后会需要用到外面
+
+## Queue
+
+- First in First out, 和排队是一样的
+
+### Common Operation
+- enqueue (进队列，从尾部)
+- dequeue （出队列，从头部）
+- peek (getHead value)
+- isEmpty
+
+```java
+Queue<Integer> que = new LinkedList<>();
+
+que.offer(10);
+que.offer(5);
+que.offer(3);
+que.offer(2);
+ while(!que.isEmpty()) {
+    System.out.print(que.peek() + " ");
+     que.poll();
+}
+```
+
+### Queue的实现
+- 为了避免O(N), 我们需要保留头指针和尾指针
+
+```java
+public class MyQueue {
+    private ListNode head;
+    private ListNode tail;
+
+    public void offer(int val) {
+        if (tail == null) {
+            head = tail = new ListNode(val);
+        } else {
+            tail.next = new ListNode(val);
+            tail = tail.next;
+        }
+    }
+
+    public int poll() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+
+        int ret = head.val;
+        head = head.next;
+        if (head = null) {
+            tail = null;
+        }
+        return ret;
+    }
+
+    public int peek() {
+    if (isEmpty()){
+        throw new NoSuchEleentException();
+    }
+
+    return head.val;
+}
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public void clear() {
+        return head = tail = null;
+    }
+
+
+}
+
+
+
+```
