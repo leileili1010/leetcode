@@ -88,3 +88,40 @@ public static void traverseTree (TreeNode root) {
   - stack 占用和tree高度成线性关系, O(h), h ~[n, logn]
 
 ### Traverse - BFS
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(3);
+        TreeNode node1 = new TreeNode(9);
+        TreeNode node2 = new TreeNode(20);
+        TreeNode node3 = new TreeNode(15);
+        TreeNode node4 = new TreeNode(7);
+
+        root.left = node1;
+        root.right = node2;
+        node2.left = node3;
+        node2.right = node4;
+
+        BFS(root);
+    }
+
+    public static void BFS(TreeNode root) {
+        Queue<TreeNode> que = new LinkedList<>();
+        que.add(root);
+
+        while (!que.isEmpty()) {
+            TreeNode node = que.poll(); // Remove the node from the queue
+            System.out.println(node.val);
+
+            if (node.left != null) {
+                que.add(node.left);
+            }
+
+            if (node.right != null) {
+                que.add(node.right);
+            }
+        }
+    }
+}
+```
