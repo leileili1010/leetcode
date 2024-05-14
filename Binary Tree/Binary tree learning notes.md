@@ -28,10 +28,45 @@ class TreeNode {
 }
 ```
 
-### Traverse
-- preorder: parent node - left subtree - right subtree
+### Traverse - DFS
+- preorder: parent node - left subtree - right subtree   
 - inorder: left subtree - parent - right subtree
-- postorder: left subtree - right subtree - parent
+- postorder: left subtree - right subtree - parent 
+
+```java
+// preorder
+public static void traverseTree (TreeNode root) {
+  if (root == null) {
+    return;
+  }
+
+  System.out.println(root.val);
+  traverseTree(root.left);
+  traverseTree(root.right);
+}
+
+// inorder
+public static void traverseTree (TreeNode root) {
+  if (root == null) {
+    return;
+  }
+
+  traverseTree(root.left);
+  System.out.println(root.val);
+  traverseTree(root.right);
+}
+
+// postorder
+public static void traverseTree (TreeNode root) {
+  if (root == null) {
+    return;
+  }
+
+  traverseTree(root.left);
+  traverseTree(root.right);
+   System.out.println(root.val);
+}
+```
 
 ### Recursion
 - 数据结构的recursion: linked list and binary: 大的数据结构里面套着小数据结构，类似俄罗斯套娃；
