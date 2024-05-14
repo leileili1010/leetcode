@@ -127,5 +127,5 @@ public class Main {
 ```
 
 - BFS Traverse problems:
-  - [102. Binary Tree Level Order Traveral] (https://github.com/leileili1010/leetcode/blob/main/Binary%20Tree/102.%20Binary%20Tree%20Level%20Order%20Traveral.md);
-  
+  - [102. Binary Tree Level Order Traveral](https://github.com/leileili1010/leetcode/blob/main/Binary%20Tree/102.%20Binary%20Tree%20Level%20Order%20Traveral.md);
+
