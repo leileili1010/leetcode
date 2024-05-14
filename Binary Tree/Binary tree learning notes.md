@@ -88,6 +88,7 @@ public static void traverseTree (TreeNode root) {
   - stack 占用和tree高度成线性关系, O(h), h ~[n, logn]
 
 ### Traverse - BFS
+- 一般用queue实现；
 
 ```java
 public class Main {

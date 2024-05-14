@@ -141,7 +141,16 @@ public class MyQueue {
 
 
 }
+```
+- que.peek(), que.poll() could be null but this will cause error for stack;
 
+```java
+Stack<Integer> stack = new Stack<>();
+Queue<Integer> que = new LinkedList<>();
 
+System.out.println(que.peek()); //null
+System.out.println(stack.peek()); // error: Exception in thread "main" java.util.EmptyStackException
 
+System.out.println(que.poll()); //null
+System.out.println(stack.pop()); // error: Exception in thread "main" java.util.EmptyStackException
 ```
