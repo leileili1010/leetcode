@@ -157,7 +157,7 @@ public class Main {
     }
 }
 ```
-- 普通BFS
+- time and space
   - time complexity: O(N)
   - space complexity: 没有用递归，没有栈空间消耗；堆空间消耗是因为queue,由节点数最多的一层的节点数决定 O(N);
 
@@ -171,3 +171,6 @@ public class Main {
 - The left subtree of that node is also balanced.
 - The right subtree of that node is also balanced.
 
+## Binary Search Tree - BST (二分搜索树)
+- 对于没一个节点来说，节点左边节点所有值都小于节点值，右边节点所有值都大于节点值
+- 满足中序遍历的值单调递增
