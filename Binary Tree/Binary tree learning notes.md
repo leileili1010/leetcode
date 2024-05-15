@@ -89,6 +89,7 @@ public static void traverseTree (TreeNode root) {
 
 ### Traverse - BFS
 - 一般用queue实现；
+- root层数为1，root 下一层层数为2；到每一个node的最短路径为node的层数-1；
 
 ```java
 public class Main {
@@ -107,7 +108,10 @@ public class Main {
         BFS(root);
     }
 
+    // 普通BFS
     public static void BFS(TreeNode root) {
+        if (root == null) return;
+
         Queue<TreeNode> que = new LinkedList<>();
         que.add(root);
 
@@ -124,6 +128,37 @@ public class Main {
             }
         }
     }
+
+    // 分层BFS
+    public static void BFSLevel(TreeNode root) {
+        if (root == null) return;
+
+        Queue<TreeNode> que = new LinkedList<>();
+        que.add(root);
+
+        // BFS
+        while (!que.isEmpty()) {
+            int size = que.size();
+            //分层
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = que.poll();
+                System.out.print(cur.val+" ");
+
+                if (cur.left != null) {
+                    que.add(cur.left);
+                }
+
+                if (cur.right != null) {
+                    que.add(cur.right);
+                }
+            }
+            System.out.println();
+        }
+    }
+  
+
+
+
 }
 ```
 
