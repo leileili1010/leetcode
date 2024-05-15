@@ -155,13 +155,19 @@ public class Main {
             System.out.println();
         }
     }
-  
-
-
-
 }
 ```
+- 普通BFS
+  - time complexity: O(N)
+  - space complexity: 没有用递归，没有栈空间消耗；堆空间消耗是因为queue,由节点数最多的一层的节点数决定 O(N);
+
 
 - BFS Traverse problems:
   - [102. Binary Tree Level Order Traveral](https://github.com/leileili1010/leetcode/blob/main/Binary%20Tree/102.%20Binary%20Tree%20Level%20Order%20Traveral.md);
+
+## Balanced Binary Tree
+- A binary tree is balanced if the height of the tree is O(Log n) where n is the number of nodes.
+- The height of the left and right tree for any node does not differ by more than 1.
+- The left subtree of that node is also balanced.
+- The right subtree of that node is also balanced.
 
