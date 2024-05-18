@@ -28,7 +28,7 @@ class TreeNode {
 }
 ```
 
-### Traverse - DFS
+## Traverse - DFS
 - preorder: parent node - left subtree - right subtree   
 - inorder: left subtree - parent - right subtree
 - postorder: left subtree - right subtree - parent 
@@ -87,7 +87,7 @@ public static void traverseTree (TreeNode root) {
 - heap + stack
   - stack 占用和tree高度成线性关系, O(h), h ~[n, logn]
 
-### Traverse - BFS
+## Traverse - BFS
 - 一般用queue实现；
 - root层数为1，root 下一层层数为2；到每一个node的最短路径为node的层数-1；
 
@@ -164,6 +164,17 @@ public class Main {
 
 - BFS Traverse problems:
   - [102. Binary Tree Level Order Traveral](https://github.com/leileili1010/leetcode/blob/main/Binary%20Tree/102.%20Binary%20Tree%20Level%20Order%20Traveral.md);
+
+### BFS 适用场景
+- 分层遍历
+  - 一层一层的遍历一个图、树、矩阵
+  - 简单图最短路径
+    - 简单图的定义，图中所有边长都一样
+- 连通块问题
+  - 通过图中一个点找到其他所有连通的点
+  - 找到所有方案问题的一种非递归实现方式
+- 拓扑排序
+  - 实现容易度远超过DFS
 
 ## Balanced Binary Tree
 - A binary tree is balanced if the height of the tree is O(Log n) where n is the number of nodes.
