@@ -87,6 +87,71 @@ public static void traverseTree (TreeNode root) {
 - heap + stack
   - stack 占用和tree高度成线性关系, O(h), h ~[n, logn]
 
+## 遍历和分治
+- 遍历： 一个小人拿着记事本走遍所有节点
+- 分治： 分配小弟去做子任务，自己进行结果汇总
+- find every path from root to leaf
+
+```java
+// 遍历法
+// 1. 需要带参量
+// 2. 不需要return， 直接在遍历过程中改参量
+// 3. backtracking 时有可能需要手动改参量
+// 4. 每一层的paths 都是同一个paths
+// 5. preorder DFS
+public static void findPaths2(TreeNode node, List<TreeNode> path, List<String> paths) {
+        if (node == null) return;
+        // Add the current node to the path
+        path.add(node);
+
+        if (node.left == null && node.right == null) {
+            // If it's a leaf node, convert the path to a string and add it to the paths list
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < path.size(); i++) {
+                if (i > 0) {
+                    sb.append("->");
+                }
+                sb.append(path.get(i).val);
+            }
+            paths.add(sb.toString());
+        } else {
+            // Continue traversing the left and right subtrees
+            findPaths2(node.left, path, paths);
+            findPaths2(node.right, path, paths);
+        }
+
+        // Backtrack: remove the current node from the path
+        path.remove(path.size() - 1);
+    }
+
+// 分治法
+// 1. 不需要带参量
+// 2. 需要return， 利用return改参量
+// 3. backtracking 时不需要改参量
+// 4. 每一层的paths 都是不同的paths
+// 5. preorder DFS
+    public static List<String> binaryTreePaths(TreeNode root) {
+        List<String> paths = new ArrayList<>();
+
+        if (root == null) return paths;
+
+        if (root.left == null && root.right == null) {
+            paths.add("" + root.val);
+            return paths;
+        }
+
+        for (String leftPath: binaryTreePaths(root.left)) {
+            paths.add(root.val + "->" + leftPath);
+        }
+
+        for (String rightPath: binaryTreePaths(root.right)) {
+            paths.add(root.val + "->" + rightPath);
+        }
+
+        return paths;
+    }
+```
+
 ## Traverse - BFS
 - 一般用queue实现；
 - root层数为1，root 下一层层数为2；到每一个node的最短路径为node的层数-1；
