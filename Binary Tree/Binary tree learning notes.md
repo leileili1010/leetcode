@@ -89,8 +89,44 @@ public static void traverseTree (TreeNode root) {
 
 ## 遍历和分治
 - 遍历： 一个小人拿着记事本走遍所有节点
+  - 通常会用到一个全局变量或者参数
 - 分治： 分配小弟去做子任务，自己进行结果汇总
-- find every path from root to leaf
+  - 通常将利用return value来记录子问题结果
+  - 本质是post order 遍历
+  
+### 分治法  
+- 分治法条件  
+  - 整个问题的规模可以用参数描述，e.g root...
+  - 问题是可以拆分成两个或者多个一摸一样的更小的子问题
+  - postorder DFS
+- 分治法template
+
+```java
+public 返回结果类型 divideConquer(TreeNode root) {
+  if (root == null) {
+    处理空树应该返回的结果
+  } // 必须有
+
+  // if（root.left == null && root.right == null){
+  //   处理叶子返回的结果
+  //   如果叶子的返回结果可以通过两个空节点的返回结果得到就可以省略这一段代码
+  //   大部分不需要这一段代码
+  // }
+
+  左子树返回结果 = divideConquer(root.left);
+  右子树返回结果 = divideConquer(root.right);
+  整理树的结果 = 按照一定合并左右子树的结果
+
+  return 整棵树的结果
+
+
+
+}
+
+```
+
+
+### 用遍历和分治法做题： find every path from root to leaf
 
 ```java
 // 遍历法
@@ -129,7 +165,7 @@ public static void findPaths2(TreeNode node, List<TreeNode> path, List<String> p
 // 2. 需要return， 利用return改参量
 // 3. backtracking 时不需要改参量
 // 4. 每一层的paths 都是不同的paths
-// 5. preorder DFS
+// 5. postorder DFS
     public static List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
 
