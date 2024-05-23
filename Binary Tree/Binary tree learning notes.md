@@ -125,7 +125,6 @@ public 返回结果类型 divideConquer(TreeNode root) {
 
 ```
 
-
 ### 用遍历和分治法做题： find every path from root to leaf
 
 ```java
@@ -209,7 +208,7 @@ public class Main {
         BFS(root);
     }
 
-    // 普通BFS
+    // 普通BFS - 用que实现
     public static void BFS(TreeNode root) {
         if (root == null) return;
 
