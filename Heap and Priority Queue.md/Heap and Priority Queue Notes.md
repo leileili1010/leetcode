@@ -16,7 +16,7 @@
   - parent node val 《subtree val
   - 同一层左右节点的值没有什么关系
 - 高度是logn
-- 可以用数组来存， 0 index 可以用来存放整个数组得长度
+- 可以用数组来存， 0 index 可以用来存放有多少个数
   - leftchild index: parentIdx * 2
   - rightchild index: parentIdx * 2 + 1
   - parent index: childIdx /2
@@ -60,6 +60,18 @@ public class Heap {
         return index/2;
     }
 
+     public int get(int index) {
+        if (index <= 0 || index > heap.get(0)) {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
+        return heap.get(index);
+    }
+
+    public int size() {
+        return heap.get(0);
+    }
+
+
     private void swap(int index1, int index2) {
         int temp = heap.get(index1);
         heap.set(index1, heap.get(index2));
@@ -77,25 +89,69 @@ public class Heap {
         }
     }
 
-    public int size() {
-        return heap.get(0);
-    }
-
-    public int get(int index) {
-        if (index <= 0 || index > heap.get(0)) {
-            throw new IndexOutOfBoundsException("Index out of range");
-        }
-        return heap.get(index);
-    }
+    
+   
 
 }
-
 ```
-
-
 - delete/ poll - 删掉最小值 (顶点node)
   - 用bottom left most left的值去覆盖掉min node的值
   - bottom left 变成顶点，然后在sipt down, 每次和下一层最小的值那边交换
 - delete 任意点
   - 没有重复
   - 有可能sipt down 或者sipt up
+
+## Use priority Queue to implement heap
+- minHeap
+
+```java
+public class MinHeapExample {
+    public static void main(String[] args) {
+        // Create a PriorityQueue to implement a min-heap
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        // Add elements to the min-heap
+        minHeap.add(5);
+        minHeap.add(3);
+        minHeap.add(8);
+        minHeap.add(1);
+
+        // Print and remove elements from the min-heap
+        while (!minHeap.isEmpty()) {
+            System.out.println(minHeap.poll()); // Polling elements in ascending order
+        }
+    }
+}
+```
+
+- maxHeap
+
+```java
+public class MaxHeapExample {
+    public static void main(String[] args) {
+        // Create a PriorityQueue to implement a max-heap
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+
+        // Add elements to the max-heap
+        maxHeap.add(5);
+        maxHeap.add(3);
+        maxHeap.add(8);
+        maxHeap.add(1);
+
+        // Print and remove elements from the max-heap
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll()); // Polling elements in descending order
+        }
+    }
+}
+```
+- other methods:
+  - peek(): retuan largest node for maxHeap and smallest for minHeap without deleting it
+  - remove(val): return true or false; 
+
+- time complexity
+  - insertion: O(logn)
+  - poll: O(logn)
+  - peek(): O(1)
+  - romove: O(n)
+
