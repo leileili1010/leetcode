@@ -80,9 +80,11 @@ str1.contains(String.valueOf(str2.charAt(0))) right
 
 // methods for charater in a string
 Character.toLowerCase(s.charAt(2));
+Character.toUpperCase(s.charAt(2));
 Character.isLetterOrDigit(s.charAt(2));
 Character.isLetter(s.charAt(2));
 Character.isDigit(s.charAt(2));
+
 ```
 ### stringBuilder
 - stringBuilder is mutable, while string is immutable
