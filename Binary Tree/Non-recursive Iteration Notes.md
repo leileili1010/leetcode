@@ -16,7 +16,7 @@ class Solution {
                stack.push(cur);
                cur = cur.left;
            }else{
-               cur = stack.pop();
+               cur = stack.pop(); // pop 当做到最左边的时候, 然后再走到右边
                result.add(cur.val);
                cur = cur.right;
            }

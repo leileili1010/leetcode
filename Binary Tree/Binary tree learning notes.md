@@ -28,7 +28,7 @@ class TreeNode {
 }
 ```
 
-## Traverse - DFS
+## Traverse - DFS - reversion
 - preorder: parent node - left subtree - right subtree   
 - inorder: left subtree - parent - right subtree
 - postorder: left subtree - right subtree - parent 
