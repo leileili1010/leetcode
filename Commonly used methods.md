@@ -85,6 +85,10 @@ Character.isLetterOrDigit(s.charAt(2));
 Character.isLetter(s.charAt(2));
 Character.isDigit(s.charAt(2));
 
+char[] charArray = {'H', 'e', 'l', 'l', 'o'};
+String string = new String(charArray);
+System.out.println(string);  // Output: Hello
+
 ```
 ### stringBuilder
 - stringBuilder is mutable, while string is immutable
