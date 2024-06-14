@@ -1,3 +1,5 @@
+
+
 <h2><a href="https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree">1372. Longest ZigZag Path in a Binary Tree</a></h2><h3>Medium</h3><hr><p>You are given the <code>root</code> of a binary tree.</p>
 
 <p>A ZigZag path for a binary tree is defined as follow:</p>
