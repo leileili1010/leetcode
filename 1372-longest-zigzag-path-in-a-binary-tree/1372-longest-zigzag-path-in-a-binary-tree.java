@@ -23,13 +23,8 @@ class Solution {
 
         pathLength = Math.max(pathLength, Math.max(left, right));
 
-        if (root.left != null) {
-            dfs(root.left, right + 1, 0);
-        } 
-        
-        if (root.right != null) {
-            dfs(root.right, 0, left + 1);
-        }
+      dfs(root.left, right + 1, 0);
+      dfs(root.right, 0, left + 1);
     }
 
     public int longestZigZag(TreeNode root) {
