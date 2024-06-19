@@ -26,7 +26,6 @@ class Solution {
         if (node == null) {
             return;
         }
-        res = Math.max(res, count);
 
         if (goLeft) {
             DFS(node.left, false, count+1);
@@ -36,5 +35,6 @@ class Solution {
             DFS(node.left, false, 1);
         }
 
+        res = Math.max(res, count);
     }
 }
