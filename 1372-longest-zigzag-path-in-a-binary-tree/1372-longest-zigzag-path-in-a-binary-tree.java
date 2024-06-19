@@ -14,21 +14,27 @@
  * }
  */
 class Solution {
-    int pathLength = 0;
-
-    private void dfs(TreeNode root, int left, int right) {
-        if (root == null) {
-            return;
-        }
-
-        pathLength = Math.max(pathLength, Math.max(left, right));
-
-      dfs(root.left, right + 1, 0);
-      dfs(root.right, 0, left + 1);
-    }
+    int res = 0;
 
     public int longestZigZag(TreeNode root) {
-        dfs(root, 0, 0);
-        return pathLength;
+        DFS(root, false, 0);
+        DFS(root, true, 0);
+        return res;
+    }   
+
+    public void DFS(TreeNode node, boolean goLeft, int count) {
+        if (node == null) {
+            return;
+        }
+        res = Math.max(res, count);
+
+        if (goLeft) {
+            DFS(node.left, false, count+1);
+            DFS(node.right, true, 1);
+        } else {
+            DFS(node.right, true, count+1);
+            DFS(node.left, false, 1);
+        }
+
     }
-};
+}
