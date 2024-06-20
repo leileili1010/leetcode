@@ -56,8 +56,8 @@ public static List<Integer> findShortestPath(int start, int end, HashMap<Integer
         Set<Integer> visited = new HashSet<>();
         List<Integer> path = new ArrayList<>();
         path.add(start);
-        que.add(path);
         visited.add(start);
+        que.add(path);
 
         while (!que.isEmpty()) {
             List<Integer> currPath = que.poll();
