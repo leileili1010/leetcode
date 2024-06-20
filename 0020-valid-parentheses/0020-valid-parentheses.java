@@ -20,6 +20,6 @@ class Solution {
             }
             idx++;
         }
-        return true;
+        return stack.isEmpty();
     }
 }
