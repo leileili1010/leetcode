@@ -1,7 +1,7 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         List<List<Integer>> paths = new ArrayList<>(); // answer
-        List<Integer> path = new ArrrayList<>();
+        List<Integer> path = new ArrayList<>();
         Deque<List<Integer>> que = new ArrayDeque<>(); // to store current path
 
         path.add(0);
