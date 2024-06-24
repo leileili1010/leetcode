@@ -5,21 +5,23 @@ class Solution {
         }
 
         Deque<Character> stack = new ArrayDeque<>();
-        int idx = 0;
+        
 
-        while (idx < s.length()) {
+        for (char c: s.toCharArray()) {
             char c = s.charAt(idx);
-            if (c == '{' || c == '[' || c == '(') {
+            if (c == '(' || c =='[' || c == '{') {
                 stack.push(c);
             } else {
-                if (stack.isEmpty()) return false;
+                if (stack.isEmpty()) {
+                    return false;
+                }
                 char ch = stack.pop();
-                if (ch !='{' && c == '}') return false;
-                if (ch !='[' && c == ']') return false;
-                if (ch !='(' && c == ')') return false;
+                if (ch == '(' && c != ')') return false;
+                if (ch == '[' && c != ']') return false;
+                if (ch == '{' && c != '}') return false;
             }
-            idx++;
         }
+
         return stack.isEmpty();
     }
 }
