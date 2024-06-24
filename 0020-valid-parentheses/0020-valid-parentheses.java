@@ -9,14 +9,14 @@ class Solution {
 
         while (idx < s.length()) {
             char c = s.charAt(idx);
-            if (c == '(' || c == '[' || c == '{') {
+            if (c == '{' || c == '[' || c == '(') {
                 stack.push(c);
             } else {
                 if (stack.isEmpty()) return false;
                 char ch = stack.pop();
-                if (ch != '{' && c == '}') return false;
-                if (ch != '(' && c == ')') return false;
-                if (ch != '[' && c == ']') return false;
+                if (ch !='{' && c == '}') return false;
+                if (ch !='[' && c == ']') return false;
+                if (ch !='(' && c == ')') return false;
             }
             idx++;
         }
