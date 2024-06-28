@@ -1,46 +1,44 @@
 class Solution {
-    private int rows;
-    private int cols;
-    public int[][] dirs = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+    int rows;
+    int cols;
+    int[][] steps = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     public int numIslands(char[][] grid) {
-        if (grid.length == 0) {
-            return 0;
-        }
-        rows = grid.length; 
+        rows = grid.length;
         cols = grid[0].length;
         int count = 0;
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                if (grid[r][c] == '1') {
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == '1') {
                     count++;
-                    bfs(grid, r, c);
-                }
+                    bfs(grid, i, j);
+                } 
             }
         }
 
         return count;
     }
 
-    public void bfs(char[][] grid, int r, int c) {
+    public void bfs(char[][] grid, int i, int j) {
         Deque<int[]> que = new ArrayDeque<>();
-        que.offer(new int[]{r, c});
-        
+        que.offer(new int[] {i, j});
+        grid[i][j] = 0;
+
         while (!que.isEmpty()) {
-            int[] curr = que.poll();
-            for (int[] dir: dirs) {
-                int nr = curr[0] + dir[0];
-                int nc = curr[1] + dir[1];
-                if (0 <= nr && nr < rows && 0 <= nc && nc < cols && grid[nr][nc] == '1') {
-                    grid[nr][nc] = '0';
-                    que.offer(new int[]{nr, nc});
+            int[] node = que.poll();
+            int row = node[0];
+            int col = node[1];
+
+            for (int[] step: steps) {
+                int newRow = row + step[0];
+                int newCol = col + step[1];
+                if ( 0 <= newRow && newRow < rows && 0 <= newCol && newCol < cols && grid[newRow][newCol] == '1') {
+                   que.offer(new int[]{newRow, newCol});
+                   grid[newRow][newCol] = '0';
                 }
             }
         }
-
-
-
 
 
     }
