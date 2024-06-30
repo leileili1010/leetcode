@@ -26,7 +26,9 @@ class Solution {
 
         HashMap<Node, Node> visited = new HashMap<>();
         visited.put(node, new Node(node.val, new ArrayList<Node>()));
+        
         Deque<Node> que = new ArrayDeque<>();
+        que.add(node);
 
         while (!que.isEmpty()) {
             Node curr = que.poll();
@@ -35,31 +37,13 @@ class Solution {
                 if (!visited.containsKey(neighbor)) {
                     visited.put(neighbor, new Node(neighbor.val, new ArrayList<Node>()));
                     que.add(neighbor);
-                } 
+                }
                 visited.get(curr).neighbors.add(visited.get(neighbor));
-            }   
+            }
         }
-        return visited.get(node);
+
+        return visited.get(node); 
+
+        
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
