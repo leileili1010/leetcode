@@ -1,27 +1,42 @@
-import java.util.*;
-
 class Solution {
     public int[] sortByBits(int[] arr) {
-        Integer[] boxedArr = new Integer[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            boxedArr[i] = arr[i];
-        }
-        
-        Arrays.sort(boxedArr, (a, b) -> {
-            int countA = Integer.bitCount(a);
-            int countB = Integer.bitCount(b);
-            if (countA == countB) {
-                return a - b;
-            } else {
-                return countA - countB;
+        // Define a custom comparator
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>(){
+            @Override
+            public int compare(Integer a, Integer b) {
+                int countA = countBits(a);
+                int countB = countBits(b);
+                
+                if (countA != countB) {
+                    return countA - countB; // Sort by number of 1 bits
+                } else {
+                    return a - b; // If counts are the same, sort by value
+                }
             }
         });
         
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = boxedArr[i];
+        for (int num: arr) {
+            pq.add(num);
         }
-        
+
+        int i = 0;
+        while (!pq.isEmpty()) {
+            arr[i] = pq.poll();
+            i++;
+        } 
+
         return arr;
     }
+    
+    // Helper function to count number of 1 bits in an integer
+    private int countBits(int num) {
+        int count = 0;
+        while (num != 0) {
+            count += num & 1;
+            num >>= 1;
+        }
+        return count;
+    }
 }
+
 
