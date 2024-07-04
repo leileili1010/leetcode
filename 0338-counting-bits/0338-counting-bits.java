@@ -8,7 +8,7 @@ class Solution {
         return ans;
     }
 
-    pulic int bits(int n) {
+    public int bits(int n) {
         int count = 0;
         
         while (n != 0) {
