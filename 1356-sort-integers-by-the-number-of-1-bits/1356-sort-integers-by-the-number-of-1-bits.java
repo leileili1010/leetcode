@@ -1,7 +1,9 @@
+import java.util.*;
+
 class Solution {
     public int[] sortByBits(int[] arr) {
         // Define a custom comparator
-        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>(){
+        Comparator<Integer> comparator = new Comparator<Integer>() {
             @Override
             public int compare(Integer a, Integer b) {
                 int countA = countBits(a);
@@ -13,19 +15,24 @@ class Solution {
                     return a - b; // If counts are the same, sort by value
                 }
             }
-        });
+        };
         
-        for (int num: arr) {
-            pq.add(num);
+        // Convert array to list for sorting with custom comparator
+        List<Integer> list = new ArrayList<>();
+        for (int num : arr) {
+            list.add(num);
         }
-
-        int i = 0;
-        while (!pq.isEmpty()) {
-            arr[i] = pq.poll();
-            i++;
-        } 
-
-        return arr;
+        
+        // Sort the list using the custom comparator
+        Collections.sort(list, comparator);
+        
+        // Convert sorted list back to array
+        int[] sortedArray = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            sortedArray[i] = list.get(i);
+        }
+        
+        return sortedArray;
     }
     
     // Helper function to count number of 1 bits in an integer
