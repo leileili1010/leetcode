@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int[] sortByBits(int[] arr) {
         List<Integer> list = new ArrayList<>();
@@ -11,11 +9,10 @@ class Solution {
         Collections.sort(list, new Comparator<Integer>(){
             @Override
             public int compare(Integer a, Integer b) {
-                int countA = countBits(a);
-                int countB = countBits(b);
+                int val = countBits(a) - countBits(b);
                 
-                if (countA != countB) {
-                    return countA - countB; // Sort by number of 1 bits
+                if (val != 0) {
+                    return val; // Sort by number of 1 bits
                 } else {
                     return a - b; // If counts are the same, sort by value
                 }
