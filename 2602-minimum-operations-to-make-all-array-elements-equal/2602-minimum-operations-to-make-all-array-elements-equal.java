@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Solution {
     public List<Long> minOperations(int[] nums, int[] queries) {
         Arrays.sort(nums);
@@ -14,7 +12,7 @@ public class Solution {
         
         // Process each query
         for (int x : queries) {
-            int i = Arrays.binarySearch(nums, x);
+            int i = binarySearch(nums, x);
             if (i < 0) {
                 i = -(i + 1);  // convert negative index to insertion point
             }
@@ -25,5 +23,24 @@ public class Solution {
         }
         
         return ans;
+    }
+
+    private int binarySearch(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        
+        return -(low + 1);  // return the insertion point if not found
     }
 }
