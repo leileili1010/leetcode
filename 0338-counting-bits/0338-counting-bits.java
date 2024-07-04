@@ -1,24 +1,10 @@
-class Solution {
+public class Solution {
     public int[] countBits(int n) {
-        int[] ans = new int[n+1];
-
-        for ( int i = 0; i < ans.length; i++) {
-            ans[i] = bits(i);
+        int[] ans = new int[n + 1];
+        for (int x = 1; x <= n; ++x) {
+            // x / 2 is x >> 1 and x % 2 is x & 1
+            ans[x] = ans[x /2] + (x % 2); 
         }
         return ans;
-    }
-
-    public int bits(int n) {
-        int count = 0;
-        
-        while (n != 0) {
-            if ( n % 2 == 1) {
-                count++;
-            }
-
-            n = n / 2;
-        }
-
-        return count;
     }
 }
