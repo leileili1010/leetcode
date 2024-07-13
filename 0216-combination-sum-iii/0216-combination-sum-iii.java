@@ -11,16 +11,20 @@ public class Solution {
 
     private void backtrack(List<List<Integer>> result, List<Integer> tempList, int k, int target, int start) {
         if (tempList.size() == k && target != 0) {
-            return; // backtrack
-        } else if (tempList.size() == k && target == 0) {
+            return; 
+        }  
+        
+        if (tempList.size() == k && target == 0) {
             result.add(new ArrayList<>(tempList));
-        } else {
-            for (int i = start; i <= 9; i++) {
+            return;
+        } 
+            
+        for (int i = start; i <= 9; i++) {
                 tempList.add(i);
                 backtrack(result, tempList, k, target - i, i + 1);
                 tempList.remove(tempList.size() - 1);
-            }
         }
+        
     }
 }
 
