@@ -1,6 +1,7 @@
 class Solution {
-    private List<String> combinations = new ArrayList<>();
-    private Map<Character, String> letters = Map.of(
+    private List<String> res = new ArrayList<>();
+    private String phoneDigits;
+    private Map<Character, String> map = Map.of(
         '2',
         "abc",
         '3',
@@ -18,36 +19,35 @@ class Solution {
         '9',
         "wxyz"
     );
-    private String phoneDigits;
-
+    
+    // digits = '23'
     public List<String> letterCombinations(String digits) {
         // If the input is empty, immediately return an empty answer array
         if (digits.length() == 0) {
-            return combinations;
+            return res;
         }
-
+        
         // Initiate backtracking with an empty path and starting index of 0
-        phoneDigits = digits;
+        phoneDigits = digits; //'23'
         backtrack(0, new StringBuilder());
-        return combinations;
+        return res;
     }
 
-    private void backtrack(int index, StringBuilder path) {
-        // If the path is the same length as digits, we have a complete combination
-        if (path.length() == phoneDigits.length()) {
-            combinations.add(path.toString());
-            return; // Backtrack
+    public void backtrack(int i, StringBuilder str) {
+        if (str.length() == phoneDigits.length()) {
+            res.add(str.toString());
+            return;
         }
 
-        // Get the letters that the current digit maps to, and loop through them
-        String possibleLetters = letters.get(phoneDigits.charAt(index));
-        for (char letter : possibleLetters.toCharArray()) {
-            // Add the letter to our current path
-            path.append(letter);
-            // Move on to the next digit
-            backtrack(index + 1, path);
-            // Backtrack by removing the letter before moving onto the next
-            path.deleteCharAt(path.length() - 1);
+        String chars = map.get(phoneDigits.charAt(i)); //'2'
+        for (char c: chars.toCharArray()) { //a --> b --> c
+            str.append(c);
+            backtrack(i+1, str);
+            str.deleteCharAt(str.length()-1);
         }
+
+
     }
+
+   
 }
