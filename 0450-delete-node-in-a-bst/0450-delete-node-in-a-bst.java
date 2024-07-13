@@ -14,43 +14,38 @@
  * }
  */
 class Solution {
-    public int successor(TreeNode root) {
-    root = root.right;
-    while (root.left != null) root = root.left;
-    return root.val;
-  }
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
 
-  /*
-  One step left and then always right
-  */
-  public int predecessor(TreeNode root) {
-    root = root.left;
-    while (root.right != null) root = root.right;
-    return root.val;
-  }
+        if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        } else if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else {
+            if (root.left == null) {
+                return root.right; //if root.right == null as well, np, we can still return it
+            } else if (root.right == null) {
+                return root.left;
+            }
 
-  public TreeNode deleteNode(TreeNode root, int key) {
-    if (root == null) return null;
-
-    // delete from the right subtree
-    if (key > root.val) root.right = deleteNode(root.right, key);
-    // delete from the left subtree
-    else if (key < root.val) root.left = deleteNode(root.left, key);
-    // delete the current node
-    else {
-      // the node is a leaf
-      if (root.left == null && root.right == null) root = null;
-      // the node is not a leaf and has a right child
-      else if (root.right != null) {
-        root.val = successor(root);
-        root.right = deleteNode(root.right, root.val);
-      }
-      // the node is not a leaf, has no right child, and has a left child    
-      else {
-        root.val = predecessor(root);
-        root.left = deleteNode(root.left, root.val);
-      }
+            // if root has both left and right subtree
+            TreeNode min = minValNode(root.right);
+            root.val = min.val;
+            root.right = deleteNode(root.right, root.val);
+        }
+        return root;
     }
-    return root;
-  }
+
+    public TreeNode minValNode(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode cur = root;
+        while (cur.left != null) {
+            cur = cur.left;
+        }
+        return cur;
+    }
 }
