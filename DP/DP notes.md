@@ -17,3 +17,15 @@
 
 - 前三类考得很多
 - 一定要找对题型， 才好定义state
+
+
+## 常见题型state 定义
+![alt text](image-23.png)
+
+![alt text](image-24.png)
+
+![alt text](image-25.png)
+
+![alt text](image-27.png)
+
+![alt text](image-26.png)
