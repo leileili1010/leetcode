@@ -1,23 +1,26 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        HashMap<List<Integer>, Integer> map = new HashMap<>();
-        return dfs(triangle, 0, 0, map);
-    }
+        int n = triangle.size();
+        int[][] dp = new int[n][];
 
-    public int dfs(List<List<Integer>> triangle, int x, int y, HashMap<List<Integer>, Integer> map) {
-        if (x == triangle.size()) {
-            return 0;
+        // dp代表状态
+        for (int i = 0; i < n; i++) {
+            dp[i] = new int[i+1];
         }
 
-        List<Integer> cur = new ArrayList<>(Arrays.asList(x, y));
-        if (map.containsKey(cur)) {
-            return map.get(cur);
+        // 初始化： 终点
+        for (int i = 0; i < n; i++) {
+            dp[n-1][i] = triangle.get(n-1).get(i);
         }
 
-        int left = dfs(triangle, x+1, y, map);
-        int right = dfs(triangle, x+1, y+1, map);
-       
-        map.put(cur, Math.min(left, right) + triangle.get(x).get(y));
-        return map.get(cur); 
+        for (int i = n-2; i >=0; i--) {
+            for (int j = 0; j <= i; j++) {
+                //方程：到哪去
+                dp[i][j] = triangle.get(i).get(j)+ Math.min(dp[i+1][j], dp[i+1][j+1]);
+            }
+        }
+
+        // 答案： 起点
+        return dp[0][0];
     }
 }
