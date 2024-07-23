@@ -1,22 +1,35 @@
 class Solution {
-    public int longestCommonSubsequence(String text1, String text2) {
-        int n = text1.length();
-        int m = text2.length();
-
-        // state dp[i][j] means length of LCS between first i characters of text1 and  first j characters of text2.
-        int[][] dp = new int[n+1][m+1];
-
-        // function
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                if (text1.charAt(i-1) == text2.charAt(j-1)) {
-                    dp[i][j] = dp[i-1][j-1]+1;
-                } else {
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
-                }
-            }
-        }
-
-        return dp[n][m];
+    
+  public int longestCommonSubsequence(String text1, String text2) {    
+    
+    // If text1 doesn't reference the shortest string, swap them.
+    if (text2.length() < text1.length()) {
+      String temp = text1;
+      text1 = text2;
+      text2 = temp;
     }
+      
+    // The previous and current column starts with all 0's and like 
+    // before is 1 more than the length of the first word.
+    int[] previous = new int[text1.length() + 1];
+    int[] current = new int[text1.length() + 1];
+      
+    // Iterate through each column, starting from the last one.
+    for (int col = text2.length() - 1; col >= 0; col--) {
+      for (int row = text1.length() - 1; row >= 0; row--) {
+        if (text1.charAt(row) == text2.charAt(col)) {
+          current[row] = 1 + previous[row + 1];
+        } else {
+          current[row] = Math.max(previous[row], current[row + 1]);
+        }
+      }
+      // The current column becomes the previous one, and vice versa.
+      int[] temp = previous;
+      previous = current;
+      current = temp;
+    }
+        
+    // The original problem's answer is in previous[0]. Return it.
+    return previous[0];
+  }
 }
