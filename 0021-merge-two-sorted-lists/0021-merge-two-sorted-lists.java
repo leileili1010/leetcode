@@ -25,12 +25,12 @@ class Solution {
             }
         }
 
-
         if (list1 != null) {
             tail.next = list1;
         } else {
             tail.next = list2;
         }
+
         return dummy.next;
     }
 }
