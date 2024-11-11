@@ -8,6 +8,8 @@ class MyQueue {
     }
     
     public void push(int x) {
+        // stack2 is used to adjust the order of numbers placed in stack1; 
+        // stack1 is the main stack to run every operation
         while (!stack1.isEmpty()) {
             stack2.push(stack1.pop());
         }
