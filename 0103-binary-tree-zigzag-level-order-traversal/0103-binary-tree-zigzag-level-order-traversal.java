@@ -26,35 +26,27 @@ class Solution {
         while (!que.isEmpty()) {
             int n = que.size();
             List<Integer> list = new ArrayList<>();
+           
             for (int i = 0; i < n; i++) {
                 TreeNode node = que.poll();
-                list.add(node.val);
-
                 if (level % 2 == 0) {
-                    if (node.right != null) {
-                        que.offer(node.right);
-                    }
-
-                    if (node.left != null) {
-                        que.offer(node.left);
-                    }
+                    list.add(node.val);
                 } else {
-                     if (node.left != null) {
-                        que.offer(node.left);
-                    }
+                    list.add(0, node.val);
+                }
+             
+                if (node.left != null) {
+                    que.add(node.left);
+                } 
 
-                    if (node.right != null) {
-                        que.offer(node.right);
-                    }
+                if (node.right != null) {
+                    que.add(node.right);
                 }
             }
+            
             res.add(list);
             level++;
         }   
-        
-
-        
-
         return res;
     }
 }
