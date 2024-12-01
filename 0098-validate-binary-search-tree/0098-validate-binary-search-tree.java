@@ -15,22 +15,23 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        Integer prev = null;
+        TreeNode cur = root;
 
-        return dfs(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    private boolean dfs(TreeNode root, int minVal, int maxVal) {
-        if (root == null) {
-            return true;
-        }
-
-        if (root.val <= minVal || root.val >= maxVal) {
-            return false;
-        }
-
-        return dfs(root.left, minVal, root.val) && dfs(root.right, root.val, maxVal);
+        while (!stack.isEmpty() || cur != null) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            if (prev != null && cur.val <= prev) {
+                return false;
+            }
+            prev = cur.val;
+            
+            cur = cur.right;
+        }     
+        return true;
     }
 }
