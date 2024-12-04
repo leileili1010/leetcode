@@ -7,27 +7,34 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+
 class Solution {
-    TreeNode res;
+    private TreeNode res;
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // intput: tree, node1 and node2;
-        // output: integer, No.of node
-        findLCA(root, p, q);
+        res = null;
+        dfs(root, p, q);
         return res;
+
     }
 
-    public boolean findLCA(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return false;
+    private boolean dfs(TreeNode node, TreeNode p, TreeNode q) {
+        if (node == null) {
+            return false;
+        }
 
-        //find the target node
-        boolean left = findLCA(root.left, p, q);
-        boolean right = findLCA(root.right, p, q);
-        boolean curr = root == p || root == q; 
+        if (res != null) {
+            return false;
+        }
 
-        if ((left && right ) || (left && curr) || (right && curr)) 
-            res = root;
 
-        return left || right || curr;        
+        boolean left = dfs(node.left, p, q);
+        boolean right = dfs(node.right, p,q);
+        boolean mid = node.val == p.val || node.val == q.val;
+        if (left && right || left && mid || mid && right) {
+            res = node;
+            return false;
+        }
+        return left || right || mid;
     }
 }
