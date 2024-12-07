@@ -3,7 +3,7 @@ class Solution {
         Arrays.sort(nums);
         int left = 0, right = nums.length-1;
         
-        while (left <= right) {
+        while (left < right) {
             int mid = (left + right) >>> 1;
             if (target == nums[mid]) {
                 return mid;
