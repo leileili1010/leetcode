@@ -14,11 +14,11 @@
  * }
  */
 class Solution {
-    private int max = Integer.MIN_VALUE;
-    
+    private int max = Integer.MIN_VALUE; // Global variable to track the max path sum
+
     public int maxPathSum(TreeNode root) {
-        int sum = dfs(root);
-        return Math.max(sum, max);
+        dfs(root);
+        return max; // The global max now contains the result
     }
 
     private int dfs(TreeNode node) {
@@ -26,12 +26,17 @@ class Solution {
             return 0; 
         }
 
-        int left = dfs(node.left);
-        int right = dfs(node.right);
-        int sum = left + right + node.val;
-        int res = Math.max(node.val+right, Math.max(node.val+left, node.val));
-        max = Math.max(max, Math.max(sum, res));
-        return res;
-    }
+        // Recursively calculate the maximum path sum for left and right subtrees
+        int left = Math.max(0, dfs(node.left)); // Ignore negative contributions
+        int right = Math.max(0, dfs(node.right)); // Ignore negative contributions
 
+        // Compute the maximum path sum passing through the current node
+        int currentPathSum = left + right + node.val;
+
+        // Update the global maximum path sum
+        max = Math.max(max, currentPathSum);
+
+        // Return the maximum path sum including the current node and one of its subtrees
+        return Math.max(left, right) + node.val;
+    }
 }
