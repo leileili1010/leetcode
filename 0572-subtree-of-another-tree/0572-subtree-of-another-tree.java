@@ -39,11 +39,14 @@ class Solution {
             return false;
         }
 
-        boolean mid = root.val == subRoot.val;
+        if (root.val != subRoot.val) {
+            return false;
+        }
+
         boolean left = isEqual(root.left, subRoot.left);
         boolean right = isEqual(root.right, subRoot.right);
 
-        return mid && left && right;
+        return left && right;
     }
 
 }
