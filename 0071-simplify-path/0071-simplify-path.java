@@ -1,8 +1,8 @@
 class Solution {
     public String simplifyPath(String path) {
         String[] strPath = path.split("/+");
-        Deque<String> stack = new ArrayDeque<>();
-        String res = "";
+        Stack<String> stack = new Stack<>();
+        StringBuilder res = new StringBuilder();
 
         for (String s: strPath) {
             if ("".equals(s) || ".".equals(s)) {
@@ -20,11 +20,10 @@ class Solution {
             return "/";
         }
 
-        while (!stack.isEmpty()) {
-            String str = stack.pop();
-            res = "/" + str + res;
+       for (String dir : stack) {
+            res.append("/").append(dir);
         }
 
-        return res;
+        return res.toString();
     }
 }
