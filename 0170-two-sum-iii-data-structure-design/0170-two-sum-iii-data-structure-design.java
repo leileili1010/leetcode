@@ -1,32 +1,31 @@
-import java.util.HashMap;
-
 class TwoSum {
-
-    private HashMap<Integer, Integer> nums;
+    HashMap<Integer,Integer> map;
 
     public TwoSum() {
-        nums = new HashMap<>();
+        map = new HashMap<>();    
     }
     
     public void add(int number) {
-        nums.put(number, nums.getOrDefault(number, 0) + 1); // O(1)
+        map.put(number, map.getOrDefault(number, 0)+1);
     }
     
     public boolean find(int value) {
-        for (int key : nums.keySet()) {
-            int desired = value - key;
-            if (nums.containsKey(desired)) {
-                if (desired == key && nums.get(desired) > 1) {
-                    return true;
-                } else if (desired != key) {
+        for (int key: map.keySet()) {
+            int target = value - key;
+
+            if (target == key && map.get(target) >1) {
+                return true;
+            }
+
+            if (target != key) {
+                if (map.containsKey(target)) {
                     return true;
                 }
             }
-        }
+        }    
         return false;
     }
 }
-
 
 /**
  * Your TwoSum object will be instantiated and called as such:
