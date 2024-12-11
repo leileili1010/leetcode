@@ -3,7 +3,7 @@ class Solution {
         int left = 0, right = s.length()-1;
 
         while (left < right) {
-            if(s.charAt(left) != s.charAt(right)) {
+            if(!checkPalindrome(s, left, right)) {
                 return checkPalindrome(s, left+1, right) || checkPalindrome(s, left, right-1);
             }
             left++;
