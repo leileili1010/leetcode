@@ -1,8 +1,8 @@
 class TwoSum {
-    HashMap<Integer,Integer> map;
+    TreeMap<Integer,Integer> map;
 
     public TwoSum() {
-        map = new HashMap<>();    
+        map = new TreeMap<>();    
     }
     
     public void add(int number) {
