@@ -1,24 +1,23 @@
 class Solution {
     public boolean validPalindrome(String s) {
-        int left = 0, right = s.length()-1;
+        int i = 0, j = s.length()-1;
 
-        while (left < right) {
-            if(!checkPalindrome(s, left, right)) {
-                return checkPalindrome(s, left+1, right) || checkPalindrome(s, left, right-1);
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return ifValid(i+1, j, s) || ifValid(i, j-1, s);
             }
-            left++;
-            right--;
+            i++;
+            j--;
         }
 
-        return true;        
+        return true;
     }
 
-    public boolean checkPalindrome(String s, int i, int j) {
+    private boolean ifValid(int i, int j, String s) {
         while (i < j) {
-            while ( i < j && s.charAt(i) != s.charAt(j)) {
+            if (s.charAt(i) != s.charAt(j)) {
                 return false;
             }
-            
             i++;
             j--;
         }
