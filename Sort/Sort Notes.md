@@ -118,3 +118,31 @@ public static void sortIntegers1(int[] nums) {
         }
     }
 ```
+
+## Java sort methods
+### Custom comparator
+
+```java
+// approach 1
+int[][] pairs = new int[][] {{1, 2}, {5,8}, {3, 5}, {2, 2}, {5,9},{2, 4}};
+Arrays.sort(pairs, (a,b)->(a[0] == b[0]? a[1] - b[1]: a[0]: b[0]));
+System.out.println(Arrays.deepToString(pairs));
+
+// approach 2
+Comparator<int[]> comparator = new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    // Compare based on the second element in descending order
+                    return o1[1] - o2[1];
+                } else {
+                    // Compare based on the first element in ascending order
+                    return o1[0] - o2[0];
+                }
+            }
+        };
+
+int[][] pairs = new int[][] {{1, 2}, {5,8}, {3, 5}, {2, 2}, {5,9},{2, 4}};
+Arrays.sort(pairs, comparator);
+System.out.println(Arrays.deepToString(pairs));
+```java
