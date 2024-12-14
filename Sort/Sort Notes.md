@@ -62,3 +62,55 @@
 ```
 
 ![alt text](image.png)
+
+## Merge Sort
+
+### 方法： 先局部后整体
+- 把数字平均的分成左右两半
+- 分别排序
+- 新开一个数组去merge, 再更新原有array
+
+```java
+public static void sortIntegers1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int[] temp = new int[nums.length];
+        mergeSort(nums, 0, nums.length-1, temp);
+    }
+
+    public static void mergeSort(int[] nums, int start, int end, int[] temp) {
+        if (start >= end) {
+            return;
+        }
+        int mid = start + (end - start)/2;
+        mergeSort(nums, start, mid, temp);
+        mergeSort(nums, mid+1, end, temp);
+        merge(nums, start, mid+1, end, temp);
+    }
+
+    public static void merge(int[] nums, int leftStart, int rightStart, int end, int[] temp) {
+        int index = leftStart;
+        int mid = rightStart-1;
+
+        while (leftStart <= mid && rightStart <= end) {
+            if (nums[leftStart] < nums[rightStart]) {
+                temp[index++] = nums[leftStart++];
+            } else {
+                temp[index++] = nums[rightStart--];
+            }
+        }
+
+        while (leftStart <= mid) {
+            temp[index++] = nums[leftStart++];
+        }
+
+        while (rightStart <= end) {
+            temp[index++] = nums[rightStart--];
+        }
+
+        for (int i = leftStart; i <= end; i++) {
+            nums[i] = temp[i];
+        }
+    }
+```
