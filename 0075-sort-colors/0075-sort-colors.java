@@ -1,20 +1,19 @@
 class Solution {
     public void sortColors(int[] nums) {
-        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] countColor = new int[3];
         int idx = 0;
 
         for (int num: nums) {
-            map.put(num, map.getOrDefault(num, 0)+1);
+            countColor[num]++;
         }
 
         for (int i = 0; i <= 2; i++) {
-            if (map.containsKey(i)) {
-                int count = map.get(i);
+                int count = countColor[i];
                 while (count > 0) {
                     nums[idx++] = i;
                     count--;
                 }
-            }
+            
         }
     }
 }
