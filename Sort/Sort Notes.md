@@ -70,6 +70,10 @@
 - 分别排序
 - 新开一个数组去merge, 再更新原有array
 
+### time and space
+- time: stable O(nlogn); it is actually more stable and supposed to be faster than quicksort, becuase quicksort could be as slow as O(n^2);
+- space: O(n), 需要新开数字来merge, 导致quicksort is more preferred 
+
 ```java
 public static void sortIntegers1(int[] nums) {
         if (nums == null || nums.length == 0) {
