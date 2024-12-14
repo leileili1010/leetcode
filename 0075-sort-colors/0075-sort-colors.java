@@ -1,19 +1,29 @@
 class Solution {
     public void sortColors(int[] nums) {
-        int[] countColor = new int[3];
-        int idx = 0;
+        if (nums == null || nums.length <= 1) {
+            return;
+        }
+        int wall = partition(nums, -1, 1);
+        partition(nums, wall, 2);
+    }
 
-        for (int num: nums) {
-            countColor[num]++;
+    public int partition(int[] nums, int wall, int pivot) {
+        int pointer = wall+1;
+        int end = nums.length-1;
+
+        while (pointer <= end) {
+            if (nums[pointer] < pivot) {
+                swap(nums, ++wall, pointer);
+            } 
+            pointer++;
         }
 
-        for (int i = 0; i <= 2; i++) {
-                int count = countColor[i];
-                while (count > 0) {
-                    nums[idx++] = i;
-                    count--;
-                }
-            
-        }
+        return wall;
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
