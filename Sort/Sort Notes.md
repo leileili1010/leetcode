@@ -1,4 +1,21 @@
-- Quick Sort
+# Advanced Sort
+
+## Quick Sort
+
+### 方法： 先整体再局部
+- 把array分成两半 （长度不一定相等）
+- 使得左边所有数字 < 右边所有数
+- 再把左右两边分别排序
+
+## Steps
+- select pivot
+- partition
+- recursion for subarray
+
+## time & space
+- time: O(nlogn) -- O(n^2)
+- space: O(logn) -- O(n);
+    - logn 是高度
 
 ```java
  public static void sortInt(int[] nums) {
@@ -36,6 +53,8 @@
                 right--;
             }
         }
+
+        // start & right, left & end, 是因为right and left 走错开了
         quickSort(nums, start, right);
         quickSort(nums,left, end);
     }
