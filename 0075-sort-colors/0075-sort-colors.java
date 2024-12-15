@@ -10,15 +10,12 @@ class Solution {
 
         while (idx < pointer2) {
             int cur = nums[idx];
-            if (cur > 1) {
+            if (cur == 2) {
                 swap(nums, idx--, --pointer2);    
-            } else if (cur < 1) {
-                swap(nums, idx--, ++pointer0);
+            } else if (cur == 0) {
+                swap(nums, idx, ++pointer0);
             }
             idx++;
-            if (idx == pointer0) {
-                idx++;
-            }
         }
     }
 
