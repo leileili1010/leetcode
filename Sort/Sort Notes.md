@@ -18,6 +18,7 @@
     - logn 是高度
 
 ```java
+// 从小到大
  public static void sortInt(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
@@ -58,6 +59,54 @@
         quickSort(nums, start, right);
         quickSort(nums,left, end);
     }
+
+```
+
+```java
+// 从大到小
+public static void sortInt(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+
+        quickSort(nums, 0, nums.length-1);
+    }
+
+    public static void quickSort(int[] nums, int start, int end) {
+        // start == end, 只有一个数字，直接return
+        if (start >= end) {
+            return;
+        }
+
+        int left = start, right = end;
+        int pivot = nums[left + (right - left)/2]; // 避免overflow;
+
+        // must to be <=, if left < right, will lead to stack overflow. 当两个指针重合时，比较一次各自走一步， = 保证两个指针错开
+        while (left <= right) {
+            // changes < to >
+            while (left <= right && nums[left] > pivot) { // 此处不能 =， 如果有 = ， 一个数组全是1，出现stack overflow
+                left++;
+            }
+
+            // changes > to <
+            while (left <= right && nums[right] < pivot) { // 此处不能 =
+                right--;
+            }
+
+            if (left <= right) {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+                left++;
+                right--;
+            }
+        }
+
+        // start & right, left & end, 是因为right and left 走错开了
+        quickSort(nums, start, right);
+        quickSort(nums,left, end);
+    }
+
 
 ```
 
@@ -121,7 +170,7 @@ public static void sortIntegers1(int[] nums) {
 
 ## Java sort methods
 ### Custom comparator
-
+- Array
 ```java
 // approach 1
 int[][] pairs = new int[][] {{1, 2}, {5,8}, {3, 5}, {2, 2}, {5,9},{2, 4}};
@@ -146,3 +195,14 @@ int[][] pairs = new int[][] {{1, 2}, {5,8}, {3, 5}, {2, 2}, {5,9},{2, 4}};
 Arrays.sort(pairs, comparator);
 System.out.println(Arrays.deepToString(pairs));
 ```java
+
+```java
+List<List<Integer>> list = new ArrayList<>();
+list.add(new ArrayList<>(Arrays.asList(1,2)));
+list.add(new ArrayList<>(Arrays.asList(5,8)));
+list.add(new ArrayList<>(Arrays.asList(3,5)));
+list.add(new ArrayList<>(Arrays.asList(2,2)));
+list.add(new ArrayList<>(Arrays.asList(5,9)));
+list.add(new ArrayList<>(Arrays.asList(2,4)));
+Collections.sort(list, (a, b) -> (a.get(0) == b.get(0)? a.get(1) - b.get(1): a.get(0) - b.get(0)));
+```
