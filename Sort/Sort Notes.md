@@ -124,7 +124,7 @@ public static void sortInt(int[] nums) {
 - space: O(n), 需要新开数字来merge, 导致quicksort is more preferred 
 
 ```java
-public static void sortIntegers1(int[] nums) {
+public static void sortIntegers(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
         }
@@ -139,30 +139,32 @@ public static void sortIntegers1(int[] nums) {
         int mid = start + (end - start)/2;
         mergeSort(nums, start, mid, temp);
         mergeSort(nums, mid+1, end, temp);
-        merge(nums, start, mid+1, end, temp);
+        merge(nums, start, end, temp);
     }
 
-    public static void merge(int[] nums, int leftStart, int rightStart, int end, int[] temp) {
-        int index = leftStart;
-        int mid = rightStart-1;
+    public static void merge(int[] nums, int start, int end, int[] temp) {
+        int leftIdx= start;
+        int mid = start + (end-start)/2;
+        int rightIdx = mid+1;
+        int idx = leftIdx;
 
-        while (leftStart <= mid && rightStart <= end) {
-            if (nums[leftStart] < nums[rightStart]) {
-                temp[index++] = nums[leftStart++];
+        while (leftIdx <= mid && rightIdx <= end) {
+            if (nums[leftIdx] <= nums[rightIdx]) {
+                temp[idx++] = nums[leftIdx++];
             } else {
-                temp[index++] = nums[rightStart--];
+                temp[idx++] = nums[rightIdx++];
             }
         }
 
-        while (leftStart <= mid) {
-            temp[index++] = nums[leftStart++];
+        while (leftIdx <= mid) {
+            temp[idx++] = nums[leftIdx++];
         }
 
-        while (rightStart <= end) {
-            temp[index++] = nums[rightStart--];
+        while (rightIdx <= end) {
+            temp[idx++] = nums[rightIdx++];
         }
 
-        for (int i = leftStart; i <= end; i++) {
+        for (int i = 0; i <= end; i++) {
             nums[i] = temp[i];
         }
     }
