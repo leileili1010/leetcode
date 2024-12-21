@@ -1,19 +1,16 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-        List<int[]> res = new ArrayList<>();
-        int[] cur = intervals[0];
+        Deque<int[]> res = new ArrayDeque<>();
 
-        for (int[] next: intervals) {
-            // overlap 
-            if (cur[1] >= next[0]) {
-                cur[1] = Math.max(cur[1], next[1]);
+        for (int[] interval: intervals) {
+            if (res.isEmpty() || res.getLast()[1] < interval[0]) {
+                res.add(interval);
             } else {
-                res.add(cur);
-                cur = next;
+                res.getLast()[1] = Math.max(res.getLast()[1], interval[1]);
             }
         }
-        res.add(cur);
-        return  res.toArray(new int[0][]);
+
+        return res.toArray(new int[res.size()][]);
     }
 }
