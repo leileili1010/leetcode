@@ -1,37 +1,24 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> result = new ArrayList<>();
-        
-        int start = newInterval[0];
-        int end = newInterval[1];
-        boolean inserted = false;  // track if we've inserted the merged interval
-        
-        for (int[] interval : intervals) {
-            // If current interval is completely before the new interval
-            if (interval[1] < start) {
-                result.add(interval);
-            } 
-            // If current interval is completely after the new interval
-            else if (interval[0] > end) {
-                // Insert the new interval before adding this one, if not done yet
-                if (!inserted) {
-                    result.add(new int[] {start, end});
-                    inserted = true;
-                }
-                result.add(interval);
-            } 
-            // Overlapping intervals, merge them
-            else {
-                start = Math.min(start, interval[0]);
-                end = Math.max(end, interval[1]);
+        List<int[]> list = new ArrayList<>();
+
+        for (int[] cur: intervals) {
+            // scenario 1: newInterval already inserted(null) or cur < newInterval (no overlap) 
+            if (newInterval == null || cur[1] < newInterval[0]) list.add(cur);
+            // scenario 2: cur > newInterval (no overLap);
+            else if (newInterval[1] < cur[0]) {
+                list.addAll(List.of(newInterval, cur));
+                newInterval = null; // mark newInterval as inserted already(null);
+            } else { // scenario 3: overLap
+                newInterval[0] = Math.min(newInterval[0], cur[0]);
+                newInterval[1] = Math.max(newInterval[1], cur[1]);
             }
         }
-        
-        // If the merged new interval hasn't been inserted, add it now
-        if (!inserted) {
-            result.add(new int[] {start, end});
+
+        if (newInterval != null) { // when all cur < newInterval (no overLap), we need to mannually add newiterval to the end
+            list.add(newInterval);
         }
-        
-        return result.toArray(new int[result.size()][]);
+
+        return list.toArray(new int[0][]);
     }
 }
