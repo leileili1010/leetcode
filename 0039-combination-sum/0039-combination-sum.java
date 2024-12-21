@@ -6,6 +6,8 @@ class Solution {
        this.candidates = candidates;
        this.target = target;
        List<List<Integer>> res = new ArrayList<>();
+       
+       Arrays.sort(candidates);
        dfs(res, new ArrayList<>(), 0 , 0);
 
        return res;
@@ -19,6 +21,8 @@ class Solution {
         if (sum > target) return;
 
         for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] > target - sum) break;
+            
             list.add(candidates[i]);
             dfs(res, list, sum + candidates[i], i);
             list.remove(list.size()-1);
