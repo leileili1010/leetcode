@@ -18,7 +18,7 @@ class Solution {
             res.add(new ArrayList<>(list));
             return;
         }
-        if (sum > target) return;
+        // if (sum > target) return;
 
         for (int i = start; i < candidates.length; i++) {
             if (candidates[i] > target - sum) break;
