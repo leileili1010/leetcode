@@ -1,39 +1,28 @@
 class Solution {
+    int[] candidates;
+    int target;
+    
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> results = new ArrayList<>();
-        Arrays.sort(candidates);  // Sort to help with pruning
-        backtrack(candidates, target, 0, new ArrayList<>(), results);
-        return results;
+       this.candidates = candidates;
+       this.target = target;
+       Arrays.sort(candidates);
+       List<List<Integer>> res = new ArrayList<>();
+       dfs(res, new ArrayList<>(), 0 , 0);
+
+       return res;
     }
 
-    private void backtrack(int[] candidates, int remaining, int start, List<Integer> current, List<List<Integer>> results) {
-        if (remaining == 0) {
-            // Found a valid combination
-            results.add(new ArrayList<>(current));
+    private void dfs(List<List<Integer>> res, List<Integer> list, int sum, int start) {
+        if (sum == target) {
+            res.add(new ArrayList<>(list));
             return;
         }
-        
-        for (int i = start; i < candidates.length; i++) {
-            // If candidate is greater than the remaining target, no need to explore further
-            if (candidates[i] > remaining) break;
-            
-            // Choose this candidate
-            current.add(candidates[i]);
-            
-            // Because we can reuse the same candidate, we pass 'i' again (not i+1)
-            backtrack(candidates, remaining - candidates[i], i, current, results);
-            
-            // Backtrack - remove the last added candidate
-            current.remove(current.size() - 1);
-        }
-    }
+        if (sum > target) return;
 
-    // Example main method to run a quick test:
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        int[] candidates = {2, 3, 6, 7};
-        int target = 7;
-        System.out.println(sol.combinationSum(candidates, target));
-        // Expected output: [[2,2,3],[7]]
-    }
+        for (int i = start; i < candidates.length; i++) {
+            list.add(candidates[i]);
+            dfs(res, list, sum + candidates[i], i);
+            list.remove(list.size()-1);
+        }
+    }  
 }
