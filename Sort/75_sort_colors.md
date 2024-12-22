@@ -74,12 +74,34 @@ class Solution {
 }
 ```
 
-### Approach 3: 3 pointers + only 1 loop
+## Approach 3: 3 pointers + only 1 loop
 - This is not a very good method becuase unlike #1 & #2 approach that you can easily understand and apply to other problems, this is kinda hard to understand. 
 - time: O(n), 
 - Space: O(1)
 
 ```java
+// 简单好理解写法
+class Solution {
+    public void sortColors(int[] nums) {
+        int left = 0, right = nums.length-1;
+
+        for (int i = 0; i <= right; i++){
+            if (nums[i] == 0 && i > left) {
+                swap(nums, left++, i--);
+            } else if (nums[i] == 2 && i < right) {
+                swap(nums, right--, i--);
+            }
+        }
+    }
+
+     private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
+// 另一种不好理解的写法
 class Solution {
     public void sortColors(int[] nums) {
         if (nums == null || nums.length <= 0) {
