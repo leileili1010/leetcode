@@ -4,19 +4,22 @@ class Solution {
             return;
         }
 
-        int pointer0 = -1;
-        int pointer2 = nums.length;
-        int idx = 0;
+        int wall = partition(nums, -1, 1);
+        partition(nums, wall, 2);
+    }
 
-        while (idx < pointer2) {
-            int cur = nums[idx];
-            if (cur == 2) {
-                swap(nums, idx--, --pointer2);    
-            } else if (cur == 0) {
-                swap(nums, idx, ++pointer0);
+    public int partition(int[] nums, int wall, int pivot) {
+        int pointer = wall+1;
+        int end = nums.length-1;
+
+        while (pointer <= end) {
+            if (nums[pointer] < pivot) {
+                swap(nums, pointer, ++wall);
             }
-            idx++;
+            pointer++;
         }
+
+        return wall;
     }
 
     private void swap(int[] nums, int i, int j) {
