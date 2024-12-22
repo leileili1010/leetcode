@@ -1,28 +1,17 @@
 class Solution {
     public void sortColors(int[] nums) {
-        if (nums == null || nums.length <= 0) {
-            return;
-        }
+        int left = 0, right = nums.length-1;
 
-        int wall = partition(nums, -1, 1);
-        partition(nums, wall, 2);
-    }
-
-    public int partition(int[] nums, int wall, int pivot) {
-        int pointer = wall+1;
-        int end = nums.length-1;
-
-        while (pointer <= end) {
-            if (nums[pointer] < pivot) {
-                swap(nums, pointer, ++wall);
+        for (int i = 0; i <= right; i++){
+            if (nums[i] == 0 && i > left) {
+                swap(nums, left++, i--);
+            } else if (nums[i] == 2 && i < right) {
+                swap(nums, right--, i--);
             }
-            pointer++;
         }
-
-        return wall;
     }
 
-    private void swap(int[] nums, int i, int j) {
+     private void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
