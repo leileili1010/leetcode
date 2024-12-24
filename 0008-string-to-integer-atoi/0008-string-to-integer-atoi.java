@@ -1,51 +1,37 @@
 class Solution {
     public int myAtoi(String s) {
-        // requiremnts:
-        // 1. ignore leading spaces
-        // 2. ignore leading zeros
-        // 3. sign: "-" and " +"/""
-        // 4. Stop once non-digit character is encountered
-        // 5. if overflow, round to integer range
-
-        int sign = 1;
-        boolean start = false;
-        long res = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            while (i < s.length() && s.charAt(i) == ' ' && !start) {
-                i++;
-            }
-
-            if (i < s.length() && (s.charAt(i) =='-' || s.charAt(i) == '+') && !start) {
-                if (s.charAt(i) == '-') {
-                    sign = -1;
-                } 
-                i++;
-            }
-
-            while (i < s.length() && s.charAt(i) == '0' && !start) {
-                i++;
-            }
-
-            start = true; 
-
-            if (i < s.length() && !Character.isDigit(s.charAt(i))) {
-                break;
-            }
-
-            if (i < s.length()) {
-                res = res * 10 + Character.getNumericValue(s.charAt(i));
-
-                if (sign == 1 && res > Integer.MAX_VALUE) {
-                    return Integer.MAX_VALUE;
-                }
-                if (sign == -1 && -res < Integer.MIN_VALUE) {
-                    return Integer.MIN_VALUE;
-                }
-            }
+        // check if it is an empty string (excluding leading spaces)
+        if (s.trim().isEmpty()) {
+            return 0;
         }
 
-       
-        return (int)res*sign;
+        // 1. Skip leading spaces;
+        int i = 0;
+        while (s.charAt(i) == ' ') {
+            i++;
+        }
+
+        // 2. Handle sign
+        int sign = 1;
+        if (s.charAt(i) == '+' || s.charAt(i) == '-') {
+            sign = s.charAt(i++) == '-'? -1: 1;
+        }
+
+        // 3. Convert number
+        int res = 0;
+        while (i < s.length() && Character.isDigit(s.charAt(i))) {
+            if (checkIntOverflow(res, s.charAt(i) - '0')) {
+                return (sign == 1)? Integer.MAX_VALUE: Integer.MIN_VALUE;
+            }
+            
+            res = res * 10 + (s.charAt(i++) - '0');
+        }
+
+        return res * sign;
+    }
+
+    private boolean checkIntOverflow(int res, int lastDigit) {
+        return (res > Integer.MAX_VALUE/10) ||
+            (res == Integer.MAX_VALUE/10 && lastDigit > Integer.MAX_VALUE % 10); 
     }
 }
