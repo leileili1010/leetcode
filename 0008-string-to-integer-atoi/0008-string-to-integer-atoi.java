@@ -1,15 +1,16 @@
 class Solution {
     public int myAtoi(String s) {
         // check if it is an empty string (excluding leading spaces)
-        if (s.trim().isEmpty()) {
+        s = s.trim();
+        if (s.isEmpty()) {
             return 0;
         }
 
         // 1. Skip leading spaces;
         int i = 0;
-        while (s.charAt(i) == ' ') {
-            i++;
-        }
+        // while (s.charAt(i) == ' ') {
+        //     i++;
+        // }
 
         // 2. Handle sign
         int sign = 1;
