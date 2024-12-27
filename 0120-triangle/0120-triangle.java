@@ -1,25 +1,23 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int[][] dp = new int[n][];
+        HashMap<List<Integer>, Integer> map = new HashMap<>();
+        return dfs(triangle, 0, 0, map);
+    }
 
-        // state: dp[i][j] means minPath from bottom to cur
-        for (int i = 0; i < n; i++) {
-            dp[i] = new int[n+1];
+    public int dfs(List<List<Integer>> triangle, int x, int y, HashMap<List<Integer>, Integer> map) {
+        if (x == triangle.size()) {
+            return 0;
         }
 
-        // initialization
-       for (int j = 0; j < n; j++) {
-            dp[n-1][j] = triangle.get(n-1).get(j);
-       }
-
-       // function
-        for (int i = n-2; i >= 0; i--) {
-            for (int j = 0; j <= i; j++) {
-                dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + triangle.get(i).get(j);
-            }
+        List<Integer> cur = new ArrayList<>(Arrays.asList(x, y));
+        if (map.containsKey(cur)) {
+            return map.get(cur);
         }
 
-       return dp[0][0];
+        int left = dfs(triangle, x+1, y, map);
+        int right = dfs(triangle, x+1, y+1, map);
+       
+        map.put(cur, Math.min(left, right) + triangle.get(x).get(y));
+        return map.get(cur); 
     }
 }
