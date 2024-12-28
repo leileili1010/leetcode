@@ -46,4 +46,12 @@
 
 #### 例题1 - 背包
 
-![alt text](image-35.png)
+n个物品，大小为m的包，最多能装多满
+test case: 
+arr = [3,4,8,5], backpack size = 10, 
+output: 9, 4+5 = 9
+
+```java
+
+
+```
