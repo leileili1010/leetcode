@@ -75,7 +75,7 @@ public static int backpack1(int m, int[] A) {
 
         // answer
         return dp[n][m];
-    }
+}
 ```
 
 - approach 2
@@ -110,3 +110,17 @@ public static int backpack(int m, int[] A) {
         return -1;
     }
 ```
+
+### 多重背包 - 同一个物品可以取多次
+
+#### 例题1：
+给定n中物品， 每种物品都有无限个， 第i个物品体积为A[i], 价值为V[i]. 给定一个容量为m的背包。为可以装入背包的最大价值是多少？
+
+test case:
+A = [2,3,5,7]
+V = [1,5,2,4]
+m = 10
+output: 装入三个物品1， A[1], 总价值15
+
+- state: dp[i][j] 表示前i个物品跳出一些放到j的背包里的最大价值和
+- 
