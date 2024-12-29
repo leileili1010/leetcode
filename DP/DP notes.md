@@ -94,7 +94,7 @@ public static int backpack(int m, int[] A) {
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j <= m; j++) {
                 if (j >= A[i-1]) {
-                    dp[i][j] = dp[i-1][j] || dp[i][j - A[i-1]];
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j - A[i-1]];
                 } else {
                     dp[i][j] = dp[i-1][j];
                 }
@@ -109,6 +109,22 @@ public static int backpack(int m, int[] A) {
         }
         return -1;
     }
+```
+
+- approach 3 - 1d dp
+```java
+public static int backpack1(int m, int[] A) {
+    int n = A.length;
+    int[] dp = new int[m+1];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = m; j >= A[i]; j--) {
+            dp[j] = Math.max(dp[j], dp[j-A[i]] + A[i]);
+        }
+    }
+
+    return dp[m];
+}
 ```
 
 ![alt text](image-37.png)
