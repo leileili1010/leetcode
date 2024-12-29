@@ -42,13 +42,14 @@
     - 如果一个物品可以选多份，就叫多重背包
 - dp[i][j]: 前i个物品里挑出若干物品组成和为j的大小是否可行
     - 关键点： 前 & sum 
-    - j 表示数值，表示sum
+    - j 表示capacity之和，表示sum
+    - i 代表前i个
 
 #### 例题1 - 背包
 
 n个物品，大小为m的包，最多能装多满
 test case: 
-arr = [3,4,8,5], backpack size = 10, 
+A = [3,4,8,5], backpack size = 10, 
 output: 9, 4+5 = 9
 
 - approach 1
@@ -142,4 +143,29 @@ m = 10
 output: 装入三个物品1， A[1], 总价值15
 
 - state: dp[i][j] 表示前i个物品跳出一些放到j的背包里的最大价值和
-- 
+- function:
+    - 通用公式：dp[i][j] = max(dp[i-1][j- count*A[i-1]] + count * V[i-1]);
+    - 多重背包：dp[i][j] = max(dp[i-1][j], dp[i][j-A[i-1]] + V[i-1]);
+    - 01 背包时： dp[i][j] = max(dp[i-1][j], dp[i-1][j - A[i-1]] + V[i-1]), 相当于count =1;
+
+```java
+  public static int backpack3(int[] A, int[] V, int m) {
+        if (A == null || V == null) {
+            return 0;
+        }
+        int n = A.length;
+        int[][] dp = new int[n+1][m+1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                if (j >= A[i-1]) {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j - A[i-1]] + V[i-1]);
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][m];
+    }
+```
+- time: O(n*m);
