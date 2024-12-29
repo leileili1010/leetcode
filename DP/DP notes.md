@@ -51,7 +51,62 @@ test case:
 arr = [3,4,8,5], backpack size = 10, 
 output: 9, 4+5 = 9
 
+- approach 1
+
 ```java
+public static int backpack1(int m, int[] A) {
+        int n = A.length;
 
+        // state: dp[i][j] means 从前i (index) 个数挑若干个数总和 <= j的最大和
+        int[][] dp = new int[n+1][m+1];
 
+        // function
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                if (j >= A[i-1]) {
+                    dp[i][j] = Math.max(
+                            dp[i-1][j],
+                            dp[i-1][j-A[i-1]] + A[i-1]);
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+
+        // answer
+        return dp[n][m];
+    }
+```
+
+- approach 2
+
+```java
+public static int backpack(int m, int[] A) {
+        int n = A.length;
+
+        // state: dp[i][j] means 从前i个数是否能组成和为j(true or false)
+        boolean[][] dp = new boolean[n+1][m+1];
+
+        // initialization
+        dp[0][0] = true;
+
+        // function
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                if (j >= A[i-1]) {
+                    dp[i][j] = dp[i-1][j] || dp[i][j - A[i-1]];
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+
+        // answer
+        for (int v = m; v >= 0; v--) {
+            if (dp[n][v]) {
+                return v;
+            }
+        }
+        return -1;
+    }
 ```
