@@ -62,11 +62,12 @@ public static int binarySearch1(int[] nums, int target) {
     }
 ```
 
-## version 3
-- 用于解决数组中有重复数字
+
+### Version 3
+- 用于解决数组中有重复数字然后需要返回第一个或者最后出现的target
 
 ```java
-    public static int binarySearch(int[] nums, int target) {
+public static int binarySearch(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
             return -1;
         }
@@ -77,13 +78,13 @@ public static int binarySearch1(int[] nums, int target) {
             if (nums[mid] == target) {
                 start = mid;
             } else if (nums[mid] < target) {
-                start = mid+1;
+                start = mid;
             } else {
-                end = mid - 1;
+                end = mid;
             }
         }
 
-        // 如果要求返还的时第一个出现的target，则把下一行和这一行对调
+        // 如果求的是第一个出现的target， 把这行和下面那行对调
         if (nums[end] == target) {
             return end;
         }
