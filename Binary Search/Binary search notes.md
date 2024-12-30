@@ -69,7 +69,7 @@ public static int binarySearch1(int[] nums, int target) {
 ```
 
 
-### Version 3
+## Version 3
 
 - 用于解决数组中有重复数字然后需要返回第一个或者最后出现的target
 
@@ -103,3 +103,7 @@ public static int binarySearch(int[] nums, int target) {
         return -1;
     }
 ```
+
+## 题型总结一
+
+![alt text](<屏幕截图 2024-12-30 120156.png>)
