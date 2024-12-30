@@ -2,6 +2,12 @@
 
 ![alt text](image-5.png)
 
+![alt text](<屏幕截图 2024-12-30 100112.png>)
+
+![alt text](<屏幕截图 2024-12-30 100636.png>)
+
+- time: O(logN);
+
 ## Version 1
 ```java
 // non-recursion
