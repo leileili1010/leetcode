@@ -64,6 +64,7 @@ public static int binarySearch1(int[] nums, int target) {
 
 
 ### Version 3
+
 - 用于解决数组中有重复数字然后需要返回第一个或者最后出现的target
 
 ```java
