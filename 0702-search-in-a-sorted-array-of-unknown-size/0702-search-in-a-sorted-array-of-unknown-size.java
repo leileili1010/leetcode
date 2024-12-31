@@ -8,12 +8,17 @@
 
 class Solution {
     public int search(ArrayReader reader, int target) {
-        int start = 0, end = 10*10*10*10-1;
+        // 倍增法求end边界
+        int end = 1;
+        while (reader.get(end) < target) {
+            end = end * 2;
+        }
+
+        // 套模板binary search
+        int start = end/2;
         while (start + 1 < end) {
             int mid = start + (end - start)/2;
-            if (reader.get(mid) == target) {
-                start = mid;
-            } else if (reader.get(mid) < target) {
+            if (reader.get(mid) < target) {
                 start = mid;
             } else {
                 end = mid;
