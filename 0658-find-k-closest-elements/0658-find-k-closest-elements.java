@@ -6,13 +6,12 @@ class Solution {
         int left = right-1; 
         int n = arr.length; //6
 
-        while ((left >= 0 || right < n) && k > 0) {
-            if (left >= 0 && k > 0 && (right >= n || Math.abs(arr[left]-x) >= Math.abs(arr[right]-x))) {
+        for (int i = 0; i < k && i < arr.length; i++) {
+            if (left >= 0 && (right >= n || Math.abs(arr[left]-x) <= Math.abs(arr[right]-x))) {
                 res.add(0, arr[left--]);
-            } else if (right < n && k > 0) {
+            } else {
                 res.add(arr[right++]); 
             }
-            k--; 
         }
 
         return res;
