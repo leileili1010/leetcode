@@ -1,20 +1,17 @@
 class Solution {
     public int search(int[] nums, int target) {
-        // 1. find min
+        // 1. find min index
         int minIdx = findMin(nums);
 
         // 2. identify range
-        int n = nums.length;
-        int start = 0, end = n;
         if (target < nums[minIdx] || (minIdx > 0 && target > nums[minIdx-1])) {
             return -1;
-        } 
-        if (target >= nums[minIdx] && target <= nums[n-1]) {
-            start = minIdx;
-        } else {
-            end = minIdx;
         }
+        int n = nums.length;
+        int start = (target <= nums[n-1])? minIdx: 0; 
+        int end = start == minIdx? n: minIdx;
 
+        // 3. find target using binary search
         while (start < end) {
             int mid = start + (end - start)/2;
             if (nums[mid] > target) {
