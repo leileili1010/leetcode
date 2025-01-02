@@ -1,10 +1,8 @@
 class Solution {
     public int maxLength(int[] ribbons, int k) {
         // 确定可以取的长度范围，start为最小长度，end为最大长度
-        int sum = 0;
         int max = Integer.MIN_VALUE;
         for (int num: ribbons) {
-            sum += num;
             max = Math.max(max, num);
         }
 
