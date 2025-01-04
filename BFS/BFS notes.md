@@ -5,6 +5,8 @@
 
 ### Binary tree level order traversal 
 
+- 单队列
+
 ```java
  class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
