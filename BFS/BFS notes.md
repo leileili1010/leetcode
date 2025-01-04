@@ -73,15 +73,36 @@ class Solution {
     }
 }
 ```
+
 - approach 3 - 双队列
 
 ```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
 
+        Deque<TreeNode> que = new ArrayDeque<>();
+        que.offer(root);
 
+        while (!que.isEmpty()) {
+            Deque<TreeNode> next_que = new ArrayDeque<>();
+            List<Integer> level = new ArrayList<>();
+
+            for (TreeNode node: que) {
+                level.add(node.val);
+                if (node.left != null) next_que.offer(node.left);
+                if (node.right != null) next_que.offer(node.right);    
+            }
+
+            res.add(level);
+            que = next_que;
+
+        }
+        return res;
+    }
+}
 ```
-
-
-
 
 ```java
 // 单队列
