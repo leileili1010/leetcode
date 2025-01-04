@@ -2,8 +2,14 @@
 
 ## 题型总结
 
+![alt text](<屏幕截图 2025-01-04 104343.png>)
 
-### Binary tree level order traversal 
+## Graph BFS
+![alt text](<屏幕截图 2025-01-04 105447.png>)
+
+
+
+## 数的BFS - Binary Tree level order traversal
 
 - approach 1 - 单队列 (最推荐)
 
@@ -103,6 +109,8 @@ class Solution {
     }
 }
 ```
+
+
 
 ```java
 // 单队列
