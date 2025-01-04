@@ -7,7 +7,26 @@
 ## Graph BFS
 ![alt text](<屏幕截图 2025-01-04 105447.png>)
 
+![alt text](<屏幕截图 2025-01-04 110929.png>)
 
+```java
+// 单队列
+Deque<Node> que = new ArrayDeque<>();
+HashMap<Node, Integer> distance = new HashMap<>();
+que.offer(node);
+distance.put(node, 0);
+
+while (!que.isEmpty()) {
+    Node node = que.poll();
+    for (node neighbor: node.getNeighbors()) {
+        if (distance.containsKey(neighbor)) {
+            continue;
+        }
+        distance.put(neighbor, distance.get(node)+1);
+        que.offer(neighbor);
+    }
+}
+```
 
 ## 数的BFS - Binary Tree level order traversal
 
@@ -112,21 +131,3 @@ class Solution {
 
 
 
-```java
-// 单队列
-Deque<Node> que = new ArrayDeque<>();
-HashMap<Node, Integer> distance = new HashMap<>();
-que.offer(node);
-distance.put(node, 0);
-
-while (!que.isEmpty()) {
-    Node node = que.poll();
-    for (node neighbor: node.getNeighbors()) {
-        if (distance.containsKey(neighbor)) {
-            continue;
-        }
-        distance.put(neighbor, distance.get(node)+1);
-        que.offer(neighbor);
-    }
-}
-```
