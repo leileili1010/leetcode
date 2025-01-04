@@ -22,26 +22,30 @@ class Solution {
 
         Arrays.sort(jobs, (a,b) -> (a.endTime - b.endTime));
 
+        // state:dp[i] means maximum profit achievable by considering the first i jobs in the sorted jobs array
+        // initialization: dp[0] = 0;
         int[] dp = new int[n+1];
 
+        // function
         for (int i = 1; i < n+1; i++) {
             int k = binarySearch(jobs, i-1, jobs[i-1].startTime);
             dp[i] = Math.max(dp[i-1], jobs[i-1].profit + dp[k]);
         }
 
+        // answer
         return dp[n];
     }
 
     private int binarySearch(Job[] jobs, int right, int target) {
         int left = 0;
 
-        while (left <= right) {
+        while (left < right) {
             int mid = left + (right - left)/2;
             if (jobs[mid].endTime > target) {
-                right = mid-1;
+                right = mid;
             } else {
                 left = mid+1;
-            } 
+            }
         } 
         
         return left;
