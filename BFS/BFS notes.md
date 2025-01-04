@@ -12,13 +12,21 @@
 ```java
 // 单队列
 Deque<Node> que = new ArrayDeque<>();
-HashMap<Node, Integer> distance = new HashMap<>();
+HashMap<Node, Integer> distance = new HashMap<>(); // 无向图用于去重 （有向图有可能需要放入重复节点）
+
+// step1: 初始化
+// 初始节点放到que里，如果有多个就都放进去
+// 并标记初始节点的剧为0，记录在distance的Hashmap里
+// distance 有两个作用，一是判断是否已经访问过，二是记录离起点的位置
 que.offer(node);
 distance.put(node, 0);
 
+// step2: 不断访问队列 + pop 队列中的一个node
 while (!que.isEmpty()) {
     Node node = que.poll();
-    for (node neighbor: node.getNeighbors()) {
+    // step 3: 拓展相邻节点
+    // pop出的节点的相邻节点，加入队列并在distance中存储距离
+    for (node neighbor: node.getNeighbors()) { //遍历邻居
         if (distance.containsKey(neighbor)) {
             continue;
         }
@@ -27,6 +35,8 @@ while (!que.isEmpty()) {
     }
 }
 ```
+- time: N个点，M条边，O(N+M) or O(M); M最坏为O(N^2) 如果任意两个点都有边
+
 
 ## 数的BFS - Binary Tree level order traversal
 
