@@ -19,7 +19,7 @@ HashMap<Node, Integer> distance = new HashMap<>(); // 无向图用于去重 （�
 // 并标记初始节点的剧为0，记录在distance的Hashmap里
 // distance 有两个作用，一是判断是否已经访问过，二是记录离起点的位置
 que.offer(node);
-distance.put(node, 0);
+distance.put(node, 0); //一旦入队列马上标记
 
 // step2: 不断访问队列 + pop 队列中的一个node
 while (!que.isEmpty()) {
@@ -30,8 +30,8 @@ while (!que.isEmpty()) {
         if (distance.containsKey(neighbor)) {
             continue;
         }
-        distance.put(neighbor, distance.get(node)+1);
         que.offer(neighbor);
+        distance.put(neighbor, distance.get(node)+1); //一旦入队列马上标记
     }
 }
 ```
