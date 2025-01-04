@@ -5,7 +5,7 @@
 
 ### Binary tree level order traversal 
 
-- 单队列
+- approach 1 - 单队列 (最推荐)
 
 ```java
  class Solution {
@@ -39,8 +39,46 @@
     }
 }
 ```
+- approach 2 - dummy node
+
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+
+        Queue<TreeNode> que = new LinkedList(); //只能用Queue + linkedlist来实现que, Deque + arrayDeque 不行，因为放入null会报错
+        que.offer(root);
+        que.offer(null);
+
+        List<Integer> level = new ArrayList<>();
+        while (!que.isEmpty()) {
+            TreeNode node = que.poll();
+            if (node == null) {
+                if (level.size() == 0) break; //当node == null && level也为空，结束
+                
+                res.add(level);
+                level = new ArrayList<>();
+                que.offer(null);
+                continue;
+            } 
+
+            level.add(node.val);
+            if (node.left != null) que.offer(node.left);
+            if (node.right != null) que.offer(node.right);
+        }
+        System.out.print(res);
+        return res;
+
+    }
+}
+```
+- approach 3 - 双队列
+
+```java
 
 
+```
 
 
 
