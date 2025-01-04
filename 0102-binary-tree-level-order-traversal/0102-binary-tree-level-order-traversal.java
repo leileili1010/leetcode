@@ -18,28 +18,23 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) return res;
 
-        Queue<TreeNode> que = new LinkedList();
+        Deque<TreeNode> que = new ArrayDeque<>();
         que.offer(root);
-        que.offer(null);
 
-        List<Integer> level = new ArrayList<>();
         while (!que.isEmpty()) {
-            TreeNode node = que.poll();
-            if (node == null) {
-                if (level.size() == 0) break;
-                
-                res.add(level);
-                level = new ArrayList<>();
-                que.offer(null);
-                continue;
-            } 
+            Deque<TreeNode> next_que = new ArrayDeque<>();
+            List<Integer> level = new ArrayList<>();
 
-            level.add(node.val);
-            if (node.left != null) que.offer(node.left);
-            if (node.right != null) que.offer(node.right);
+            for (TreeNode node: que) {
+                level.add(node.val);
+                if (node.left != null) next_que.offer(node.left);
+                if (node.right != null) next_que.offer(node.right);    
+            }
+
+            res.add(level);
+            que = next_que;
+
         }
-        System.out.print(res);
         return res;
-
     }
 }
