@@ -43,6 +43,7 @@ while (!que.isEmpty()) {
 - approach 1 - 单队列 (最推荐)
 
 ```java
+// 分层
  class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         Deque<TreeNode> que = new ArrayDeque<>();
