@@ -1,55 +1,41 @@
-class State {
-    int row;
-    int col;
-    int steps;
-    State(int row, int col, int steps) {
-        this.row = row;
-        this.col = col;
-        this.steps = steps;
-    }
-}
-
 class Solution {
-    int m;
-    int n;
-    int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    
+    int[][] steps = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
     public int[][] updateMatrix(int[][] mat) {
-        m = mat.length;
-        n = mat[0].length;
-        
-        int[][] matrix = new int[m][n];
-        boolean[][] seen = new boolean[m][n];
-        Queue<State> queue = new LinkedList<>();
-        
-        for (int row = 0; row < m; row++) {
-            for (int col = 0; col < n; col++) {
-                matrix[row][col] = mat[row][col];
-                if (mat[row][col] == 0) {
-                    queue.add(new State(row, col, 0));
-                    seen[row][col] = true;
+        int rows = mat.length;
+        int cols = mat[0].length;
+
+        Deque<int[]> que = new ArrayDeque<>();
+        boolean[][] visited = new boolean[rows][cols];
+        int[][] matrix = new int[rows][cols];
+       
+       // Initialize the queue with all 0s and mark them as visited
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (mat[i][j] == 0) {
+                    que.offer(new int[] {i, j});
+                    visited[i][j] = true;
                 }
+                
             }
         }
-        
-        while (!queue.isEmpty()) {
-            State state = queue.remove();
-            int row = state.row, col = state.col, steps = state.steps;
+
+        while (!que.isEmpty()) {
+            int[] cur = que.poll();
+            int curRow = cur[0];
+            int curCol = cur[1];
             
-            for (int[] direction: directions) {
-                int nextRow = row + direction[0], nextCol = col + direction[1];
-                if (valid(nextRow, nextCol) && !seen[nextRow][nextCol]) {
-                    seen[nextRow][nextCol] = true;
-                    queue.add(new State(nextRow, nextCol, steps + 1));
-                    matrix[nextRow][nextCol] = steps + 1;
+            for (int[] step: steps) {
+                int row = step[0] + curRow;
+                int col = step[1] + curCol;
+                
+                if (row >= 0 && row < rows && col >= 0 && col < cols && !visited[row][col]) {
+                    matrix[row][col] = matrix[curRow][curCol] + 1; 
+                    visited[row][col] = true;
+                    que.add(new int[]{row, col});
                 }
             }
         }
-        
         return matrix;
-    }
-    
-    public boolean valid(int row, int col) {
-        return 0 <= row && row < m && 0 <= col && col < n;
     }
 }
