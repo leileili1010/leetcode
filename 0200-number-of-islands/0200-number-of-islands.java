@@ -35,7 +35,7 @@ class Solution {
                 int newCol = col + step[1];
                 if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && grid[newRow][newCol] == '1') {
                     que.offer(new int[] {newRow, newCol});
-                    grid[newRow][newCol] = 0;
+                    grid[newRow][newCol] = '0';
                 }
             }
         }
