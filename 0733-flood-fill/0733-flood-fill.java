@@ -10,10 +10,10 @@ class Solution {
         cols = image[0].length;
         int[][] steps = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         Deque<int[]> que = new ArrayDeque<>();
-        boolean[][] visited = new boolean[rows][cols];
+        // boolean[][] visited = new boolean[rows][cols];
         
         que.offer(new int[]{sr, sc});
-        visited[sr][sc] = true;
+        // visited[sr][sc] = true;
         image[sr][sc] = color;
 
         while (!que.isEmpty()) {
@@ -25,9 +25,9 @@ class Solution {
                 int newRow = row + step[0];
                 int newCol = col + step[1];
 
-                if (isValid(image, newRow, newCol, original, visited)) {
+                if (isValid(image, newRow, newCol, original)) {
                     que.offer(new int[]{newRow, newCol});
-                    visited[newRow][newCol] = true;
+                    // visited[newRow][newCol] = true;
                     image[newRow][newCol] = color;
                 }
             }
@@ -36,8 +36,8 @@ class Solution {
         return image;
     }
 
-    public boolean isValid(int[][] image, int row, int col, int original, boolean[][] visited) {
-        return row >= 0 && row < rows && col >= 0 && col < cols &&
-                !visited[row][col] && image[row][col] == original;
+    public boolean isValid(int[][] image, int row, int col, int original) {
+        return row >= 0 && row < rows && col >= 0 && col < cols
+            && image[row][col] == original;
     }
 }
