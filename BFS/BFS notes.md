@@ -37,8 +37,10 @@ while (!que.isEmpty()) {
 ```
 - time: N个点，M条边，O(N+M) or O(M); M最坏为O(N^2) 如果任意两个点都有边
 
+## BFS in Matrix
 
-## 数的BFS - Binary Tree level order traversal
+
+## Tree的BFS - Binary Tree level order traversal
 
 - approach 1 - 单队列 (最推荐)
 
