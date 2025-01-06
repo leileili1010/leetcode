@@ -11,21 +11,31 @@ class Solution {
 
         // step2: dp
         // state: dp[i] = max profit considering the first i jobs
-        int[] dp = new int[n+1];
+        int[] dp = new int[n];
+        dp[0] = jobs[0][2];
 
-        for (int i = 1; i <= n; i++) {
-            int start = jobs[i-1][0];
-            int curProfit = jobs[i-1][2];
-            int compatible = -1;
-            for (int j = i - 2; j >= 0; j--) {
-                if (jobs[j][1] <= start) {
-                    compatible = dp[j+1];
-                    break;
-                }
-            }
-            dp[i] = Math.max(dp[i - 1], curProfit +(compatible == -1? 0: compatible));
+        for (int i = 1; i < n; i++) {
+            int start = jobs[i][0];
+            int curProfit = jobs[i][2];
+            int j = bfs(jobs, i, start);
+            int compatible = j >= 0? dp[j]: 0;
+            dp[i] = Math.max(dp[i - 1], curProfit + compatible);
         }
 
-        return dp[n];
+        return dp[n-1];
+    }
+
+    private int bfs(int[][] jobs, int right, int target) {
+        int left = 0;
+        
+        while (left < right) {
+            int mid = left + (right - left)/2;
+            if (jobs[mid][1] > target) {
+                right = mid;
+            } else {
+                left = mid+1;
+            }
+        }
+        return left-1;
     }
 }
