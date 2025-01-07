@@ -1,23 +1,21 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> wordsList = new HashSet<>(wordList);
-        if (!wordsList.contains(endWord)) return 0;
+        Set<String> wordListSet = new HashSet<>(wordList);
+        if (!wordListSet.contains(endWord)) return 0;
 
-        Set<String> visited = new HashSet<>();
         Deque<String> que = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
         que.offer(beginWord);
         visited.add(beginWord);
         int count = 1;
 
         while (!que.isEmpty()) {
-            int size = que.size();
+            int n = que.size();
             count++;
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < n; i++) {
                 String cur = que.poll();
-                for (String nextWord: getNextWords(wordsList, cur)) {
-                    if (nextWord.equals(endWord)) {
-                        return count;
-                    }
+                for (String nextWord: getNextWords(cur, wordListSet)) {
+                    if (nextWord.equals(endWord)) return count;
                     if (visited.add(nextWord)) que.offer(nextWord);
                 }
             }
@@ -25,21 +23,24 @@ class Solution {
         return 0;
     }
 
-    private List<String> getNextWords(Set<String> wordsList, String word) {
+    private List<String> getNextWords(String cur, Set<String> wordListSet) {
         List<String> res = new ArrayList<>();
-        char[] letters = word.toCharArray();
 
         for (char c = 'a'; c <= 'z'; c++) {
-            for (int i = 0; i < letters.length; i++) {
-                if (letters[i] == c) continue;
-                String newWord = replace(word, c, i);
-                if (wordsList.contains(newWord)) res.add(newWord);
+            for (int i = 0; i < cur.length(); i++) {
+                if (cur.charAt(i) == c) {
+                    continue;
+                }
+                String newWord = replace(cur, i, c);
+                if (wordListSet.contains(newWord)) {
+                    res.add(newWord);
+                }
             }
         }
         return res;
     }
 
-    private String replace(String word, char c, int idx) {
+    private String replace(String word, int idx, char c) {
         char[] letters = word.toCharArray();
         letters[idx] = c;
         return new String(letters);
