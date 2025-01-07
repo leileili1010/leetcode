@@ -1,29 +1,26 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> wordsList = new HashSet<>(wordList);
-        if (!wordsList.contains(endWord)) return 0; // Early termination if endWord is not in wordList
+        if (!wordsList.contains(endWord)) return 0;
 
         Set<String> visited = new HashSet<>();
         Deque<String> que = new ArrayDeque<>();
-
-        int count = 1; // Start with 1 to include the beginWord itself
         que.offer(beginWord);
         visited.add(beginWord);
+        int count = 1;
 
         while (!que.isEmpty()) {
-            int size = que.size(); // Process all nodes at the current level
+            int size = que.size();
+            count++;
             for (int i = 0; i < size; i++) {
                 String cur = que.poll();
-                for (String nextWord : getNextWords(wordsList, cur)) {
+                for (String nextWord: getNextWords(wordsList, cur)) {
                     if (nextWord.equals(endWord)) {
-                        return count + 1; // Include the last transformation
+                        return count;
                     }
-                    if (visited.add(nextWord)) { // Add only if not visited
-                        que.offer(nextWord);
-                    }
+                    if (visited.add(nextWord)) que.offer(nextWord);
                 }
             }
-            count++; // Increment the level after processing the current level
         }
         return 0;
     }
@@ -32,18 +29,19 @@ class Solution {
         List<String> res = new ArrayList<>();
         char[] letters = word.toCharArray();
 
-        for (int i = 0; i < letters.length; i++) {
-            char original = letters[i];
-            for (char c = 'a'; c <= 'z'; c++) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            for (int i = 0; i < letters.length; i++) {
                 if (letters[i] == c) continue;
-                letters[i] = c;
-                String newWord = new String(letters);
-                if (wordsList.contains(newWord)) {
-                    res.add(newWord);
-                }
+                String newWord = replace(word, c, i);
+                if (wordsList.contains(newWord)) res.add(newWord);
             }
-            letters[i] = original; // Restore the original character
         }
         return res;
+    }
+
+    private String replace(String word, char c, int idx) {
+        char[] letters = word.toCharArray();
+        letters[idx] = c;
+        return new String(letters);
     }
 }
