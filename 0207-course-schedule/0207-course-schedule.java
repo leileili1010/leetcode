@@ -1,6 +1,6 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        if (numCourses == 0 && prerequisites.length == 0) return false;
+        // if (numCourses == 0 && prerequisites.length == 0) return false;
 
         // construct graph and inDegree
         List<Integer>[] graph = new List[numCourses];
