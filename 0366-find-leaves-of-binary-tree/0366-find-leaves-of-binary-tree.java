@@ -14,9 +14,10 @@
  * }
  */
 class Solution {
-    List<List<Integer>> res = new ArrayList<>();
+    List<List<Integer>> res;
 
     public List<List<Integer>> findLeaves(TreeNode root) {
+        res = new ArrayList<>();
         dfs(root);
         return res;
     }
