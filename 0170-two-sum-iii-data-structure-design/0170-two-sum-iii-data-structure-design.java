@@ -1,23 +1,28 @@
 class TwoSum {
-    Map<Integer, Integer> map;
-    
+    TreeMap<Integer,Integer> map;
+
     public TwoSum() {
-        map = new HashMap<>();   
+        map = new TreeMap<>();    
     }
     
     public void add(int number) {
         map.put(number, map.getOrDefault(number, 0)+1);
-        
     }
     
     public boolean find(int value) {
         for (int key: map.keySet()) {
             int target = value - key;
-            int count = key == target? 2: 1;
-            if (map.containsKey(target) && map.get(key) >= count) {
+
+            if (target == key && map.get(target) >1) {
                 return true;
             }
-        }
+
+            if (target != key) {
+                if (map.containsKey(target)) {
+                    return true;
+                }
+            }
+        }    
         return false;
     }
 }
