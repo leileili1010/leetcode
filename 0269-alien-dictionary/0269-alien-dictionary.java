@@ -5,7 +5,7 @@ class Solution {
         return topologicalSorting(graph);
     }
 
-    private Map<Character, Set<Character>> constructGraph (String[] words) {
+    private Map<Character, Set<Character>> constructGraph(String[] words) {
         Map<Character, Set<Character>> graph = new HashMap<>();
 
         for (String word: words) {
@@ -17,25 +17,26 @@ class Solution {
         }
 
         for (int i = 0; i < words.length-1; i++) {
-            if (words[i].length() > words[i+1].length() && words[i].startsWith(words[i+1])) {
-                return null;
-            }
-            for (int j = 0; j < Math.min(words[i].length(), words[i+1].length()); j++) {
-                if (words[i].charAt(j) != words[i+1].charAt(j)) {
-                    graph.get(words[i].charAt(j)).add(words[i+1].charAt(j));
+            String word1 = words[i];
+            String word2 = words[i+1];
+            // edge case check
+            if (word1.length() > word2.length() && word1.startsWith(word2)) return null;
+            for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
+                if (word1.charAt(j) != word2.charAt(j)) {
+                    graph.get(word1.charAt(j)).add(word2.charAt(j));
                     break;
                 }
             }
         }
 
-     return graph;   
+        return graph;
     }
 
     private Map<Character, Integer> getIndegree(Map<Character, Set<Character>> graph) {
         Map<Character, Integer> indegree = new HashMap<>();
 
         for (char key: graph.keySet()) {
-           indegree.put(key, 0);
+            indegree.put(key, 0);
         }
 
         for (char key: graph.keySet()) {
@@ -49,17 +50,17 @@ class Solution {
 
     private String topologicalSorting(Map<Character, Set<Character>> graph) {
         Map<Character, Integer> indegree = getIndegree(graph);
-        Deque<Character> que = new ArrayDeque<>();
+        PriorityQueue<Character> que = new PriorityQueue<>();
 
-        for (char key: indegree.keySet()) {
-            if (indegree.get(key) == 0) que.offer(key);
-        }
+        for (char c: indegree.keySet()) {
+            if (indegree.get(c) == 0) que.offer(c);
+        } 
 
         StringBuilder sb = new StringBuilder();
         while (!que.isEmpty()) {
             char cur = que.poll();
             sb.append(cur);
-            for(char neighbor: graph.get(cur)) {
+            for (char neighbor: graph.get(cur)) {
                 indegree.put(neighbor, indegree.get(neighbor)-1);
                 if (indegree.get(neighbor) == 0) que.offer(neighbor);
             }
@@ -67,6 +68,4 @@ class Solution {
 
         return sb.length() == indegree.size()? sb.toString(): "";
     }
-
-    
 }
