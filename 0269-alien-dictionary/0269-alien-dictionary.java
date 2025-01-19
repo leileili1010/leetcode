@@ -1,7 +1,3 @@
-
-
-import static java.util.Collections.indexOfSubList;
-
 class Solution {
     public String alienOrder(String[] words) {
         Map<Character, Set<Character>> graph = constructGraph(words);
