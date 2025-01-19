@@ -20,10 +20,8 @@ class Solution {
             for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
                 char ch1 = word1.charAt(j);
                 char ch2 = word2.charAt(j);
-                if (ch1 != ch2) {
-                    if (graph.get(ch1).add(ch2)) {
-                        indegree.put(ch2, indegree.get(ch2) + 1);
-                    }
+                if (ch1 != ch2 && graph.get(ch1).add(ch2)) {
+                    indegree.put(ch2, indegree.get(ch2) + 1);
                     break;
                 }
             }
