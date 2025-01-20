@@ -1,53 +1,44 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> quad = new ArrayList<>();
-        Arrays.sort(nums); // Sort the array
-
-        kSum(nums, 4, 0, (long) target, res, quad);
+        kSum(4, 0, target, nums, res, quad);
         return res;
     }
 
-    private void kSum(int[] nums, int k, int start, long target, List<List<Integer>> res, List<Integer> quad) {
-        // Base case: 2-Sum
+    private void kSum(int k, int start, int target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        // based case
         if (k == 2) {
-            twoSum(nums, start, target, res, quad);
+            twoSum(start, target, nums, res, quad);
             return;
         }
+        
+        for (int i = start; i < nums.length-k+1; i++) {
+            // remove duplicate
+            if (i > start && nums[i] == nums[i-1]) continue;
 
-        // Recursive case: reduce to (k-1)-Sum
-        for (int i = start; i < nums.length - (k - 1); i++) {
-            // Skip duplicates
-            if (i > start && nums[i] == nums[i - 1]) continue;
-
-            quad.add(nums[i]); // Include nums[i] in the current combination
-            kSum(nums, k - 1, i + 1, target - nums[i], res, quad); // Recursive call
-            quad.remove(quad.size() - 1); // Backtrack
+            quad.add(nums[i]);
+            kSum(k-1, i+1, target-nums[i], nums, res, quad);
+            quad.remove(quad.size()-1);
         }
     }
 
-    private void twoSum(int[] nums, int start, long target, List<List<Integer>> res, List<Integer> quad) {
-        int left = start, right = nums.length - 1;
+    private void twoSum(int start, int target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        int left = start, right = nums.length-1;
         while (left < right) {
-            long sum = (long) nums[left] + nums[right];
-            if (sum == target) {
-                List<Integer> temp = new ArrayList<>(quad);
-                temp.add(nums[left]);
-                temp.add(nums[right]);
-                res.add(temp);
+            long sum = nums[left] + nums[right];
+            if (sum < target) {
                 left++;
+            } else if (sum > target) {
                 right--;
-                // Skip duplicates for left
-                while (left < right && nums[left] == nums[left - 1]) left++;
-                // Skip duplicates for right
-                while (left < right && nums[right] == nums[right + 1]) right--;
-            } else if (sum < target) {
-                left++;
             } else {
-                right--;
+                List<Integer> temp = new ArrayList<>(quad);
+                temp.add(nums[left++]);
+                temp.add(nums[right--]);
+                res.add(temp);
+                while (left < right && nums[left] == nums[left-1]) left++;
             }
         }
     }
 }
-
-
