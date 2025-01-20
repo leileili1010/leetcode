@@ -7,7 +7,7 @@ class Solution {
         return res;
     }
 
-    private void kSum(int k, int start, int target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+    private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
         // based case
         if (k == 2) {
             twoSum(start, target, nums, res, quad);
@@ -24,10 +24,10 @@ class Solution {
         }
     }
 
-    private void twoSum(int start, int target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+    private void twoSum(int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
         int left = start, right = nums.length-1;
         while (left < right) {
-            long sum = nums[left] + nums[right];
+            long sum = (long)nums[left] + nums[right];
             if (sum < target) {
                 left++;
             } else if (sum > target) {
