@@ -11,7 +11,13 @@ class Solution {
         
         while (i < chars.length && chars[i] != ')') {
             if (Character.isDigit(chars[i])) {
-                stack.push((chars[i]-'0')*sign);
+                int num = 0;
+                while (i < chars.length && Character.isDigit(chars[i])) {
+                    num = num * 10 + (chars[i] - '0');
+                    i++;
+                }
+                stack.push(num *sign);
+                i--;
             } else if (chars[i] == '-') {
                 sign = -1;
             } else if (chars[i] == '+') {
@@ -20,9 +26,7 @@ class Solution {
                 int[] newRes = calculator(chars, i+1);
                 i = newRes[1];
                 stack.push(newRes[0]*sign); 
-            } else {
-        
-            }
+            } 
             i++;
             res[1] = i; 
         }
@@ -31,7 +35,5 @@ class Solution {
             res[0] += num;
         }
         return res;
-
-
     }
 }
