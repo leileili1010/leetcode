@@ -4,7 +4,7 @@
 
 [75]: https://leetcode.com/problems/sort-colors/
 
-## Approach 1: using array to count numbers
+## Approach 1: using array to count numbers - counting sort
 - using array to count numbers (much faster than HashMap)
 - update the original array
 - time: O(n)
@@ -34,7 +34,7 @@ class Solution {
     }
 }
 ```
-## Approach 2: partition
+## Approach 2: partition 
 - 3个值， partition 两次，4个值partition 3 次
     - 第一次partition: 比1小的和比1大的分开
     - 第二次partition: 比2小的和比2大的分开
