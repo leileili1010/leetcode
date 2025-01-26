@@ -1,7 +1,7 @@
 # Two pointers
 
 ## 题型分类
-
+![alt text](<屏幕截图 2025-01-25 224722.png>)
 
 ### Partition
 
@@ -22,5 +22,4 @@ While (left <= right) {
         nums[right] = temp
     }
 }
-
 ```
