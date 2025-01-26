@@ -7,18 +7,19 @@ class Solution {
         int left = 0, right = 1;
         while (right < n) {
             if (right < n && greatOrEqual && nums[right] < nums[left]) {
-                int temp = nums[left];
-                nums[left] = nums[right];
-                nums[right] = temp;
+                swap(nums, left, right);
             } else if (right < n && !greatOrEqual && nums[right] > nums[left]) {
-                int temp = nums[left];
-                nums[left] = nums[right];
-                nums[right] = temp;
+                swap(nums, left, right);
             }
             left++;
             right++;
             greatOrEqual = !greatOrEqual;
         }
+    }
 
+     private void swap(int[] nums, int left, int right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
     }
 }
