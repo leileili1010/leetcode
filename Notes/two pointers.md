@@ -20,6 +20,7 @@ While (left <= right) {
         int temp = nums[left];
         nums[left] = nums[right];
         nums[right] = temp
+        //此处不用left++ && right--;
     }
 }
 ```

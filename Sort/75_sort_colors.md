@@ -9,6 +9,7 @@
 - update the original array
 - time: O(n)
 - space: O(1);
+- 排序是避免用counting sort, 这是基于value的排序，我们最好写基于比较的排序
 
 ![alt text](image-1.png)
 
@@ -34,7 +35,7 @@ class Solution {
     }
 }
 ```
-## Approach 2: partition 
+## Approach 2: partition 两次
 - 3个值， partition 两次，4个值partition 3 次
     - 第一次partition: 比1小的和比1大的分开
     - 第二次partition: 比2小的和比2大的分开
@@ -70,6 +71,34 @@ class Solution {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+}
+
+// partition 另一种写法
+class Solution {
+    public void sortColors(int[] nums) {
+        int start = partition(nums, 0, 0);
+        partition(nums, start, 1);
+    }
+
+    private int partition(int[] nums, int start, int k) {
+        int n = nums.length, left = start, right = n-1;
+        while (left <= right) {
+            while (left <= right && nums[left] <= k) {
+                left++;
+            }
+
+            while (left <= right && nums[right] > k) {
+                right--;
+            }
+
+            if (left <= right) {
+                int temp = nums[right];
+                nums[right] = nums[left];
+                nums[left] = temp;
+            }
+        }
+        return left;
     }
 }
 ```
