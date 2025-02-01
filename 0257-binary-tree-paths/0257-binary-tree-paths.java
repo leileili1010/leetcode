@@ -14,14 +14,12 @@
  * }
  */
 class Solution {
-
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
-
         if (root == null) return paths;
 
         if (root.left == null && root.right == null) {
-            paths.add("" + root.val);
+            paths.add(root.val + "");
             return paths;
         }
 
@@ -35,6 +33,4 @@ class Solution {
 
         return paths;
     }
-
-    
 }
