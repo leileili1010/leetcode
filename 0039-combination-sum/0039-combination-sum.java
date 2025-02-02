@@ -16,6 +16,8 @@ class Solution {
         if (sum < 0) return;
 
         for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] > sum) break;
+            
             list.add(candidates[i]);
             sum -= candidates[i];
             dfs(candidates, list, sum, i, res);
