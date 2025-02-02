@@ -1,0 +1,53 @@
+class Solution {
+    private List<String> res = new ArrayList<>();
+    private String phoneDigits;
+    private Map<Character, String> map = Map.of(
+        '2',
+        "abc",
+        '3',
+        "def",
+        '4',
+        "ghi",
+        '5',
+        "jkl",
+        '6',
+        "mno",
+        '7',
+        "pqrs",
+        '8',
+        "tuv",
+        '9',
+        "wxyz"
+    );
+    
+    // digits = '23'
+    public List<String> letterCombinations(String digits) {
+        // If the input is empty, immediately return an empty answer array
+        if (digits.length() == 0) {
+            return res;
+        }
+        
+        // Initiate backtracking with an empty path and starting index of 0
+        phoneDigits = digits; //'23'
+        backtrack(0, new StringBuilder());
+        return res;
+    }
+
+    public void backtrack(int i, StringBuilder str) {
+        if (str.length() == phoneDigits.length()) {
+            res.add(str.toString());
+            return;
+        }
+
+        String chars = map.get(phoneDigits.charAt(i)); //'2'
+        for (char c: chars.toCharArray()) { //a --> b --> c
+            str.append(c);
+            backtrack(i+1, str);
+            str.deleteCharAt(str.length()-1);
+        }
+
+
+    }
+
+   
+}
