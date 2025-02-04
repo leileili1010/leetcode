@@ -2,6 +2,7 @@
 
 - 信息是自上而下传递，属于遍历法，需要一个全局变量，或者share 一个变量
 - 和分治法不一样，分治法一般通过return来调整结果，不用share 变量
+- 一般求所有具体方案 （子集，permutation，combination, subsets...)
 
 
 ##  Template:
