@@ -21,6 +21,14 @@ class Solution {
 
         if (res != null) return false;
 
+        if (p.val > node.val && q.val > node.val) {
+            node = node.right;
+        } else if (p.val < node.val && q.val < node.val) {
+            node = node.left;
+        }
+
+        if (node == null) return false;
+
         boolean left = bfs(node.left, p, q);
         boolean right = bfs(node.right, p, q);  
         boolean mid = node.val == p.val || node.val == q.val;
