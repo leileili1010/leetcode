@@ -1,21 +1,31 @@
 class Solution {
     public int longestConsecutive(int[] nums) {
         if (nums.length == 0) return 0;
-        Arrays.sort(nums);
-        
-        int count = 1;
-        int max = 1;
 
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] == nums[i-1]) continue;
-            if (nums[i] == nums[i-1]+1) {
-                count++;
-                max = Math.max(max, count);
-            } else {
-                count = 1;
+        Set<Integer> set = new HashSet<>();
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+
+        for (int num: nums) {
+            if (set.add(num)) {
+                heap.add(num);
             }
         }
 
-        return max;
+        int res = 0;
+        int count = 0;
+        int pre = Integer.MAX_VALUE;
+       
+        while (!heap.isEmpty()) {
+            int n = heap.poll();
+            if (n - pre == 1) {
+                count++;
+                res = Math.max(res, count);
+            } else {
+                count = 0;
+            }
+            pre = n;
+        }   
+
+        return res+1;     
     }
 }
