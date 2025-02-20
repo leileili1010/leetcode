@@ -1,39 +1,21 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        // rows
-        for (int i = 0; i < 9; i++) {
-            Set<Character> seen = new HashSet<>();
-            for (int j = 0; j < 9; j++) {
-                if (Character.isDigit(board[i][j])) {
-                    if (!seen.add(board[i][j])) return false;
-                }             
+        Map<Integer, Set<Character>> rows = new HashMap<>();
+        Map<Integer, Set<Character>> cols = new HashMap<>();
+        Map<String, Set<Character>> squares = new HashMap<>();
+
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                if (board[r][c] == '.') continue;
+
+                String squareKey = r/3 + "," + c/3;
+                if (!rows.computeIfAbsent(r, k -> new HashSet<>()).add(board[r][c])) return false;
+                if (!cols.computeIfAbsent(c, k-> new HashSet<>()).add(board[r][c])) return false;
+                if (!squares.computeIfAbsent(squareKey, k-> new HashSet<>()).add(board[r][c])) return false;
             }
         }
-
-        // cols
-        for (int j = 0; j < 9; j++) {
-            Set<Character> seen = new HashSet<>();
-            for (int i = 0; i < 9; i++) {
-                if (Character.isDigit(board[i][j])) {
-                    if (!seen.add(board[i][j])) return false;
-                }             
-            }
-        }
-
-        // square
-        for (int square = 0; square < 9; square++) {
-             Set<Character> seen = new HashSet<>();
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    int row = (square/3) * 3 + i;
-                    int col = (square % 3) * 3 + j;
-                    if (Character.isDigit(board[row][col])) {
-                    if (!seen.add(board[row][col])) return false;
-                }
-                }
-            }
-        }
-
+        
         return true;
+        
     }
 }
