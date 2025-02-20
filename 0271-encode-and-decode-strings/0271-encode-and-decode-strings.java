@@ -1,18 +1,11 @@
 public class Codec {
-    private List<Integer> list;
+
     // Encodes a list of strings to a single string.
-    
-    public Codec() {
-        this.list = new ArrayList<>();
-    }
-    
     public String encode(List<String> strs) {
-        list.clear();
         StringBuilder sb = new StringBuilder();
         
         for (String str: strs) {
-            list.add(str.length());
-            sb.append(str);
+            sb.append(str.length()).append('#').append(str);
         }
         
         return sb.toString();
@@ -22,13 +15,17 @@ public class Codec {
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
         List<String> res = new ArrayList<>();
-        int index = 0;
-
-        for (int len : list) {
-            if (index + len > s.length()) break; // Prevent out-of-bounds access
-            String str = s.substring(index, index + len);
+        int i = 0, j = 0;
+        while (i < s.length()) {
+            while (s.charAt(j) != '#') {
+                j++;
+            }
+            int len = Integer.parseInt(s.substring(i, j));
+            i = j+1;
+            j = i + len;
+            String str = s.substring(i, j);
             res.add(str);
-            index += len; // Move to the next word's start position
+            i = j;
         }
         return res;
     }
