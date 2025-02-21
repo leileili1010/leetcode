@@ -1,35 +1,37 @@
 class SparseVector {
     List<int[]> list;
-    
-    SparseVector(int[] nums) {
-        this.list = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++) {
-            list.add(new int[] {i, nums[i]});
-        }
 
+    SparseVector(int[] nums) {
+        list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                list.add(new int[] {i, nums[i]});
+            }
+        } 
     }
     
 	// Return the dotProduct of two sparse vectors
     public int dotProduct(SparseVector vec) {
-        if (vec.list.size() > list.size()) return vec.dotProduct(this);
         int dotProduct = 0;
-
         for (int[] pair: vec.list) {
             int idx = pair[0];
             int value = pair[1];
-            dotProduct += value * binarySearch(idx, 0, list.size()-1);
+            dotProduct += value * binarySearch(idx, 0, this.list.size()-1);
         }
+
         return dotProduct;
     }
 
-    public int binarySearch(int idx, int left, int right) {
-        while (left <= right) {
-            int mid = left + (right - left) /2;
-            if (list.get(mid)[0] == idx) return list.get(mid)[1];
-            if (list.get(mid)[0] < idx) {
-                left = mid+1;
+    private int binarySearch(int idx, int start, int end) {
+        while (start <= end) {
+            int mid = start + (end - start)/2;
+            if (this.list.get(mid)[0] == idx) {
+                return this.list.get(mid)[1];
+            } 
+            if (this.list.get(mid)[0] > idx) {
+                end = mid - 1;
             } else {
-                right = mid-1;
+                start = mid + 1;
             }
         }
         return 0;
