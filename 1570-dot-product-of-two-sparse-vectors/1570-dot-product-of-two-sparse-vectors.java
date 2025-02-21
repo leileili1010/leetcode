@@ -1,24 +1,38 @@
 class SparseVector {
-    public Map<Integer, Integer> map;
+    List<int[]> list;
     
     SparseVector(int[] nums) {
-        this.map = new HashMap<>();
+        this.list = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != 0) {
-                map.put(i, nums[i]);
-            }
+            list.add(new int[] {i, nums[i]});
         }
+
     }
     
 	// Return the dotProduct of two sparse vectors
     public int dotProduct(SparseVector vec) {
-        int res = 0;
-        for (int i: this.map.keySet()) {
-            if (vec.map.containsKey(i)) {
-                res += this.map.get(i) * vec.map.get(i);
+        if (vec.list.size() > list.size()) return vec.dotProduct(this);
+        int dotProduct = 0;
+
+        for (int[] pair: vec.list) {
+            int idx = pair[0];
+            int value = pair[1];
+            dotProduct += value * binarySearch(idx, 0, list.size()-1);
+        }
+        return dotProduct;
+    }
+
+    public int binarySearch(int idx, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) /2;
+            if (list.get(mid)[0] == idx) return list.get(mid)[1];
+            if (list.get(mid)[0] < idx) {
+                left = mid+1;
+            } else {
+                right = mid-1;
             }
         }
-        return res;
+        return 0;
     }
 }
 
