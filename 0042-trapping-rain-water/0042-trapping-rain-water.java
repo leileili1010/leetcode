@@ -14,11 +14,7 @@ class Solution {
                 res += maxRight - height[right] > 0? maxRight - height[right]: 0;
                 maxRight = Math.max(maxRight, height[right]);
             }
-
-            return res;
-        
         }
-
-
+         return res;
     }
 }
