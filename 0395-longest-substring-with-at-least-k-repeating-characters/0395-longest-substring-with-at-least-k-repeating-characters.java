@@ -19,7 +19,7 @@ class Solution {
                     left++;
                 }
 
-                if (map.size() == unique && valid == unique) {
+                if (valid == unique) {
                     res = Math.max(res, i-left+1);
                 }
             }
