@@ -15,7 +15,7 @@ class Solution {
                 if (map.get(c) == k) validCount++;
 
                 // Shrink the window if we have more unique characters than allowed
-                while (map.keySet().size() > unique) {
+                while (map.size() > unique) {
                     char leftChar = s.charAt(left);
                     if (map.get(leftChar) == k) validCount--;
                     map.put(leftChar, map.get(leftChar) - 1);
@@ -24,7 +24,7 @@ class Solution {
                 }
 
                 // Check if the current window is valid
-                if (map.keySet().size() == unique && validCount == unique) {
+                if (map.size() == unique && validCount == unique) {
                     res = Math.max(res, i - left + 1);
                 }
             }
