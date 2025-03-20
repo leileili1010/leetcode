@@ -17,8 +17,8 @@ class Solution {
                 // Shrink the window if we have more unique characters than allowed
                 while (map.size() > unique) {
                     char leftChar = s.charAt(left);
-                    if (map.get(leftChar) == k) validCount--;
                     map.put(leftChar, map.get(leftChar) - 1);
+                    if (map.get(leftChar) == k-1) validCount--;
                     if (map.get(leftChar) == 0) map.remove(leftChar);
                     left++;
                 }
