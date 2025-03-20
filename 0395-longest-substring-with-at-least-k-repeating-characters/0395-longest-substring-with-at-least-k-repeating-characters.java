@@ -1,29 +1,35 @@
 class Solution {
-    public int longestSubstring(String s, int k) {
-        return findLongestSubstring(s, 0, s.length(), k);
-    }
+   public int longestSubstring(String s, int k) {
+        int res = 0;
+        
+        // Iterate over the number of unique characters allowed in the substring
+        for (int unique = 1; unique <= 26; unique++) {
+            Map<Character, Integer> map = new HashMap<>();
+            int left = 0, validCount = 0;
 
-    private int findLongestSubstring(String s, int start, int end, int k) {
-        // 1. base case
-        if (end < k) return 0;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                map.put(c, map.getOrDefault(c, 0) + 1);
+                
+                // When a character frequency reaches k, it's considered valid
+                if (map.get(c) == k) validCount++;
 
-        // count map
-        int[] count = new int[26];
-        for (int i = start; i < end; i++) {
-            count[s.charAt(i)-'a']++;
-        }
+                // Shrink the window if we have more unique characters than allowed
+                while (map.keySet().size() > unique) {
+                    char leftChar = s.charAt(left);
+                    if (map.get(leftChar) == k) validCount--;
+                    map.put(leftChar, map.get(leftChar) - 1);
+                    if (map.get(leftChar) == 0) map.remove(leftChar);
+                    left++;
+                }
 
-        // 3.1 find split
-        for (int mid = start; mid < end; mid++) {
-            if (count[s.charAt(mid)-'a'] >= k) continue;
-            int midNext = mid+1;
-            while (midNext < end && count[s.charAt(midNext)-'a'] < k) {
-                midNext++;
+                // Check if the current window is valid
+                if (map.keySet().size() == unique && validCount == unique) {
+                    res = Math.max(res, i - left + 1);
+                }
             }
-            return Math.max(findLongestSubstring(s, start, mid, k), findLongestSubstring(s, midNext, end, k));
         }
-
-        // 3.2 if the whole string is valid, return the string length;
-        return (end-start);
+        
+        return res;
     }
 }
