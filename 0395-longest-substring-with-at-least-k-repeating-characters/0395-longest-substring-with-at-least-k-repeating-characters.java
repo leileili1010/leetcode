@@ -1,35 +1,31 @@
 class Solution {
-   public int longestSubstring(String s, int k) {
+    public int longestSubstring(String s, int k) {
         int res = 0;
-        
-        // Iterate over the number of unique characters allowed in the substring
+
         for (int unique = 1; unique <= 26; unique++) {
             Map<Character, Integer> map = new HashMap<>();
-            int left = 0, validCount = 0;
+            int left = 0, valid = 0;
 
             for (int i = 0; i < s.length(); i++) {
-                char c = s.charAt(i);
-                map.put(c, map.getOrDefault(c, 0) + 1);
-                
-                // When a character frequency reaches k, it's considered valid
-                if (map.get(c) == k) validCount++;
+                char cur = s.charAt(i);
+                map.put(cur, map.getOrDefault(cur, 0)+1);
+                if (map.get(cur) == k) valid++;
 
-                // Shrink the window if we have more unique characters than allowed
                 while (map.size() > unique) {
-                    char leftChar = s.charAt(left);
-                    map.put(leftChar, map.get(leftChar) - 1);
-                    if (map.get(leftChar) == k-1) validCount--;
-                    if (map.get(leftChar) == 0) map.remove(leftChar);
+                    char c = s.charAt(left);
+                    map.put(c, map.get(c)-1);
+                    if (map.get(c) == k-1) valid--;
+                    if (map.get(c) == 0) map.remove(c);
                     left++;
                 }
 
-                // Check if the current window is valid
-                if (map.size() == unique && validCount == unique) {
-                    res = Math.max(res, i - left + 1);
+                if (map.size() == unique && valid == unique) {
+                    res = Math.max(res, i-left+1);
                 }
             }
         }
-        
+
+
         return res;
     }
 }
