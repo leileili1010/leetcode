@@ -1,26 +1,35 @@
 class Solution {
     public int[] minInterval(int[][] intervals, int[] queries) {
-        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
-        Map<Integer, Integer> res = new HashMap<>();
+        int N = queries.length;
+        int[] res = new int[N];
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b)->(a[1] - a[0]) - (b[1] - b[0]));
+        
+        int[][] queryPairs = new int[N][2];
+        for (int i = 0; i < N; i++) {
+            queryPairs[i] = new int[] {queries[i], i};
+        }
+
+        Arrays.sort(queryPairs, (a,b) -> a[0]-b[0]);
+        Arrays.sort(intervals, (a,b)->a[0]==b[0]? a[1]-b[1]: a[0]-b[0]);
+        
         int i = 0;
-        for (int q : Arrays.stream(queries).sorted().toArray()) {
-            while (i < intervals.length && intervals[i][0] <= q) {
-                int l = intervals[i][0];
-                int r = intervals[i][1];
-                minHeap.offer(new int[]{r - l + 1, r});
+        for (int[] query: queryPairs) {
+            int num = query[0];
+            int idx = query[1];
+
+            while (i < intervals.length && intervals[i][0] <= num) {
+                // push all intervals starting <= num, whether they end before or after num
+                minHeap.offer(intervals[i]);
                 i++;
             }
 
-            while (!minHeap.isEmpty() && minHeap.peek()[1] < q) {
+            while (!minHeap.isEmpty() && minHeap.peek()[1] < num) {
                 minHeap.poll();
             }
-            res.put(q, minHeap.isEmpty() ? -1 : minHeap.peek()[0]);
+
+            res[idx] = !minHeap.isEmpty()? minHeap.peek()[1] - minHeap.peek()[0] +1: -1;
+           
         }
-        int[] result = new int[queries.length];
-        for (int j = 0; j < queries.length; j++) {
-            result[j] = res.get(queries[j]);
-        }
-        return result;
+        return res;        
     }
 }
