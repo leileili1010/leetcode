@@ -2,7 +2,7 @@
 [labuladong sliding window](https://labuladong.online/algo/essential-technique/sliding-window-framework/)
 
 ![alt text](image-11.png)
-![alt text](image-10.png)
+![alt text](image-17.png)
 
 ## Template
 - 字串一般需要用到sliding window
