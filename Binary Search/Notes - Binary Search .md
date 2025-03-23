@@ -65,7 +65,7 @@ public static int binarySearch1(int[] nums, int target) {
             }
         }
         return -1;
-    }
+}
 ```
 
 
