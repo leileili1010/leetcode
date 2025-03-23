@@ -6,10 +6,10 @@ class Solution {
     }
 
     private int binarySearch(int[] nums, int k, int low, int high) {
-        while (low <= high) {
+        while (low < high) {
             int mid = low + (high-low)/2;
             if (valid(nums, k, mid)) {
-                high = mid-1;
+                high = mid;
             } else {
                 low = mid+1;
             }
