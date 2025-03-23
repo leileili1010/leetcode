@@ -1,6 +1,6 @@
 # Binary Search 
 
-![alt text](image-5.png)
+![alt text](image-15.png)
 
 ![alt text](<屏幕截图 2024-12-30 100112.png>)
 
