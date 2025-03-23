@@ -1,20 +1,16 @@
 class Solution {
     public int splitArray(int[] nums, int k) {
         int low = 0, high = 0;
-
-        // Step 1: Determine initial search range
-        for (int num : nums) {
-            low = Math.max(low, num);  // max single element
-            high += num;               // sum of all elements
+        for (int num: nums) {
+            low = Math.max(num, low);
+            high += num;
         }
-        return binarySearch(nums, k, low, high);
-    }
 
-    private int binarySearch(int[] nums, int k, int low, int high) {
-        while (low < high) {
-            int mid = low + (high-low)/2;
+        int mid = 0;
+        while (low <= high) {
+            mid = low + (high-low)/2;
             if (valid(nums, k, mid)) {
-                high = mid;
+                high = mid-1;
             } else {
                 low = mid+1;
             }
@@ -28,8 +24,8 @@ class Solution {
         for (int num: nums) {
             curSum += num;
             if (curSum > maxSubarraySum) {
-                curSum = num;
                 count++;
+                curSum = num;
                 if (count > k) return false;
             }
         }
