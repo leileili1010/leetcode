@@ -5,6 +5,7 @@ class Solution {
             low = Math.max(num, low);
             high += num;
         }
+        low = Math.max(high/k, low);
 
         int mid = 0;
         while (low <= high) {
