@@ -22,7 +22,7 @@ public class Codec {
         int start = 0;
         for (int len: list) {
             res.add(s.substring(start, start+len));
-            start = len;
+            start += len;
         } 
         return res;
     }
