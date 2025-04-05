@@ -1,7 +1,7 @@
 public class Codec {
     List<Integer> list;
 
-    Codec () {
+    Codec() {
         this.list = new ArrayList<>();
     }
 
@@ -10,9 +10,9 @@ public class Codec {
         list.clear();
         StringBuilder sb = new StringBuilder();
         for (String str: strs) {
-            list.add(str.length());
             sb.append(str);
-        }     
+            list.add(str.length());
+        }
         return sb.toString();
     }
 
@@ -20,12 +20,14 @@ public class Codec {
     public List<String> decode(String s) {
         List<String> res = new ArrayList<>();
         int start = 0;
+        
         for (int len: list) {
             res.add(s.substring(start, start+len));
             start += len;
-        } 
+        }
         return res;
     }
+
 }
 
 // Your Codec object will be instantiated and called as such:
