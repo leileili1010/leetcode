@@ -8,19 +8,15 @@ class Solution {
             Arrays.sort(chars);
             String key = new String(chars);
 
-            if (map.containsKey(key)) {
-                map.get(key).add(str);
-            } else {
+            if (!map.containsKey(key)) {
                 map.put(key, new ArrayList<>());
-                map.get(key).add(str);
             }
-        }
+            map.get(key).add(str);
+        }   
 
         for (String key: map.keySet()) {
             res.add(map.get(key));
         }
-
         return res;
-
     }
 }
