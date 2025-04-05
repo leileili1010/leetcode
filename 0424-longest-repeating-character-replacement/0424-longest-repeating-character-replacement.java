@@ -1,20 +1,18 @@
 class Solution {
     public int characterReplacement(String s, int k) {
-        int N = s.length(), left = 0;
-        Map<Character, Integer> map = new HashMap<>();
+        int[] count = new int[26];
+        int left = 0, res = 0, maxCount = 0;
 
-        int max = 0, res = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < s.length(); i++) {
             char cur = s.charAt(i);
-            map.put(cur, map.getOrDefault(cur, 0)+1);
-            max = Math.max(max, map.get(cur));
+            count[cur-'A']++;
+            maxCount = Math.max(maxCount, count[cur-'A']); //用于记录当下字母出现的最高频率
 
-            while (i-left+1 - max > k) {
+            while ((i-left+1) - maxCount > k) {
                 char c = s.charAt(left);
-                map.put(c, map.get(c)-1);
+                count[c-'A']--;
                 left++;
             }
-
             res = Math.max(res, i-left+1);
         }
         return res;
