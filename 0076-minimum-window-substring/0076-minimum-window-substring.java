@@ -1,40 +1,36 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if (t.length() > s.length()) return ""; 
+        if (t.length() > s.length()) return "";
         Map<Character, Integer> map = new HashMap<>();
-        Map<Character, Integer> window = new HashMap<>();
-
+        
         for (char c: t.toCharArray()) {
             map.put(c, map.getOrDefault(c, 0)+1);
         }
 
-        int left = 0, validCount = 0, minStart = 0, minLen = Integer.MAX_VALUE;
+        int left = 0, count = 0, minStart = 0, minLen = Integer.MAX_VALUE;
         for (int i = 0; i < s.length(); i++) {
-            // char enters window, update window and validCount
             char cur = s.charAt(i);
-            if (map.containsKey(cur)) {
-                window.put(cur, window.getOrDefault(cur, 0)+1);
-                if (window.get(cur).equals(map.get(cur))) validCount++; // must be equal not >=
-            }   
-            
-            // if not valid, keep expanding window
-            // if valid (validCount == map.size(), shrink window and update minLen and minStart)
-            while (validCount == map.size()) {
-                // while loop means valid, so we update minLen and minStart inside while loop. For other sliding window problems, while loop means not valid, so we update res (e.g maxLen) outside while loop
-                if (i-left+1 < minLen) {
-                    minLen = i - left +1;
-                    minStart = left;
+            if (map.containsKey(cur)){
+                if (map.get(cur) > 0) {
+                    count++;
                 }
-                
+                map.put(cur, map.get(cur)-1);
+            }
+           
+            while (count == t.length()) {
+                if (i-left+1 < minLen) {
+                    minStart = left;
+                    minLen = i-left+1;
+                }
+
                 char c = s.charAt(left);
-                if (window.containsKey(c)) {
-                    window.put(c, window.get(c)-1);
-                    if (window.get(c) < map.get(c)) validCount--;
+                if (map.containsKey(c)) {
+                    map.put(c, map.get(c)+1);
+                    if (map.get(c) > 0) count--;
                 }
                 left++;
             }
         }
-       
         return minLen == Integer.MAX_VALUE? "": s.substring(minStart, minStart+minLen); 
     }
 }
