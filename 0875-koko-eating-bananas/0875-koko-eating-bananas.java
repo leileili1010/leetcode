@@ -5,16 +5,18 @@ class Solution {
             right = Math.max(right, pile);
         }
         
+        int res = 0;
         while (left <= right) {
             int k = left + (right-left)/2;
 
             if (valid(piles, k, h)) {
+                res = k;
                 right = k-1;
             } else {
                 left = k+1;
             }
         } 
-        return left;
+        return res;
     }
 
     private boolean valid(int[] piles, int k, int h) {
