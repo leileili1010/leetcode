@@ -20,7 +20,7 @@ class Solution {
     }
 
     private boolean valid(int[] piles, int k, int h) {
-        int hour = 0;
+        long hour = 0;
         for (int pile: piles) {
             hour += pile % k == 0? pile/k: pile/k+1;
         }
