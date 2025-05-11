@@ -1,29 +1,22 @@
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
-        int n = position.length;
-        if (n == 0) return 0;
+        int[][] arr = new int[position.length][2];
+        Deque<Double> stack = new ArrayDeque<>();
 
-        // Pair up position and time to reach target
-        double[][] cars = new double[n][2];
-        for (int i = 0; i < n; i++) {
-            cars[i][0] = position[i];
-            cars[i][1] = (double)(target - position[i]) / speed[i];
+        for (int i = 0; i < position.length; i++) {
+            arr[i] = new int[]{position[i], speed[i]};
         }
+        Arrays.sort(arr, (a,b) -> (b[0]-a[0]));
 
-        // Sort cars by position in descending order
-        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0]));
-
-        int fleets = 0;
-        double lastTime = 0;
-
-        for (int i = 0; i < n; i++) {
-            double currentTime = cars[i][1];
-            if (currentTime > lastTime) {
-                fleets++;
-                lastTime = currentTime;
+        for (int i = 0; i < arr.length; i++) {
+            double time2 = (double)(target-arr[i][0])/arr[i][1];
+            if (stack.isEmpty()) {
+                stack.push(time2);
+                continue;
             }
+            double time1 = stack.peek();
+            if (time2 > time1) stack.push(time2);
         }
-
-        return fleets;
+        return stack.size();
     }
 }
