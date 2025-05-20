@@ -7,24 +7,25 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+
 class Solution {
     TreeNode res;
-
-    public TreeNode lowestCommonAncestor(TreeNode node, TreeNode p, TreeNode q) {
-        dfs(node, p, q);
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root, p, q);
         return res;
     }
 
-    private boolean dfs(TreeNode node, TreeNode p, TreeNode q) {
-        if (node == null) return false;
-
+    private boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
         if (res != null) return false;
+        if (root == null) return false;
 
-        boolean left = dfs(node.left, p, q);
-        boolean right = dfs(node.right, p, q);  
-        boolean mid = node.val == p.val || node.val == q.val;
+        boolean left = dfs(root.left, p, q);
+        boolean right = dfs(root.right, p, q);
+        boolean mid = root.val == p.val || root.val == q.val;
         if (mid && left || mid && right || right && left) {
-            res = node;
+            res = root;
+            return true;
         }
         return mid || left || right;
     }
