@@ -15,15 +15,20 @@
  */
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-        List<Integer> list = new ArrayList<>();
-        dfs(root, list);
-        return list.get(k-1);
-    }
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode cur = root;
 
-    private void dfs(TreeNode root, List<Integer> list) {
-        if (root == null) return;
-        dfs(root.left, list);
-        list.add(root.val);
-        dfs(root.right, list);
+        while (!stack.isEmpty() || cur != null) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            if (--k == 0) {
+                return cur.val;
+            }
+            cur = cur.right;
+        }
+        return cur.val;
     }
 }
