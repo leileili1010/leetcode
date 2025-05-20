@@ -14,28 +14,21 @@
  * }
  */
 class Solution {
+    
     public int goodNodes(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-
-        return DFS(root, root.val, 0);
+       return dfs(root, Integer.MIN_VALUE);
     }
 
-    public int DFS(TreeNode node, int val, int count) {
-        if (node == null) {
-            return 0;
-        }
+    private int dfs(TreeNode node, int max) {
+        if (node == null) return 0;
 
-        if (node.val >= val) {
-            val = node.val;
-            count++;
+        int res = 0;
+        if (node.val >= max) {
+            max = node.val;
+            res++;
         }
-        
-        if (node.right == null && node.left == null) {
-            return count;
-        }
-
-        return DFS(node.left, val, count) + DFS(node.right, val, count);
+        res += dfs(node.left, max);
+        res += dfs(node.right, max);
+        return res;
     }
 }
