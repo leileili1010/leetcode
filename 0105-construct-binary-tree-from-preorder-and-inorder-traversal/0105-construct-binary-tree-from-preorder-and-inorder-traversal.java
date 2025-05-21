@@ -15,7 +15,7 @@
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if (preorder.length == 0 || inorder.length == 0) return null;
+        if (preorder.length == 0 && inorder.length == 0) return null;
 
         TreeNode root = new TreeNode(preorder[0]);
         int mid = findIndex(inorder, preorder[0]);
