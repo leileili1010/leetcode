@@ -22,18 +22,18 @@ class Solution {
             map.put(inorder[i], i);
         }
         postIdx = postorder.length - 1;
-        return builder(0, inorder.length, inorder, postorder);
+        return builder(0, inorder.length - 1, inorder, postorder); // end is inclusive now
     }
 
     private TreeNode builder(int start, int end, int[] inorder, int[] postorder) {
-        if (start >= end) return null;
+        if (start > end) return null; // updated base case for inclusive bounds
 
         TreeNode root = new TreeNode(postorder[postIdx--]);
         int mid = map.get(root.val);
 
-        // Important: build right subtree first
+        // Important: still build right first!
         root.right = builder(mid + 1, end, inorder, postorder);
-        root.left = builder(start, mid, inorder, postorder);
+        root.left = builder(start, mid - 1, inorder, postorder);
 
         return root;
     }
