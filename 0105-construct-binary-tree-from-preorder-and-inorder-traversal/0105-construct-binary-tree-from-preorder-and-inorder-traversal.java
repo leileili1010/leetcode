@@ -1,4 +1,5 @@
-/**
+
+import java.lang.module.ModuleDescriptor.Builder;/**
  * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
@@ -14,29 +15,25 @@
  * }
  */
 class Solution {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    int preIdx = 0;
+
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if (preorder.length == 0 && inorder.length == 0) return null;
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
 
-        TreeNode root = new TreeNode(preorder[0]);
-        int mid = findIndex(inorder, preorder[0]);
-        
-        int[] leftPreorder = Arrays.copyOfRange(preorder, 1, mid+1);
-        int[] leftInorder = Arrays.copyOfRange(inorder, 0, mid);
-        root.left = buildTree(leftPreorder, leftInorder);
-
-        int[] rightPreorder = Arrays.copyOfRange(preorder, mid+1, preorder.length);
-        int[] rightInorder = Arrays.copyOfRange(inorder, mid+1, inorder.length);
-        root.right = buildTree(rightPreorder, rightInorder);
-
-        return root;
+        return builder(0, inorder.length-1, preorder, inorder);
     }
 
-    private int findIndex (int[] inorder, int num) {
-        for (int i = 0; i < inorder.length; i++) {
-            if (inorder[i] == num) {
-                return i;
-            }
-        }
-        return -1;
+    private TreeNode builder(int start, int end, int[] preorder, int[] inorder) {
+        if (start > end) return null;
+
+        TreeNode root = new TreeNode(preorder[preIdx++]);
+        int mid = map.get(root.val);
+        root.left = builder(start, mid-1, preorder, inorder);
+        root.right = builder(mid+1, end, preorder, inorder);
+
+        return root;
     }
 }
