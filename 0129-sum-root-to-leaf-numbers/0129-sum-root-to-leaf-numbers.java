@@ -15,24 +15,20 @@
  */
 class Solution {
     public int sumNumbers(TreeNode root) {
-        List<String> paths = new ArrayList<>();
-        dfs(root, "", paths);
-        int sum = 0;
-        for (String str: paths) {
-            sum += Integer.valueOf(str);
-        }
-        return sum;
+        return dfs(root, 0);
     }
 
-    private void dfs(TreeNode root, String path, List<String> paths) {
-        if (root == null) return;
+    private int dfs(TreeNode root, int currSum) {
+        if (root == null) return 0;
         
-        path += root.val;
-        if (root.left == null && root.right == null) {
-            paths.add(path);
+        currSum = currSum * 10 + root.val;
+         if (root.left == null && root.right == null) {
+            return currSum;
         }
 
-        dfs(root.left, path, paths);
-        dfs(root.right, path, paths);
+        int left = dfs(root.left, currSum);
+        int right = dfs(root.right, currSum);
+        
+        return left + right;
     }
 }
