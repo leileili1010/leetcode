@@ -14,22 +14,27 @@
  * }
  */
 class Solution {
+
     public List<String> binaryTreePaths(TreeNode root) {
-        List<String> res = new ArrayList<>();
-        dfs(root,"", res);
-        return res;
-    }
+        List<String> paths = new ArrayList<>();
 
-    private void dfs(TreeNode root, String path, List<String> res) {
-        if (root == null) return;
+        if (root == null) return paths;
 
-        path += root.val;
+        // 叶子节点条件
         if (root.left == null && root.right == null) {
-            res.add(path);
-        } else {
-            path += "->";
-            dfs(root.left, path, res);
-            dfs(root.right, path, res);
+            paths.add("" + root.val);
+            return paths;
         }
+
+        // 左右分治
+        for (String leftPath: binaryTreePaths(root.left)) {
+            paths.add(root.val + "->" + leftPath); //这一步可能会很慢
+        }
+
+        for (String rightPath: binaryTreePaths(root.right)) {
+            paths.add(root.val + "->" + rightPath);
+        }
+
+        return paths;
     }
 }
