@@ -17,7 +17,7 @@ class Solution {
             return;
         }
 
-        if (target < 0) return;
+        // if (target < 0) return;
 
         for (int i = start; i < candidates.length; i++) {
             if (candidates[i] > target) break;
