@@ -17,19 +17,21 @@ class Solution {
         List<String> res = new ArrayList<>();
         if (digits == null || digits.length() == 0) return res;
 
-        dfs(digits, 0, "", res);
+        dfs(digits, 0, new StringBuilder(), res);
         return res;
     }
 
-    private void dfs(String digits, int index, String combination, List<String> res) {
-        if (combination.length() == digits.length()) {
-            res.add(combination);
+    private void dfs(String digits, int index, StringBuilder sb, List<String> res) {
+        if (sb.length() == digits.length()) {
+            res.add(sb.toString());
             return;
         }
-
+        
         int digit = digits.charAt(index) - '0';
         for (char c: keyboard[digit].toCharArray()) {
-            dfs(digits, index+1, combination + c, res);
+            sb.append(c);
+            dfs(digits, index+1, sb, res);
+            sb.deleteCharAt(sb.length()-1);
         }
     }
 }
