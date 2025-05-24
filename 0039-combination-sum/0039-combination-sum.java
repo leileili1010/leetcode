@@ -1,7 +1,11 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        Arrays.sort(candidates);
         List<List<Integer>> res = new ArrayList<>();
+        if (candidates == null || candidates.length == 0) {
+            return res;
+        }
+        
+        Arrays.sort(candidates);
         dfs(candidates, new ArrayList<>(), target, 0, res);
         return res;        
     }
@@ -17,11 +21,9 @@ class Solution {
 
         for (int i = start; i < candidates.length; i++) {
             if (candidates[i] > target) break;
-            target -= candidates[i];
             list.add(candidates[i]);
-            dfs(candidates, list, target, i, res);
+            dfs(candidates, list, target-candidates[i], i, res);
             list.remove(list.size()-1);
-            target += candidates[i];
         }
     }
 }
