@@ -1,22 +1,23 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        if (nums == null || nums.length == 0) return res;
-        dfs(nums, res, new ArrayList<>());
+        
+        dfs(nums, new boolean[nums.length], new ArrayList<Integer>(), res);
         return res;
     }
 
-    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list) {
-        // recursion exit
+    private void dfs(int[] nums, boolean[] visited, List<Integer> list, List<List<Integer>> res) {
         if (list.size() == nums.length) {
             res.add(new ArrayList<>(list));
             return;
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (list.contains(nums[i])) continue;
+            if (visited[i]) continue;
+            visited[i] = true;
             list.add(nums[i]);
-            dfs(nums, res, list);
+            dfs(nums, visited, list, res);
+            visited[i] = false;
             list.remove(list.size()-1);
         }
     }
