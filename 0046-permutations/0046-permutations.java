@@ -2,11 +2,11 @@ class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null || nums.length == 0) return res;
-        dfs(nums, res, new ArrayList<>(), new HashSet<>());
+        dfs(nums, res, new ArrayList<>());
         return res;
     }
 
-    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, Set<Integer> set) {
+    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list) {
         // recursion exit
         if (list.size() == nums.length) {
             res.add(new ArrayList<>(list));
@@ -14,10 +14,9 @@ class Solution {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (!set.add(nums[i])) continue;
+            if (list.contains(nums[i])) continue;
             list.add(nums[i]);
-            dfs(nums, res, list, set);
-            set.remove(nums[i]);
+            dfs(nums, res, list);
             list.remove(list.size()-1);
         }
     }
