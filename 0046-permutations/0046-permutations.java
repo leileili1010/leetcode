@@ -1,12 +1,13 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        
-        dfs(nums, new boolean[nums.length], new ArrayList<Integer>(), res);
+        if (nums == null || nums.length == 0) return res;
+        dfs(nums, res, new ArrayList<>(), new boolean[nums.length]);
         return res;
     }
 
-    private void dfs(int[] nums, boolean[] visited, List<Integer> list, List<List<Integer>> res) {
+    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, boolean[] visited) {
+        // recursion exit
         if (list.size() == nums.length) {
             res.add(new ArrayList<>(list));
             return;
@@ -16,7 +17,7 @@ class Solution {
             if (visited[i]) continue;
             visited[i] = true;
             list.add(nums[i]);
-            dfs(nums, visited, list, res);
+            dfs(nums, res, list, visited);
             visited[i] = false;
             list.remove(list.size()-1);
         }
