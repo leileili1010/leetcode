@@ -1,27 +1,37 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
-        Arrays.sort(nums); //用于去重. e.g [1,1,3,4,6], 跳过第二个1
-        dfs(nums, target, res, new ArrayList<>(), 0, 4);
+        Arrays.sort(nums);
+        dfs(nums, 0, 4, (long)target, new ArrayList<>(), res);
         return res;
     }
 
-    private void dfs(int[] nums, long target, List<List<Integer>> res, List<Integer> list, int start, int k) {
-        //  退出条件： 已经有4个数且和为target
+    private void dfs(int[] nums, int start, int k, long target, List<Integer> path, List<List<Integer>> res) {
+        int n = nums.length;
+
         if (k == 0 && target == 0) {
-            res.add(new ArrayList<>(list));
+            res.add(new ArrayList<>(path));
             return;
         }
 
-        if (target < 0) return;
+        if (k == 0 || start >= n) return;
 
-        for (int i = start; i < nums.length; i++) {
-            if (i > start && nums[i] == nums[i-1]) continue;
-            if (nums[i] > target) break;
+        for (int i = start; i < n; i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue;
 
-            list.add(nums[i]);
-            dfs(nums, target-nums[i], res, list, i+1, k-1);
-            list.remove(list.size()-1);
+            // Optional pruning (only works when nums are sorted)
+            // Too few elements left
+            if (n - i < k) break;
+
+            // Prune if minimum possible sum > target
+            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue;
+
+            // Prune if maximum possible sum < target
+            if ((long)nums[i] * k > target) break;
+
+            path.add(nums[i]);
+            dfs(nums, i + 1, k - 1, target - nums[i], path, res);
+            path.remove(path.size() - 1);
         }
     }
 }
