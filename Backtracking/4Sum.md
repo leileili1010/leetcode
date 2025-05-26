@@ -80,7 +80,7 @@ class Solution {
     }
 }
 ```
-### Optimization - binary search (推荐)
+### Optimization - 剪枝 + binary search (推荐)
 ```java
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
@@ -102,7 +102,13 @@ class Solution {
         for (int i = start; i < nums.length-k+1; i++) {
             // remove duplicate
             if (i > start && nums[i] == nums[i-1]) continue;
+            
             if (nums.length - i < k) break; // or return
+
+            if ((long)nums[i] * k > target) break; // 也可以用return
+
+            // Prune 3: if maximum possible sum < target
+            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue; //只能用continue
 
             quad.add(nums[i]);
             kSum(k-1, i+1, target-nums[i], nums, res, quad);
