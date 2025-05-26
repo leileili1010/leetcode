@@ -18,7 +18,7 @@ class Solution {
         for (int i = start; i < nums.length-k+1; i++) {
             // remove duplicate
             if (i > start && nums[i] == nums[i-1]) continue;
-            // if (nums.l)
+            if (nums.length - i < k) break;
 
             quad.add(nums[i]);
             kSum(k-1, i+1, target-nums[i], nums, res, quad);
