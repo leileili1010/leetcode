@@ -1,5 +1,85 @@
 # 4Sum
 
+在一个数组中找出k个数，和为sum, 同一position的数字不能重复用
+
+## Approach - backtracking
+
+![alt text](<屏幕截图 2025-05-26 083403.png>)
+
+根据图示，这是一道典型的backtracking, 套用backtracking 模板:
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums); //用于去重. e.g [1,1,3,4,6], 跳过第二个1
+        dfs(nums, target, res, new ArrayList<>(), 0, 4);
+        return res;
+    }
+
+    private void dfs(int[] nums, long target, List<List<Integer>> res, List<Integer> list, int start, int k) {
+        //  退出条件： 已经有4个数且和为target
+        if (k == 0 && target == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i-1]) continue;
+            list.add(nums[i]);
+            dfs(nums, target-nums[i], res, list, i+1, k-1);
+            list.remove(list.size()-1);
+        }
+    }
+}
+```
+以上解法虽然正确，但是它的time complexity: Worst case is close to O(n^4) due to the recursive tree expanding for every index. 会超时，所以我们要优化当前解法；
+
+### Optimiazation 1 - 剪枝 (推荐)
+- 注意看nums[i] value 的范围，-109 <= nums[i] <= 109， 要用long才不会overflow
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        dfs(nums, 0, 4, (long)target, new ArrayList<>(), res);
+        return res;
+    }
+
+    private void dfs(int[] nums, int start, int k, long target, List<Integer> path, List<List<Integer>> res) {
+        int n = nums.length;
+
+        if (k == 0 && target == 0) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        if (k == 0 || start >= n) return;
+
+        for (int i = start; i < n; i++) {
+            if (i > start && nums[i] == nums[i - 1]) continue;
+
+            // Optional pruning (only works when nums are sorted)
+            
+            // Prune 1: Too few elements left, e.g k = 4, [1,1,3,4,6]，第一层loop到3的时候，已经不足4个数了，可以直接break;
+            if (n - i < k) break;
+
+            // Prune 2: if minimum possible sum > target
+            // In Java, the default numeric type for integer literals and arithmetic is int, which has a maximum value of 2,147,483,647. nums[i] * (k) will easily overflow
+            if ((long)nums[i] * k > target) break;
+
+            // Prune 3: if maximum possible sum < target
+            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue;
+
+            path.add(nums[i]);
+            dfs(nums, i + 1, k - 1, target - nums[i], path, res);
+            path.remove(path.size() - 1);
+        }
+    }
+}
+```
+### Optimization - binary search (推荐)
 ```java
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
@@ -10,6 +90,7 @@ class Solution {
         return res;
     }
 
+    // backtracking
     private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
         // based case
         if (k == 2) {
@@ -27,6 +108,7 @@ class Solution {
         }
     }
 
+    // binary search + two pointers
     private void twoSum(int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
         int left = start, right = nums.length-1;
         while (left < right) {
