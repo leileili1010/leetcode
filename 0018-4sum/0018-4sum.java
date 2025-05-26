@@ -2,36 +2,36 @@ class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        dfs(nums, 0, 4, (long)target, new ArrayList<>(), res);
+        dfs(nums, res, new ArrayList<>(), target, 0, 4);
         return res;
     }
 
-    private void dfs(int[] nums, int start, int k, long target, List<Integer> path, List<List<Integer>> res) {
-        int n = nums.length;
-
+    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, int target, int start, int k) {
+        int N = nums.length;
+        // exit
         if (k == 0 && target == 0) {
-            res.add(new ArrayList<>(path));
+            res.add(new ArrayList<>(list));
             return;
         }
 
-        if (k == 0 || start >= n) return;
+        // k== 0 && target != 0 四个数加起来不等于 target直接return
+        if (k == 0) return;
 
-        for (int i = start; i < n; i++) {
-            if (i > start && nums[i] == nums[i - 1]) continue;
+        for (int i = start; i < N; i++) {
+            if (i > start && nums[i] == nums[i-1]) continue;
 
-            // Optional pruning (only works when nums are sorted)
-            // Too few elements left
-            if (n - i < k) break;
+            // prune 1
+            if (N-i < k) return;
 
-            // Prune if minimum possible sum > target
-            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue;
+            // prune 2
+            if ((long)nums[i] * k > target) return;
 
-            // Prune if maximum possible sum < target
-            if ((long)nums[i] * k > target) break;
+            // prune 3
+            if ((long)nums[i] + (long)nums[N-1]*(k-1) < target) continue;
 
-            path.add(nums[i]);
-            dfs(nums, i + 1, k - 1, target - nums[i], path, res);
-            path.remove(path.size() - 1);
-        }
+            list.add(nums[i]);
+            dfs(nums, res, list, target-nums[i], i+1, k-1);
+            list.remove(list.size()-1);
+        } 
     }
 }
