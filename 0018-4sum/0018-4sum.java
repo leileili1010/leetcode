@@ -19,6 +19,10 @@ class Solution {
             // remove duplicate
             if (i > start && nums[i] == nums[i-1]) continue;
             if (nums.length - i < k) break;
+            if ((long)nums[i] * k > target) break; // 也可以用return
+
+            // Prune 3: if maximum possible sum < target
+            if ((long)nums[i] + (long)nums[nums.length - 1] * (k - 1) < target) continue; //只能用contin
 
             quad.add(nums[i]);
             kSum(k-1, i+1, target-nums[i], nums, res, quad);
