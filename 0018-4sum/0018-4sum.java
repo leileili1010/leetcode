@@ -1,44 +1,27 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
-        List<Integer> quad = new ArrayList<>();
-        kSum(4, 0, target, nums, res, quad);
+        Arrays.sort(nums); //用于去重. e.g [1,1,3,4,6], 跳过第二个1
+        dfs(nums, target, res, new ArrayList<>(), 0, 4);
         return res;
     }
 
-    private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
-        // based case
-        if (k == 2) {
-            twoSum(start, target, nums, res, quad);
+    private void dfs(int[] nums, long target, List<List<Integer>> res, List<Integer> list, int start, int k) {
+        //  退出条件： 已经有4个数且和为target
+        if (k == 0 && target == 0) {
+            res.add(new ArrayList<>(list));
             return;
         }
-        
-        for (int i = start; i < nums.length-k+1; i++) {
-            // remove duplicate
+
+        if (target < 0) return;
+
+        for (int i = start; i < nums.length; i++) {
             if (i > start && nums[i] == nums[i-1]) continue;
+            if (nums[i] > target) break;
 
-            quad.add(nums[i]);
-            kSum(k-1, i+1, target-nums[i], nums, res, quad);
-            quad.remove(quad.size()-1);
-        }
-    }
-
-    private void twoSum(int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
-        int left = start, right = nums.length-1;
-        while (left < right) {
-            int sum = nums[left] + nums[right];
-            if (sum < target) {
-                left++;
-            } else if (sum > target) {
-                right--;
-            } else {
-                List<Integer> temp = new ArrayList<>(quad);
-                temp.add(nums[left++]);
-                temp.add(nums[right--]);
-                res.add(temp);
-                while (left < right && nums[left] == nums[left-1]) left++;
-            }
+            list.add(nums[i]);
+            dfs(nums, target-nums[i], res, list, i+1, k-1);
+            list.remove(list.size()-1);
         }
     }
 }
