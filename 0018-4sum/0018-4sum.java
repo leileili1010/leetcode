@@ -1,37 +1,47 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        dfs(nums, res, new ArrayList<>(), target, 0, 4);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> quad = new ArrayList<>();
+        kSum(4, 0, target, nums, res, quad);
         return res;
     }
 
-    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, int target, int start, int k) {
-        int N = nums.length;
-        // exit
-        if (k == 0 && target == 0) {
-            res.add(new ArrayList<>(list));
+    // backtracking
+    private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        // based case
+        if (k == 2) {
+            twoSum(start, target, nums, res, quad);
             return;
         }
-
-        // k== 0 && target != 0 四个数加起来不等于 target直接return
-        if (k == 0) return;
-
-        for (int i = start; i < N; i++) {
+        
+        for (int i = start; i < nums.length-k+1; i++) {
+            // remove duplicate
             if (i > start && nums[i] == nums[i-1]) continue;
+            // if (nums.l)
 
-            // prune 1
-            if (N-i < k) return;
+            quad.add(nums[i]);
+            kSum(k-1, i+1, target-nums[i], nums, res, quad);
+            quad.remove(quad.size()-1);
+        }
+    }
 
-            // prune 2
-            if ((long)nums[i] * k > target) return;
-
-            // prune 3
-            if ((long)nums[i] + (long)nums[N-1]*(k-1) < target) continue;
-
-            list.add(nums[i]);
-            dfs(nums, res, list, target-nums[i], i+1, k-1);
-            list.remove(list.size()-1);
-        } 
+    // binary search + two pointers
+    private void twoSum(int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        int left = start, right = nums.length-1;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum < target) {
+                left++;
+            } else if (sum > target) {
+                right--;
+            } else {
+                List<Integer> temp = new ArrayList<>(quad);
+                temp.add(nums[left++]);
+                temp.add(nums[right--]);
+                res.add(temp);
+                while (left < right && nums[left] == nums[left-1]) left++;
+            }
+        }
     }
 }
