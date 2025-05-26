@@ -55,7 +55,8 @@ class Solution {
             return;
         }
 
-        if (k == 0 || start >= n) return;
+        // k== 0 && target != 0 四个数加起来不等于 target直接return
+        if (k == 0) return;
 
         for (int i = start; i < n; i++) {
             if (i > start && nums[i] == nums[i - 1]) continue;
@@ -63,14 +64,14 @@ class Solution {
             // Optional pruning (only works when nums are sorted)
             
             // Prune 1: Too few elements left, e.g k = 4, [1,1,3,4,6]，第一层loop到3的时候，已经不足4个数了，可以直接break;
-            if (n - i < k) break;
+            if (n - i < k) break; // 也可以用return
 
             // Prune 2: if minimum possible sum > target
             // In Java, the default numeric type for integer literals and arithmetic is int, which has a maximum value of 2,147,483,647. nums[i] * (k) will easily overflow
-            if ((long)nums[i] * k > target) break;
+            if ((long)nums[i] * k > target) break; // 也可以用return
 
             // Prune 3: if maximum possible sum < target
-            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue;
+            if ((long)nums[i] + (long)nums[n - 1] * (k - 1) < target) continue; //只能用continue
 
             path.add(nums[i]);
             dfs(nums, i + 1, k - 1, target - nums[i], path, res);
@@ -101,6 +102,7 @@ class Solution {
         for (int i = start; i < nums.length-k+1; i++) {
             // remove duplicate
             if (i > start && nums[i] == nums[i-1]) continue;
+            if (nums.length - i < k) break; // or return
 
             quad.add(nums[i]);
             kSum(k-1, i+1, target-nums[i], nums, res, quad);
