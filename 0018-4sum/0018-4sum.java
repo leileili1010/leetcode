@@ -6,7 +6,7 @@ class Solution {
         return res;
     }
 
-    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, int target, int start, int k) {
+    private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, long target, int start, int k) {
         int N = nums.length;
 
         if (k == 0) {
