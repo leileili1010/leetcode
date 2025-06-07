@@ -9,8 +9,8 @@ class Solution {
     private void dfs(int[] nums, List<List<Integer>> res, List<Integer> list, long target, int start, int k) {
         int N = nums.length;
 
-        if (k == 0) {
-            if (target == 0) res.add(new ArrayList<>(list));
+        if (k == 2) {
+            twoSum(nums, res, list, target, start);
             return;
         }
 
@@ -24,5 +24,25 @@ class Solution {
             dfs(nums, res, list, target-nums[i], i+1, k-1);
             list.remove(list.size()-1);
         }
+    }
+
+    private void twoSum(int[] nums, List<List<Integer>> res, List<Integer> list, long target, int start) {
+        int left = start, right = nums.length-1;
+
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum > target) {
+                right--;
+            } else if (sum < target) {
+                left++;
+            } else {
+                List<Integer> temp = new ArrayList<>(list);
+                temp.add(nums[left++]);
+                temp.add(nums[right--]);
+                res.add(temp);
+                while (left < right && nums[left] == nums[left-1]) left++;
+            }
+        }
+    
     }
 }
