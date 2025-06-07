@@ -9,6 +9,7 @@ class Solution {
 
     // backtracking
     private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        int n = nums.length;
         // based case
         if (k == 2) {
             twoSum(start, target, nums, res, quad);
