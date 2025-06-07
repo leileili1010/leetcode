@@ -7,14 +7,17 @@ class Solution {
     }
 
     private void dfs(int[] nums, List<List<Integer>> res, long target, List<Integer> list, int start, int k) {
+        int N = nums.length;
+
         if (k == 0) {
            if (target == 0) res.add(new ArrayList<>(list));
             return;
         }
 
-        for (int i = start; i < nums.length; i++) {
+        for (int i = start; i < N; i++) {
             if (i > start && nums[i] == nums[i-1]) continue;
-          
+            if (N-i < k) return;
+
 
             list.add(nums[i]);
             dfs(nums, res, target-nums[i], list, i+1, k-1);
