@@ -16,6 +16,9 @@ class Solution {
 
         for (int i = start; i < N; i++) {
             if (i > start && nums[i] == nums[i-1]) continue;
+            if (N-i < k) return;
+            // if ((long)nums[i] + (long)nums[N-1] * k-1 < target) continue;
+
             list.add(nums[i]);
             dfs(nums, res, list, target-nums[i], i+1, k-1);
             list.remove(list.size()-1);
