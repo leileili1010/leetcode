@@ -7,12 +7,10 @@ class Solution {
     }
 
     private void dfs(int[] nums, List<List<Integer>> res, long target, List<Integer> list, int start, int k) {
-        if (k == 0 && target == 0) {
-            res.add(new ArrayList<>(list));
+        if (k == 0) {
+           if (target == 0) res.add(new ArrayList<>(list));
             return;
         }
-
-        if (k == 0) return;
 
         for (int i = start; i < nums.length; i++) {
             if (i > start && nums[i] == nums[i-1]) continue;
