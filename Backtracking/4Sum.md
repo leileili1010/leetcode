@@ -1,12 +1,14 @@
 # 4Sum
 
-在一个数组中找出k个数，和为sum, 同一position的数字不能重复用
+在一个数组中找出k个数，和为sum, 同一position的数字不能重复用. 
+- 经过了2sum, 3sum, 4sum...ksum，我们希望找到一个generic的解法去解决ksum. 
+- 思路时把ksum 降维到2sum, 然后用2sum的方法做就可以了
 
 ## Approach - backtracking
 
 ![alt text](<屏幕截图 2025-05-26 083403.png>)
 
-根据图示，这是一道典型的backtracking, 套用backtracking 模板:
+根据图示，这是一道典型的backtracking, 套用backtracking 模板, 一定要理解这种最基本的backtracking 解法
 
 ```java
 class Solution {
@@ -19,7 +21,7 @@ class Solution {
 
     private void dfs(int[] nums, long target, List<List<Integer>> res, List<Integer> list, int start, int k) {
         //  退出条件： 已经有4个数且和为target
-        if (k == 0 && target == 0) {
+        if (k == 0 && target == 0) { // k < 0, 仍然会继续going deeper, 比如[-2, -1, 0, 1, 2] 只是不能add 到res里面，因为不符合 k == 0, 此处需要剪枝
             res.add(new ArrayList<>(list));
             return;
         }
@@ -50,14 +52,11 @@ class Solution {
     private void dfs(int[] nums, int start, int k, long target, List<Integer> path, List<List<Integer>> res) {
         int n = nums.length;
 
-        if (k == 0 && target == 0) {
-            res.add(new ArrayList<>(path));
-            return;
-        }
-
-        // k== 0 && target != 0 四个数加起来不等于 target直接return
-        if (k == 0) return;
-
+        if (k == 0) {
+           if (target == 0) res.add(new ArrayList<>(list));
+            return; // k== 0 && target != 0 四个数加起来不等于 target直接return
+        } 
+ 
         for (int i = start; i < n; i++) {
             if (i > start && nums[i] == nums[i - 1]) continue;
 
@@ -93,6 +92,7 @@ class Solution {
 
     // backtracking
     private void kSum(int k, int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
+        int n = nums.length;
         // based case
         if (k == 2) {
             twoSum(start, target, nums, res, quad);
@@ -120,7 +120,7 @@ class Solution {
     private void twoSum(int start, long target, int[] nums, List<List<Integer>> res, List<Integer> quad) {
         int left = start, right = nums.length-1;
         while (left < right) {
-            int sum = nums[left] + nums[right];
+            long sum = (long)nums[left] + nums[right];
             if (sum < target) {
                 left++;
             } else if (sum > target) {
