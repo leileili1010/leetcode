@@ -30,7 +30,7 @@ class Solution {
         int left = start, right = nums.length-1;
 
         while (left < right) {
-            int sum = nums[left] + nums[right];
+            long sum = (long)nums[left] + nums[right];
             if (sum > target) {
                 right--;
             } else if (sum < target) {
