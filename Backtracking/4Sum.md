@@ -38,7 +38,7 @@ class Solution {
 以上解法虽然正确，但是它的time complexity: Worst case is close to O(n^4) due to the recursive tree expanding for every index. 会超时，所以我们要优化当前解法；
 
 ### Optimiazation 1 - 剪枝 (推荐)
-- 注意看nums[i] value 的范围，-109 <= nums[i] <= 109， 要用long才不会overflow
+- 注意看nums[i] value 的范围，-10^9 <= nums[i] <= 10^9， 要用long才不会overflow
 
 ```java
 class Solution {
@@ -54,7 +54,7 @@ class Solution {
 
         if (k == 0) {
            if (target == 0) res.add(new ArrayList<>(list));
-            return; // k== 0 && target != 0 四个数加起来不等于 target直接return
+            return; // k== 0, target != 0 or target == 9, 都return
         } 
  
         for (int i = start; i < n; i++) {
@@ -131,6 +131,9 @@ class Solution {
                 temp.add(nums[right--]);
                 res.add(temp);
                 while (left < right && nums[left] == nums[left-1]) left++;
+                while (left < right && nums[right] == nums[right+1]) {
+                    right--;
+                }
             }
         }
     }
