@@ -1,22 +1,22 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
         int[] freq = new int[26];
-        for (char task : tasks) {
-            freq[task - 'A']++;
+        for (char c: tasks) {
+            freq[c-'A']++;
         }
+        Arrays.sort(freq);
 
-        Arrays.sort(freq); // sort in ascending order
-
-        int maxFreq = freq[25];
-        int idleSlots = (maxFreq - 1) * n;
-
-        // fill idle slots with the rest of the tasks
-        for (int i = 24; i >= 0 && idleSlots > 0; i--) {
-            idleSlots -= Math.min(freq[i], maxFreq - 1);
+        int time = 0;
+        while (freq[25] > 0) {//每一轮都会重新sort, 如果最大的freq都是0，说明tasks已经全部做完了
+            int i = 0;
+            while (i < n+1 && freq[25] > 0) {
+                int idx = 25-i;
+                if (idx >= 0 && freq[idx] > 0) freq[idx]--;
+                time++;
+                i++;
+            }   
+            Arrays.sort(freq);
         }
-
-        idleSlots = Math.max(0, idleSlots);
-
-        return tasks.length + idleSlots;
+        return time;
     }
 }
