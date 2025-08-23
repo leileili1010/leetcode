@@ -1,35 +1,44 @@
 class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
+        // 0. edge cases 
         int n = grid.length;
         if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
         if (n == 1) return 1;
 
-        int[][] directions = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
+        // 1. define data structure
+        Deque<int[]> que = new ArrayDeque<>();
         boolean[][] visited = new boolean[n][n];
-        Queue<int[]> queue = new ArrayDeque<>();
-        queue.offer(new int[]{0, 0});
+        int[][] steps = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+        int count = 1;
+
+        // 2. init
+        que.add(new int[] {0, 0});
         visited[0][0] = true;
-        int steps = 1;
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                int[] cur = queue.poll();
-                int r = cur[0], c = cur[1];
+        while (!que.isEmpty()) {
+            int m = que.size();
 
-                // 到终点
-                if (r == n-1 && c == n-1) return steps;
+            for (int i = 0; i < m; i++) {
+                int[] cur = que.poll();
+                int x = cur[0];
+                int y = cur[1];
 
-                for (int[] d : directions) {
-                    int nr = r + d[0], nc = c + d[1];
-                    if (nr >= 0 && nr < n && nc >= 0 && nc < n 
-                        && grid[nr][nc] == 0 && !visited[nr][nc]) {
-                        visited[nr][nc] = true;
-                        queue.offer(new int[]{nr, nc});
+                if (x == n-1 && y == n-1) return count; 
+
+                for (int[] step: steps) {
+                    int newX = x + step[0];
+                    int newY = y + step[1];
+
+                    if (newX >= 0 && newX < n && newY >=0 && newY < n 
+                        && !visited[newX][newY] 
+                        && grid[newX][newY] == 0) {
+                        
+                        que.add(new int[]{newX, newY});
+                        visited[newX][newY] = true;
                     }
                 }
             }
-            steps++;
+            count+=1;
         }
         return -1;
     }
