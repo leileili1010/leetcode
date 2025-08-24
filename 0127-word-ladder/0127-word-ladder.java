@@ -1,54 +1,48 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // Convert to HashSet for O(1) lookup
-        HashSet<String> wordSet = new HashSet<>(wordList);
-        
-        // If endWord is not in wordList, no transformation possible
-        if (!wordSet.contains(endWord)) return 0;
-        
-        Deque<String> que = new ArrayDeque<>();
-        HashSet<String> visited = new HashSet<>();
-        int res = 1;
+        Set<String> wordsList = new HashSet<>(wordList); // O(N)
+        if (!wordsList.contains(endWord)) return 0;
 
+        Set<String> visited = new HashSet<>();
+        Deque<String> que = new ArrayDeque<>();
         que.offer(beginWord);
         visited.add(beginWord);
+        int count = 1;
 
-        while (!que.isEmpty()) {
+        // O(N * L^2)
+        while (!que.isEmpty()) { // O(N);
             int size = que.size();
-
+            count++;
             for (int i = 0; i < size; i++) {
                 String cur = que.poll();
-
-                for (String nextWord : getNextWords(cur, wordSet)) {
-                    if (visited.contains(nextWord)) continue;
-                    if (nextWord.equals(endWord)) return res + 1; // Found path
-                    
-                    que.offer(nextWord);
-                    visited.add(nextWord);
+                for (String nextWord: getNextWords(wordsList, cur)) { // O(L^2)
+                    if (nextWord.equals(endWord)) {
+                        return count;
+                    }
+                    if (visited.add(nextWord)) que.offer(nextWord);
                 }
             }
-            res++; // Increment after processing current level
         }
         return 0;
     }
 
-    private List<String> getNextWords(String beginWord, HashSet<String> wordSet) {
-        List<String> nextWords = new ArrayList<>();
-        for (int i = 0; i < beginWord.length(); i++) {
-            for (char c = 'a'; c <= 'z'; c++) { // Fixed: c <= 'z'
-                if (c == beginWord.charAt(i)) continue;
-                String newWord = replace(beginWord, i, c);
-                if (wordSet.contains(newWord)) { // Now O(1) lookup
-                    nextWords.add(newWord);
-                }
+    private List<String> getNextWords(Set<String> wordsList, String word) {
+        List<String> res = new ArrayList<>();
+        char[] letters = word.toCharArray();
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            for (int i = 0; i < letters.length; i++) {
+                if (letters[i] == c) continue;
+                String newWord = replace(word, c, i);
+                if (wordsList.contains(newWord)) res.add(newWord);
             }
         }
-        return nextWords;
+        return res;
     }
 
-    private String replace(String beginWord, int i, char c) {
-        char[] chars = beginWord.toCharArray();
-        chars[i] = c;
-        return new String(chars);
+    private String replace(String word, char c, int idx) {
+        char[] letters = word.toCharArray();
+        letters[idx] = c;
+        return new String(letters);
     }
 }
