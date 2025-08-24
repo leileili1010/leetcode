@@ -1,43 +1,42 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        if (numCourses == 0) return new int[1];
-        
-        // 构建graph & inDegree array
-        List<Integer>[] graph = new ArrayList[numCourses]; // array of lists
-        int[] inDegree = new int[numCourses];
+        // 0. edge case
+        if (numCourses == 0) return new int[0];
+
+        // 1. graph and indegree
+        List<Integer>[] graph = new ArrayList[numCourses];
+        int[] indegree = new int[numCourses];
 
         for (int i = 0; i < numCourses; i++) {
-            graph[i] = new ArrayList<>();
+            graph[i] =  new ArrayList<>();
         }
 
-        for (int[] courses: prerequisites) {
-            graph[courses[1]].add(courses[0]);
-            inDegree[courses[0]]++;
+        for (int[] course: prerequisites) {
+            int start = course[1], end = course[0];
+            graph[start].add(end);
+            indegree[end]++;
         }
 
-        // 找出入度为0的放入que
+        // 2. find indegree = 0
         Deque<Integer> que = new ArrayDeque<>();
-        for (int i = 0; i < numCourses; i++) {
-            if (inDegree[i] == 0) {
-                que.offer(i);
-            }
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) que.offer(i);
         }
 
-        // Que循环
-        int seletedCourses = 0; // 用于判断有没有上完所有课程
-        int[] topoOrder = new int[numCourses];
+        // 3. que interative
+        int selectedCourse = 0;
+        int[] res = new int[numCourses];
+        
         while (!que.isEmpty()) {
             int cur = que.poll();
-            topoOrder[seletedCourses++] = cur; //上过的课就是indegree为0的课
-
+            res[selectedCourse++] = cur;
             for (int course: graph[cur]) {
-                inDegree[course]--;
-                if (inDegree[course] == 0) {// inDeguree变为0的放入que
-                    que.add(course);
-                }
+                indegree[course]--;
+                if (indegree[course] == 0) que.add(course);
             }
         }
 
-        return seletedCourses == numCourses? topoOrder: new int[0];
+        // return
+        return selectedCourse == numCourses? res: new int[0];
     }
 }
