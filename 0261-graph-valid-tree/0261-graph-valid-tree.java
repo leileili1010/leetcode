@@ -1,37 +1,39 @@
-import java.util.*;
 
 class Solution {
     public boolean validTree(int n, int[][] edges) {
-        if (edges.length != n - 1) return false;
+        // valid tree:
+        // 1. All nodes are connected
+        // 2. no cycle
 
-        // Build adjacency list
+        // check for cycle
+        if (edges.length != n-1) return false;
         List<Integer>[] graph = new ArrayList[n];
-        for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
-        for (int[] e : edges) {
-            graph[e[0]].add(e[1]);
-            graph[e[1]].add(e[0]);
+
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        } 
+
+        for (int[] edge: edges) {
+            int start = edge[0], end = edge[1];
+            graph[start].add(end);
+            graph[end].add(start);
         }
 
-        // BFS
+        Deque<Integer> que = new ArrayDeque<>();
         boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(0);
+        que.offer(0);
         visited[0] = true;
 
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            for (int nei : graph[node]) {
-                if (!visited[nei]) {
-                    visited[nei] = true;
-                    queue.offer(nei);
-                }
+        while (!que.isEmpty()) {
+            int cur = que.poll();
+            for (int neighbor: graph[cur]) {
+                if (!visited[neighbor]) {
+                    que.offer(neighbor);
+                    visited[neighbor] = true;
+                };
             }
         }
 
-        // Check if all nodes are visited
-        for (boolean v : visited) {
-            if (!v) return false; // graph not connected
-        }
-        return true;
+        return visited.length == n? true: false;
     }
 }
