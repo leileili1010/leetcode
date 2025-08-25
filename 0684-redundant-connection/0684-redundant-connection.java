@@ -8,11 +8,9 @@ class Solution {
 
         for (int[] edge : edges) {
             int u = edge[0], v = edge[1];
-            // 检查是否已经连通
             if (isConnected(graph, u, v, n)) {
-                return edge; // 这条边造成环
+                return edge; 
             }
-            // 加边
             graph[u].add(v);
             graph[v].add(u);
         }
@@ -21,7 +19,7 @@ class Solution {
 
     private boolean isConnected(List<Integer>[] graph, int start, int target, int n) {
         boolean[] visited = new boolean[n + 1];
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         queue.offer(start);
         visited[start] = true;
 
