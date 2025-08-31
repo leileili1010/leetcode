@@ -1,25 +1,34 @@
+
+
+import static java.util.Collections.min;
+
 class Solution {
-    public int shortestSubarray(int[] A, int K) {
-        int N = A.length, res = N + 1;
+    public int shortestSubarray(int[] nums, int k) {
+        long[] prefixSum = getPrefixSum(nums);
+        int N = prefixSum.length;
+        int minLen = Integer.MAX_VALUE; 
 
-        long[] sum = new long[N + 1]; // 改成 long
+        Deque<Integer> que = new ArrayDeque<>();
         for (int i = 0; i < N; i++) {
-            sum[i + 1] = sum[i] + A[i];
+            while(!que.isEmpty() && prefixSum[que.peekLast()] >= prefixSum[i]) {
+                que.pollLast();
+            }
+            while (!que.isEmpty() && prefixSum[i] - prefixSum[que.peekFirst()] >= k) {
+                minLen = Math.min(minLen, i-que.pollFirst());
+            }
+            que.offerLast(i);
+        }
+        return minLen == Integer.MAX_VALUE? -1: minLen;
+
+    }
+
+    private long[] getPrefixSum(int[] nums) {
+        long[] prefixSum = new long[nums.length+1];
+
+        for (int i = 0; i < nums.length; i++) {
+            prefixSum[i+1] = prefixSum[i] + nums[i];
         }
 
-        Deque<Integer> q = new ArrayDeque<>();
-        for (int i = 0; i < N + 1; i++) {
-            while (!q.isEmpty() && sum[q.peekLast()] >= sum[i]) {
-                q.pollLast();
-            }
-
-            while (!q.isEmpty() && sum[i] - sum[q.peekFirst()] >= K) {
-                res = Math.min(res, i - q.pollFirst());
-            }
-
-            q.offerLast(i);
-        }
-
-        return res <= N ? res : -1;
+        return prefixSum;
     }
 }
