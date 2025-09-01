@@ -29,6 +29,9 @@ private int[] getPrefixSum(int[] nums) {
     - 数组里面有负数： remainder = ((sum % k) + k) % k
     - 没有负数： remainder = sum % k
 - 数组里面只有 0 和 1， 解某些题可以考虑把0当成-1
-- Range sum: 考虑差分数组 和 输出 prefixsum数组， e.g 370
+- Range sum: 考虑差分数组 和 输出 prefixsum数组， e.g 370, 1094
+- sliding window 和 prefixSum + HashMap 区别
+    - HashMap 用于处理equals k的情况
+    - sliding window 处理 <= k情况， 所以我们可以用 atMost(k) - atMost(k-1) 来求出 equals k的count, e.g 930
 
 
