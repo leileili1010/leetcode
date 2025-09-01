@@ -1,15 +1,22 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        HashMap<Integer, Integer> map = new HashMap<>(); // <sum, count>
-        map.put(0, 1);
-        int sum = 0, res = 0;
+        return atMost(nums, goal) - atMost(nums, goal - 1);
+    }
 
-        for (int num: nums) {
-            sum += num;
-            if (map.containsKey(sum-goal)) {
-                res += map.get(sum-goal);
+    private int atMost(int[] nums, int k) {
+        if (k < 0) return 0;  // no subarray can have negative sum
+
+        int left = 0, sum = 0, res = 0;
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+
+            // shrink window until sum <= k
+            while (sum > k) {
+                sum -= nums[left++];
             }
-            map.put(sum, map.getOrDefault(sum, 0)+1);
+
+            // now sum <= k, so all subarrays ending at `right` are valid
+            res += (right - left + 1);
         }
         return res;
     }
