@@ -1,23 +1,19 @@
 class Solution {
-    public int maxFrequency(int[] nums, int k) { 
-        // 1. sort 
-        Arrays.sort(nums); 
+    public int maxFrequency(int[] nums, int k) {
+        // 1 sort
+        Arrays.sort(nums);
 
-        // 2. sliding window 
-        int left = 0, res = 0;
-        long sum = 0; // 注意这里要用 long，防止溢出
-        
-        for (int i = 0; i < nums.length; i++) { 
-            sum += nums[i]; 
-            int len = i - left + 1; 
+        // sliding window
+        long sum = 0; 
+        int res = 0, left = 0;
 
-            // invalid to shrink window
-            while ((long)nums[i] * len - sum > k && left <= i) { 
-                sum -= nums[left++]; 
-                len = i - left + 1; 
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            while ((long)nums[i] * (i-left+1) - sum > k) {
+                sum -= nums[left++];
             }
 
-            res = Math.max(res,  len); 
+            res = Math.max(res, i-left+1);
         }
         return res;
     }
