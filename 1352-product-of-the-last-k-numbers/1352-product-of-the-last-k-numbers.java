@@ -2,14 +2,16 @@ class ProductOfNumbers {
     List<Integer> products;
 
     public ProductOfNumbers() {
-        products = new ArrayList<>(Arrays.asList(1));
+        products = new ArrayList<>();
+        products.add(1);
     }
     
     public void add(int num) {
         if (num != 0) {
             products.add(products.get(products.size()-1) * num);
         } else {
-            products = new ArrayList<>(Arrays.asList(1));
+            products.clear();
+            products.add(1);
         }
     }
     
