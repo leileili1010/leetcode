@@ -1,32 +1,24 @@
 class Solution {
-    private int[] prefixSums;
-    private int totalSum;
+    private int[] prefixSum;
+    private int total;
 
     public Solution(int[] w) {
-        this.prefixSums = new int[w.length];
-
-        int prefixSum = 0;
-        for (int i = 0; i < w.length; ++i) {
-            prefixSum += w[i];
-            this.prefixSums[i] = prefixSum;
+        this.prefixSum = new int[w.length+1];
+        
+        for (int i = 0; i < w.length; i++) {
+            this.prefixSum[i+1] = prefixSum[i] + w[i];
+            this.total += w[i];
         }
-        this.totalSum = prefixSum;
     }
-
+    
     public int pickIndex() {
-        double target = this.totalSum * Math.random();
-
-        // run a binary search to find the target zone
-        int low = 0, high = this.prefixSums.length;
-        while (low < high) {
-            // better to avoid the overflow
-            int mid = low + (high - low) / 2;
-            if (target > this.prefixSums[mid])
-                low = mid + 1;
-            else
-                high = mid;
+        double target = this.total * Math.random();
+        for (int i = 0; i < this.prefixSum.length; i++) {
+            if (this.prefixSum[i] > target ) {
+                return i-1;
+            }
         }
-        return low;
+        return 0;
     }
 }
 
