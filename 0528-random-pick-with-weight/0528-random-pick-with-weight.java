@@ -4,11 +4,12 @@ class Solution {
 
     public Solution(int[] w) {
         this.prefixSum = new int[w.length+1];
-        
+
         for (int i = 0; i < w.length; i++) {
             this.prefixSum[i+1] = prefixSum[i] + w[i];
-            this.total += w[i];
+           
         }
+        total = prefixSum[prefixSum.length-1];
     }
     
     public int pickIndex() {
