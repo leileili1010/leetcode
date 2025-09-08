@@ -1,19 +1,34 @@
 class Solution {
+    class Node {
+        char ch;
+        int count;
+        public Node(char ch, int count) {
+            this.ch = ch;
+            this.count = count;
+        }
+    }
+    
     public String removeDuplicates(String s, int k) {
-        StringBuilder sb = new StringBuilder(s);
-        int[] count = new int[s.length()];
+        Deque<Node> stack = new ArrayDeque<>();
 
-        for (int i = 0; i < sb.length(); i++) {
-            if (i == 0 || sb.charAt(i) != sb.charAt(i-1)) {
-                count[i] = 1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!stack.isEmpty() && stack.peek().ch == c) {
+                Node last = stack.peek();
+                last.count += 1;
+                if (last.count == k) stack.pop();
             } else {
-                count[i] = count[i-1] + 1;
-                if (count[i] == k) {
-                    sb.delete(i-k+1, i+1);
-                    i = i-k;
-                }
+                stack.push(new Node(c, 1));
             }
         }
-        return sb.toString();
+
+        StringBuilder sb = new StringBuilder();
+        for (Node node: stack) {
+            for (int i = 0; i < node.count; i++) {
+                sb.append(node.ch);
+            }
+        }
+
+        return sb.reverse().toString();
     }
 }
