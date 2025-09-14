@@ -1,6 +1,5 @@
 class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
-        List<Integer> res = new ArrayList<>();
         HashSet<Integer> set1 = new HashSet<>();
         HashSet<Integer> set2 = new HashSet<>();
 
