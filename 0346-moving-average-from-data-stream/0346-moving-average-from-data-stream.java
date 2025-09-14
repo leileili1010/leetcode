@@ -1,23 +1,26 @@
 class MovingAverage {
-    List<Integer> prefixSum;
-    int sum;
-    int k;
+    private Queue<Integer> window;
+    private int maxSize;
+    private double sum;
 
     public MovingAverage(int size) {
-        k = size;
-        sum = 0;
-        prefixSum = new ArrayList<>();
-        
+        this.window = new LinkedList<>();
+        this.maxSize = size;
+        this.sum = 0;
     }
     
     public double next(int val) {
+        window.offer(val);
         sum += val;
-        prefixSum.add(sum);
-        int size = prefixSum.size();
-        if (size <= k) return (double)prefixSum.get(size-1) / size;
-        return (double)(prefixSum.get(size-1) - prefixSum.get(size-1-k)) / k;
+
+        if (window.size() > maxSize) {
+            sum -= window.poll();
+        }
+
+        return sum / window.size();
     }
 }
+
 
 /**
  * Your MovingAverage object will be instantiated and called as such:
