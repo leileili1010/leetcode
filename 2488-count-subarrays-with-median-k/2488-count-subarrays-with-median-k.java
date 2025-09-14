@@ -1,33 +1,39 @@
 class Solution {
     public int countSubarrays(int[] nums, int k) {
-           int n = nums.length;
-    int pos = -1;
-    for (int i = 0; i < n; i++) {
-        if (nums[i] == k) pos = i;
-    }
+        int idx = -1; // idx = 3
 
-    Map<Integer,Integer> count = new HashMap<>();
-    int sum = 0;
-    count.put(0, 1); // 空前缀
+        // 1. 找到index of k
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == k) {
+                idx = i;
+                break;
+            }
+        }
 
-    // 统计左边前缀和
-    for (int i = pos - 1; i >= 0; i--) {
-        sum += (nums[i] > k ? 1 : -1);
-        count.put(sum, count.getOrDefault(sum, 0) + 1);
-    }
+        // 2. left prefixSum from idx-1 to 0 position
+        HashMap<Integer, Integer> map = new HashMap<>(); 
+        int sum = 0;
+        map.put(sum, 1);
+        for (int i = idx-1; i >= 0; i--) {
+            sum += nums[i] > k? 1: -1;
+            map.put(sum, map.getOrDefault(sum, 0)+1);
+        }
 
-    int ans = 0;
-    sum = 0;
+        // 3. match with right prefixsum, together should be 0 or 1
+        sum = 0;
+        int res = 0;
+        for (int i = idx; i < nums.length; i++) {
+            sum += nums[i] == k? 0: nums[i] > k? 1: -1;
+            res += map.getOrDefault(1-sum, 0);
+            res += map.getOrDefault(0-sum, 0);
+        } 
 
-    // 扫描右边并匹配
-    for (int i = pos; i < n; i++) {
-        if (nums[i] > k) sum += 1;
-        else if (nums[i] < k) sum -= 1;
-
-        ans += count.getOrDefault(-sum, 0);
-        ans += count.getOrDefault(1 - sum, 0);
-    }
-
-    return ans;
+        return res;
     }
 }
+
+// map
+// 0, 1,
+// -1, 1
+// -2, 1
+// -3, 1
