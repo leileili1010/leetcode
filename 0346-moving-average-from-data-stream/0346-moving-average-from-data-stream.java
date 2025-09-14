@@ -10,11 +10,11 @@ class MovingAverage {
     }
 
     public double next(int val) {
-        window.offer(val);
+        window.addLast(val);
         sum += val;
 
         if (window.size() > k) {
-            sum -= window.poll(); // 移除最早的数
+            sum -= window.pollFirst(); // 移除最早的数
         }
 
         return sum / window.size();
