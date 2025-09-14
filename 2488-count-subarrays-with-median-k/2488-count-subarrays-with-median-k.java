@@ -13,8 +13,8 @@ class Solution {
         // 2. left prefixSum from idx-1 to 0 position
         HashMap<Integer, Integer> map = new HashMap<>(); 
         int sum = 0;
-        map.put(sum, 1); // 空前缀
-        for (int i = idx-1; i >= 0; i--) {
+        map.put(sum, 1);
+        for (int i = 0; i < idx; i++) {
             sum += nums[i] > k? 1: -1;
             map.put(sum, map.getOrDefault(sum, 0)+1);
         }
