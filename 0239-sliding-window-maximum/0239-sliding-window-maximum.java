@@ -1,9 +1,9 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> b[0]-a[0]);
         int[] res = new int[n-k+1];
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[0]-a[0]));
-        
+
         for (int i = 0; i < k; i++) {
             maxHeap.offer(new int[]{nums[i], i});
         }
@@ -11,15 +11,12 @@ class Solution {
 
         for (int i = k; i < n; i++) {
             maxHeap.offer(new int[]{nums[i], i});
-            
-            // only poll when max's idx is <= i-k, otherwise we dont care. this is the key
-            while (!maxHeap.isEmpty() && maxHeap.peek()[1] <= i-k) {
+
+           while (!maxHeap.isEmpty() && maxHeap.peek()[1] <= i-k) {
                 maxHeap.poll();
             }
             res[i-k+1] = maxHeap.peek()[0];
-        }
-
-        return res;
-
+         }
+         return res;
     }
 }
