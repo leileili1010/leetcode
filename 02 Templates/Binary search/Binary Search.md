@@ -66,27 +66,6 @@ public static int binarySearch1(int[] nums, int target) {
 - 用于解决数组中有重复数字然后需要返回第一个或者最后出现的target
 
 ```java
-class Solution {
-    public int search(int[] nums, int target) {
-        int left = 0, right = nums.length-1;
-
-        while (left + 1 < right) {
-            int mid = left + (right - left)/2;
-            if (nums[mid] < target) {
-                left = mid;
-            } else {
-                right = mid;
-            } 
-        }
-
-        // 如果求的是第一个出现的target， 把这行和下面那行对调
-        if (nums[right] == target) return right;
-        if (nums[left] == target) return left;
-        return -1;
-    }
-}
-
-// 另一种写法
 public static int binarySearch(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
             return -1;
@@ -116,3 +95,5 @@ public static int binarySearch(int[] nums, int target) {
         return -1;
     }
 ```
+
+![alt text](image-1.png)
