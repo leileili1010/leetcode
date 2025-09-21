@@ -6,10 +6,10 @@ class Solution {
         while (start + 1 < end) {
             int mid = start + (end-start)/2;
 
-            if (letters[mid] > target) {
-                end = mid;
-            } else {
+            if (letters[mid] <= target) {
                 start = mid;
+            } else {
+                end = mid;
             }
         }
 
