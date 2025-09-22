@@ -12,11 +12,13 @@ class Solution {
         }
 
         int res = 0;
-        for (int age = 15; age <= 120; age++) {
+        for (int age = 1; age <= 120; age++) {
             if (count[age] == 0) continue;
 
             int minAge = (int)(0.5 * age + 7);
             int maxAge = age;
+
+            if (minAge >= maxAge) continue;
 
             // 区间 [minAge+1, maxAge] 的人数
             int totalInRange = prefix[maxAge+1] - prefix[minAge+1];
