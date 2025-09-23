@@ -97,3 +97,9 @@ public static int binarySearch(int[] nums, int target) {
 ```
 
 ![alt text](image-1.png)
+
+- 在二分里有两个经典模式：
+    - 找第一个 >= target 的元素 → 用 left 作为答案, 向左收縮
+    - 找最后一个 <= target 的元素 → 用 right 作为答案， 向右收縮
+
+    ![alt text](image-4.png)
