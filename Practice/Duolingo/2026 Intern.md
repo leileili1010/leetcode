@@ -65,7 +65,83 @@ public static String replaceNthConsonant(String message, int n) {
 ```
 ### #3 Construct New Array
 ![alt text](image-2.png)
-```java
 
+```java
+    // 写法一
+   public static int[] constructArray(int[] numbers) {
+        int n = numbers.length;
+        int[] result = new int[n];
+
+        int left = 0, right = n - 1;
+        int idx = 0;
+
+        while (left <= right) {
+            if (idx % 2 == 0) {
+                // 偶数位放左边
+                result[idx++] = numbers[left++];
+            } else {
+                // 奇数位放右边
+                result[idx++] = numbers[right--];
+            }
+        }
+        return result;
+    }
+
+    // 写法二
+      public static int duolingoLongestTransaction(int[] transactions, int k) {
+        // write your code here
+        HashMap<Integer, Integer> map = new HashMap<>(); // <remainder, index>
+        map.put(0, 0);
+        int sum = 0, res = 0;
+
+        for (int i = 0; i < transactions.length; i++) {
+            sum += transactions[i];
+            int remainder = sum % k;
+            if (map.containsKey(remainder)) {
+                res = Math.max(res, i-map.get(remainder)+1);
+            } else {
+                map.put(remainder, i+1);
+            }
+        }
+        return res;
+    }
 
 ```
+
+### #4 Find peaks in an array
+![alt text](cece3495fb0d7f6da45d5825f21a180a.png)
+
+```java
+public static int[] findPeaks(int[] nums) {
+    int n = nums.length;
+    List<Integer> list = new ArrayList<>();
+    
+    for (int i = 0; i < n; i++) {
+        if (i == 0 || i == n - 1) {
+            list.add(nums[i]);
+        } else if (nums[i] > nums[i - 1] && nums[i] > nums[i + 1]) {
+            list.add(nums[i]);
+        }
+    }
+    return list.stream().mapToInt(Integer::intValue).toArray();
+}
+
+// 写法二
+   public static int[] findPeaks(int[] nums) {
+        int n = nums.length;
+        if ( n < 3) return nums;
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || i == n-1) {
+                list.add(nums[i]);
+                continue;
+            }
+            if (nums[i] > nums[i-1] && nums[i] > nums[i+1]) list.add(nums[i]);
+        }
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
+```
+
+### #5 Find peaks in an array
