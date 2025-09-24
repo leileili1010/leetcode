@@ -5,7 +5,7 @@ class Solution {
             right = Math.max(right, num);
         }
 
-        while (left <= right) {
+        while (left < right) {
             int mid = left + (right-left)/2;
             long hours = 0;
 
@@ -14,7 +14,7 @@ class Solution {
             }
 
             if (hours <= h) {
-                right = mid - 1;
+                right = mid;
             } else {
                 left = mid + 1;
             }
