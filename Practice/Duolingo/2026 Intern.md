@@ -144,4 +144,34 @@ public static int[] findPeaks(int[] nums) {
     }
 ```
 
-### #5 Find peaks in an array
+### #5 分子反应器 
+- 题意：样本依次到达，反应器一次只能处理一个，没空时进冷却室队列（最大容量 10），否则拒绝。问所有被接受样本的总处理完成时间。 
+
+- 思路：维护反应器结束时间和队列。到达时若队列满则拒绝；若反应器空闲直接处理，否则入队；处理完再取队列。累计完成时间。 这道题用java解答
+
+```java
+
+```
+
+### #6 最长子数组和
+题意：给数组 dataSizes 和整数 threshold，求最长连续子数组，使得子数组和与它前面前缀和的差 ≤ threshold。若不存在返回 0
+
+```java
+public static int LongestSubarraySum(int[] nums, int k) {
+    // <= k 的最长连续subarray长度
+    int left = 0, sum = 0, res = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];   // 扩展窗口右边
+
+        // 收缩左边直到窗口和 <= k
+        while (sum > k && left <= i) {
+            sum -= nums[left++];
+        }
+
+        // 现在窗口 [left..i] 的和 <= k
+        res = Math.max(res, i - left + 1);
+    }
+    return res;
+}
+```
