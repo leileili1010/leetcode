@@ -26,7 +26,7 @@ public static String replaceNthConsonant(String message, int n) {
             }
         }
         return sb.toString();
-    }
+}
 
     private static char getNextConsonant(char c, Set<Character> vowels) {
         boolean isUpper = Character.isUpperCase(c);
@@ -88,23 +88,23 @@ public static String replaceNthConsonant(String message, int n) {
     }
 
     // 写法二
-      public static int duolingoLongestTransaction(int[] transactions, int k) {
-        // write your code here
-        HashMap<Integer, Integer> map = new HashMap<>(); // <remainder, index>
-        map.put(0, 0);
-        int sum = 0, res = 0;
+public static int[] constructArray(int[] nums) {
+    int N = nums.length;
+    if (N < 3) return nums;
 
-        for (int i = 0; i < transactions.length; i++) {
-            sum += transactions[i];
-            int remainder = sum % k;
-            if (map.containsKey(remainder)) {
-                res = Math.max(res, i-map.get(remainder)+1);
-            } else {
-                map.put(remainder, i+1);
-            }
+    int[] res = new int[N];
+    int left = 0, right = N-1, idx = 0;
+
+    while (left <= right && idx < N) {
+        res[idx++] = nums[left];
+        if (left != right) {
+            res[idx++] = nums[right];
         }
-        return res;
+        left++;
+        right--;
     }
+    return res;
+}
 
 ```
 
@@ -152,6 +152,38 @@ public static int[] findPeaks(int[] nums) {
 ![alt text](image-4.png)
 
 ```java
+
+// 写法一：
+public static int totalProcessTime(int[] arrivalTimes) {
+       int unitTime = 300;
+       int timeForNext = 0;
+       int maxSize = 10;
+       Deque<Integer> que = new ArrayDeque<>();
+
+       for (int time: arrivalTimes) {
+           while (!que.isEmpty() && timeForNext <= time) {
+               int cur = que.poll();
+               timeForNext = Math.max(timeForNext, cur) + unitTime;
+           }
+
+           if (timeForNext <= time) {
+               timeForNext = time + unitTime;
+           } else {
+               if (que.size() < maxSize) {
+                   que.offer(time);
+               }
+           }
+       }
+
+       while (!que.isEmpty()) {
+           int cur = que.poll();
+           timeForNext = Math.max(timeForNext, cur) + unitTime;
+       }
+
+       return timeForNext;
+    }
+
+// 写法二：
 public static int totalProcessTime(int[] arrivalTimes) {
         final int PROCESS_TIME = 300; // 5 minutes = 300 seconds
         final int MAX_QUEUE = 10;    // cooling chamber capacity
