@@ -149,8 +149,49 @@ public static int[] findPeaks(int[] nums) {
 
 - 思路：维护反应器结束时间和队列。到达时若队列满则拒绝；若反应器空闲直接处理，否则入队；处理完再取队列。累计完成时间。 这道题用java解答
 
-```java
+![alt text](image-4.png)
 
+```java
+public static int totalProcessTime(int[] arrivalTimes) {
+        final int PROCESS_TIME = 300; // 5 minutes = 300 seconds
+        final int MAX_QUEUE = 10;    // cooling chamber capacity
+
+        Deque<Integer> queue = new ArrayDeque<>(); // 存储等待样本的到达时间
+        int timeForNext = 0; // 反应器下次可用时间
+        int res = 0;      // 最后一个样本完成时间
+
+        for (int t : arrivalTimes) {
+            // 如果反应器空闲在样本到达前，就不断从队列里取样本处理
+            while (!queue.isEmpty() && timeForNext <= t) {
+                int sampleArrive = queue.poll();
+                timeForNext = Math.max(timeForNext, sampleArrive) + PROCESS_TIME;
+                res = timeForNext;
+            }
+
+            // 现在处理新样本
+            if (timeForNext <= t) {
+                // 反应器空闲，直接处理
+                timeForNext = t + PROCESS_TIME;
+                res = timeForNext;
+            } else {
+                // 反应器忙，新样本进冷却队列
+                if (queue.size() < MAX_QUEUE) {
+                    queue.offer(t);
+                } else {
+                    // 队列满，样本被拒绝
+                }
+            }
+        }
+
+        // 处理队列里剩下的样本
+        while (!queue.isEmpty()) {
+            int sampleArrive = queue.poll();
+            timeForNext = Math.max(timeForNext, sampleArrive) + PROCESS_TIME;
+            res = timeForNext;
+        }
+
+        return res;
+    }
 ```
 
 ### #6 最长子数组和
@@ -174,4 +215,30 @@ public static int LongestSubarraySum(int[] nums, int k) {
     }
     return res;
 }
+```
+
+### #7 move careds
+牌堆含1到n，移前k张到牌底，求最小k使牌堆有序；无解返-1。 - 思路：构建目标数组[1..n]，试k=0到n-1，模拟旋转后对比目标，首个匹配k即返回，否则返-1. 
+
+![alt text](image-3.png)
+
+```java
+ public static int minShuffleToSort(int[] arr) {
+        int n = arr.length;
+        int idx = -1;
+        
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 1) {
+                idx = i;
+                break;
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            int shouldBe = i+1;
+            int cur = arr[(idx + i) % n];
+            if (cur != shouldBe) return -1;
+        }
+        return idx;
+    }
 ```
