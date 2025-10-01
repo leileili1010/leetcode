@@ -38,8 +38,79 @@ Page with most reads = Page: 9, Reads: 6 (outputs can be in any format)
 
 ![alt text](image-6.png)
 
+![alt text](image-7.png)
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
 ```java
+public static int[] mostReadPage(int[] endings, int[][] choices) {
+    // 1. put endings in set
+    Set<Integer> endingsSet = new HashSet<>();
+    for (int e: endings) endingsSet.add(e);
 
+    // 2. construct map for choices
+    Map<Integer, int[]> choiceMap = new HashMap<>();
+    for (int[] choice: choices) {
+        choiceMap.put(choice[0], new int[]{choice[1], choice[2]});
+    }
 
+    // 3. construct map for count
+    Map<Integer, Integer> counts = new HashMap<>();
+    boolean[] foundStoryline = new boolean[1];
 
+    // 4. dfs
+    dfs(1, new HashSet<>(), endingsSet, choiceMap, counts, foundStoryline);
+
+    // 5. return -1 if no valid storyline
+    if (!foundStoryline[0]) return new int[]{-1};
+
+    // 6. find page with maximum count
+    int maxPage = -1, maxCount = -1;
+    for (int key: counts.keySet()) {
+        if (counts.get(key) > maxCount) {
+            maxPage = key;
+            maxCount = counts.get(key);
+        }
+    }
+    return new int[]{maxPage, maxCount};
+}
+
+private static void dfs(int page,
+                        Set<String> visitedChoice,
+                        Set<Integer> endingsSet,
+                        Map<Integer, int[]> choiceMap,
+                        Map<Integer, Integer> counts,
+                        boolean[] foundStoryline) {
+    // 1. update counts
+    counts.put(page, counts.getOrDefault(page, 0) + 1);
+
+    // 2. reach ending and return
+    if (endingsSet.contains(page)) {
+        foundStoryline[0] = true;
+        return;
+    }
+
+    // 3. dfs
+    if (choiceMap.containsKey(page)) {
+        int[] ch = choiceMap.get(page);
+        String c1 = page + "_0", c2 = page + "_1";
+
+        if (!visitedChoice.contains(c1)) {
+            visitedChoice.add(c1);
+            dfs(ch[0], visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
+            visitedChoice.remove(c1);
+        }
+
+        if (!visitedChoice.contains(c2)) {
+            visitedChoice.add(c2);
+            dfs(ch[1], visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
+            visitedChoice.remove(c2);
+        }
+
+    } else {
+        dfs(page + 1, visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
+    }
+}
 ```
