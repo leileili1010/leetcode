@@ -208,6 +208,80 @@ public static int[] mostReadPage(int[] endings, int[][] choices) {
 ### Approach 2 - BFS
 
 ```java
+public static List<List<String>> validMoves(String[] start, String[] end) {
+        List<String> startList = Arrays.asList(start);
+        List<String> endList = Arrays.asList(end);
 
+        if (startList.equals(endList)) {
+            return List.of(new ArrayList<>(startList));
+        }
+
+        Queue<List<List<String>>> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+
+        // 初始路径
+        queue.add(List.of(new ArrayList<>(startList)));
+        visited.add(String.join("", startList));
+
+        while (!queue.isEmpty()) {
+            List<List<String>> path = queue.poll();
+            List<String> current = path.get(path.size() - 1);
+
+            // 生成下一步所有可能状态
+            for (List<String> next : generateNextStates(current)) {
+                String key = String.join("", next);
+                if (visited.contains(key)) continue;
+
+                visited.add(key);
+
+                List<List<String>> newPath = new ArrayList<>(path);
+                newPath.add(next);
+
+                if (next.equals(endList)) {
+                    return newPath; // 找到最短路径
+                }
+
+                queue.add(newPath);
+            }
+        }
+
+        return null; // 无解
+    }
+
+    private static List<List<String>> generateNextStates(List<String> current) {
+        List<List<String>> nextStates = new ArrayList<>();
+        int n = current.size();
+
+        for (int i = 0; i < n; i++) {
+            if (current.get(i).equals("R")) {
+                // move right
+                if (i + 1 < n && current.get(i + 1).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i + 1);
+                    nextStates.add(next);
+                }
+                // jump right
+                if (i + 2 < n && current.get(i + 1).equals("B") && current.get(i + 2).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i + 2);
+                    nextStates.add(next);
+                }
+            } else if (current.get(i).equals("B")) {
+                // move left
+                if (i - 1 >= 0 && current.get(i - 1).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i - 1);
+                    nextStates.add(next);
+                }
+                // jump left
+                if (i - 2 >= 0 && current.get(i - 1).equals("R") && current.get(i - 2).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i - 2);
+                    nextStates.add(next);
+                }
+            }
+        }
+        return nextStates;
+    }
 
 ```
