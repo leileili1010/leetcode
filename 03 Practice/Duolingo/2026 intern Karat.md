@@ -46,71 +46,168 @@ Page with most reads = Page: 9, Reads: 6 (outputs can be in any format)
 
 ```java
 public static int[] mostReadPage(int[] endings, int[][] choices) {
-    // 1. put endings in set
-    Set<Integer> endingsSet = new HashSet<>();
-    for (int e: endings) endingsSet.add(e);
-
-    // 2. construct map for choices
-    Map<Integer, int[]> choiceMap = new HashMap<>();
-    for (int[] choice: choices) {
-        choiceMap.put(choice[0], new int[]{choice[1], choice[2]});
-    }
-
-    // 3. construct map for count
-    Map<Integer, Integer> counts = new HashMap<>();
-    boolean[] foundStoryline = new boolean[1];
-
-    // 4. dfs
-    dfs(1, new HashSet<>(), endingsSet, choiceMap, counts, foundStoryline);
-
-    // 5. return -1 if no valid storyline
-    if (!foundStoryline[0]) return new int[]{-1};
-
-    // 6. find page with maximum count
-    int maxPage = -1, maxCount = -1;
-    for (int key: counts.keySet()) {
-        if (counts.get(key) > maxCount) {
-            maxPage = key;
-            maxCount = counts.get(key);
-        }
-    }
-    return new int[]{maxPage, maxCount};
-}
-
-private static void dfs(int page,
-                        Set<String> visitedChoice,
-                        Set<Integer> endingsSet,
-                        Map<Integer, int[]> choiceMap,
-                        Map<Integer, Integer> counts,
-                        boolean[] foundStoryline) {
-    // 1. update counts
-    counts.put(page, counts.getOrDefault(page, 0) + 1);
-
-    // 2. reach ending and return
-    if (endingsSet.contains(page)) {
-        foundStoryline[0] = true;
-        return;
-    }
-
-    // 3. dfs
-    if (choiceMap.containsKey(page)) {
-        int[] ch = choiceMap.get(page);
-        String c1 = page + "_0", c2 = page + "_1";
-
-        if (!visitedChoice.contains(c1)) {
-            visitedChoice.add(c1);
-            dfs(ch[0], visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
-            visitedChoice.remove(c1);
+        // 1. put endings in set
+        Set<Integer> endingsSet = new HashSet<>();
+        int maxPage = 0;
+        for (int e : endings) {
+            endingsSet.add(e);
+            maxPage = Math.max(maxPage, e);
         }
 
-        if (!visitedChoice.contains(c2)) {
-            visitedChoice.add(c2);
-            dfs(ch[1], visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
-            visitedChoice.remove(c2);
+        // 2. construct map for choices
+        Map<Integer, int[]> choiceMap = new HashMap<>();
+        for (int[] choice : choices) {
+            choiceMap.put(choice[0], new int[]{choice[1], choice[2]});
+            maxPage = Math.max(maxPage, choice[0]);
+            maxPage = Math.max(maxPage, choice[1]);
+            maxPage = Math.max(maxPage, choice[2]);
         }
 
-    } else {
-        dfs(page + 1, visitedChoice, endingsSet, choiceMap, counts, foundStoryline);
+        // 3. construct map for count
+        Map<Integer, Integer> counts = new HashMap<>();
+        boolean[] foundStoryline = new boolean[1];
+
+        // 4. dfs
+        dfs(1, new HashSet<>(), new ArrayList<>(), endingsSet, choiceMap, counts, foundStoryline, maxPage);
+
+        // 5. return -1 if no valid storyline
+        if (!foundStoryline[0]) return new int[]{-1};
+
+        // 6. find page with maximum count
+        int maxReadPage = -1, maxCount = -1;
+        for (int key : counts.keySet()) {
+            if (counts.get(key) > maxCount) {
+                maxReadPage = key;
+                maxCount = counts.get(key);
+            }
+        }
+        return new int[]{maxReadPage, maxCount};
     }
-}
+
+    private static void dfs(int page,
+                            Set<String> visitedChoice,
+                            List<Integer> currentPath,
+                            Set<Integer> endingsSet,
+                            Map<Integer, int[]> choiceMap,
+                            Map<Integer, Integer> counts,
+                            boolean[] foundStoryline,
+                            int maxPage) {
+
+        // 🚨 边界检查，避免无限递归
+        if (page > maxPage) return;
+
+        currentPath.add(page);
+
+        // 如果到达结局 → 统计一次路径
+        if (endingsSet.contains(page)) {
+            foundStoryline[0] = true;
+            for (int p : currentPath) {
+                counts.put(p, counts.getOrDefault(p, 0) + 1);
+            }
+            currentPath.remove(currentPath.size() - 1);
+            return;
+        }
+
+        // 如果是选择页
+        if (choiceMap.containsKey(page)) {
+            int[] ch = choiceMap.get(page);
+            String c1 = page + "_0", c2 = page + "_1";
+
+            if (!visitedChoice.contains(c1)) {
+                visitedChoice.add(c1);
+                dfs(ch[0], visitedChoice, currentPath, endingsSet, choiceMap, counts, foundStoryline, maxPage);
+                visitedChoice.remove(c1);
+            }
+
+            if (!visitedChoice.contains(c2)) {
+                visitedChoice.add(c2);
+                dfs(ch[1], visitedChoice, currentPath, endingsSet, choiceMap, counts, foundStoryline, maxPage);
+                visitedChoice.remove(c2);
+            }
+        } else {
+            // 普通页 → 顺序翻页
+            dfs(page + 1, visitedChoice, currentPath, endingsSet, choiceMap, counts, foundStoryline, maxPage);
+        }
+
+        // 回溯，恢复 currentPath
+        currentPath.remove(currentPath.size() - 1);
+    }
+
+```
+
+
+## #2
+![alt text](image-10.png)
+![alt text](image-11.png)
+
+### Approach 1 - DFS
+```java
+ public static List<List<String>> validMoves(String[] start, String[] end) {
+        List<String> startList = Arrays.asList(start);
+        List<String> endList = Arrays.asList(end);
+        Set<String> visited = new HashSet<>();
+        List<List<String>> path = new ArrayList<>();
+        path.add(new ArrayList<>(startList));
+
+        if (dfs(startList, endList, visited, path)) {
+            return path;
+        }
+        return null; // 无解
+    }
+
+    private static boolean dfs(List<String> current, List<String> target,
+                               Set<String> visited, List<List<String>> path) {
+        if (current.equals(target)) return true;
+
+        String key = String.join("", current);
+        if (visited.contains(key)) return false;
+        visited.add(key);
+
+        int n = current.size();
+        for (int i = 0; i < n; i++) {
+            if (current.get(i).equals("R")) {
+                // move right
+                if (i + 1 < n && current.get(i + 1).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i + 1);
+                    path.add(next);
+                    if (dfs(next, target, visited, path)) return true;
+                    path.remove(path.size() - 1);
+                }
+                // jump right
+                if (i + 2 < n && current.get(i + 1).equals("B") && current.get(i + 2).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i + 2);
+                    path.add(next);
+                    if (dfs(next, target, visited, path)) return true;
+                    path.remove(path.size() - 1);
+                }
+            } else if (current.get(i).equals("B")) {
+                // move left
+                if (i - 1 >= 0 && current.get(i - 1).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i - 1);
+                    path.add(next);
+                    if (dfs(next, target, visited, path)) return true;
+                    path.remove(path.size() - 1);
+                }
+                // jump left
+                if (i - 2 >= 0 && current.get(i - 1).equals("R") && current.get(i - 2).equals("_")) {
+                    List<String> next = new ArrayList<>(current);
+                    Collections.swap(next, i, i - 2);
+                    path.add(next);
+                    if (dfs(next, target, visited, path)) return true;
+                    path.remove(path.size() - 1);
+                }
+            }
+        }
+        return false;
+    }
+```
+
+### Approach 2 - BFS
+
+```java
+
+
 ```
