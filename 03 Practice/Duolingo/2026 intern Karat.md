@@ -1,5 +1,50 @@
 # 2026 Intern Karat
 
+## Part 1 - 15 min
+
+### #1
+评价算法是否可行：需求是从一个file里随机选一行, 要求每行选到的概率相同. 做法 -- 随机挑选一个byte offset, 并在该offset前后找第一个 `\n`
+
+![alt text](image-15.png)
+
+### #2 
+求算法复杂度：求一个int里有多少个7
+![alt text](image-16.png)
+
+### #3
+- 对比两个算法, 求时间复杂度, 并给出什么情况下使用哪种算法(没说考虑空间复杂度)
+- 需求: 给定两个排好序的数组, 问第一个的数组的元素是否全部包含在第二个里
+    - 算法1: 把一个数组做成set, 遍历另一个数组, 在set里找.
+    - 算法2: 遍历数组1, 在数组2进行binary search.
+![alt text](image-17.png)
+
+### #4
+-  评价算法是否可行：需求是reverse array in-place，方法 - loop through array，将每个element和它的mirror element做swap，例如第一个和最后一个，第二个和倒数第二个
+
+![alt text](image-18.png)
+
+### #5
+- 一共有P个人，还有一个作为target的人，给你一个function x可以返回任意两个人互相喜欢的概率，且它为O(1) 需求是得到和target互相喜欢概率最大的N个人，且按照概率从大到小排序。需给出数据结构，算法，时间空间复杂度
+
+![alt text](image-19.png)
+
+![alt text](image-20.png)
+
+### #6
+- 求以下方法的复杂度：具体code这里不写了，就是一个简单的binary tree preorder traversal
+
+![alt text](image-21.png)
+![alt text](image-22.png)
+
+### #7
+- 找到无序列表的第K个largest number，给算法问对不对。算法是用minheap把所有数装进来，pop K-1个数，说现在heap top就是要的数。
+![alt text](image-23.png)
+
+### #8
+- 给数组排序，问伪代码对不对。伪代码是把数组对半分（merge sort的前半段），但用bubblesort合并。followup问time space complexity。
+
+### Part 2 - 40 min
+
 ## #1 
 
 - You are reading a Build Your Own Story book. It is like a normal book except that choices on some pages affect the story, sending you to one of two options for your next page.
@@ -283,5 +328,16 @@ public static List<List<String>> validMoves(String[] start, String[] end) {
         }
         return nextStates;
     }
+```
+
+
+## #3
+![alt text](image-12.png)
+![alt text](image-13.png)
+![alt text](image-14.png)
+
+
+```java
+
 
 ```
