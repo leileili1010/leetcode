@@ -41,7 +41,8 @@
 ![alt text](image-23.png)
 
 ### #8
-- 给数组排序，问伪代码对不对。伪代码是把数组对半分（merge sort的前半段），但用bubblesort合并。followup问time space complexity。
+- 给数组排序，问伪代码对不对。伪代码是把数组对半分（merge sort的前半段），但用bubblesort合并。followup问time space complexity
+![alt text](image-24.png)
 
 ### Part 2 - 40 min
 
@@ -179,7 +180,6 @@ public static int[] mostReadPage(int[] endings, int[][] choices) {
     }
 
 ```
-
 
 ## #2
 ![alt text](image-10.png)
@@ -338,6 +338,57 @@ public static List<List<String>> validMoves(String[] start, String[] end) {
 
 
 ```java
+static class Edge {
+        String to;
+        int id; // unique id for this trail
+        Edge(String to, int id) {
+            this.to = to;
+            this.id = id;
+        }
+    }
 
+    public static boolean sightseeing(List<String[]> trails, List<String> attractions) {
+        // Build graph
+        Map<String, List<Edge>> graph = new HashMap<>();
+        for (int i = 0; i < trails.size(); i++) {
+            String a = trails.get(i)[0], b = trails.get(i)[1];
+            graph.computeIfAbsent(a, k -> new ArrayList<>()).add(new Edge(b, i));
+            graph.computeIfAbsent(b, k -> new ArrayList<>()).add(new Edge(a, i));
+        }
+
+        Set<String> required = new HashSet<>(attractions);
+        boolean[] used = new boolean[trails.size()];
+
+        return dfs("Parking Lot", graph, used, required, new HashSet<>(), "Campsite");
+    }
+
+    private static boolean dfs(String node,
+                               Map<String, List<Edge>> graph,
+                               boolean[] used,
+                               Set<String> required,
+                               Set<String> seen,
+                               String target) {
+        // Mark this attraction if needed
+        if (required.contains(node)) {
+            seen.add(node);
+        }
+
+        // If we reached Campsite and saw all attractions
+        if (node.equals(target) && seen.containsAll(required)) {
+            return true;
+        }
+
+        // Explore neighbors
+        if (!graph.containsKey(node)) return false;
+        for (Edge e : graph.get(node)) {
+            if (used[e.id]) continue;
+            used[e.id] = true;
+            if (dfs(e.to, graph, used, required, new HashSet<>(seen), target)) {
+                return true;
+            }
+            used[e.id] = false;
+        }
+        return false;
+    }
 
 ```
