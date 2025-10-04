@@ -10,6 +10,7 @@
 ### #2 
 求算法复杂度：求一个int里有多少个7
 ![alt text](image-16.png)
+![alt text](image-25.png)
 
 ### #3
 - 对比两个算法, 求时间复杂度, 并给出什么情况下使用哪种算法(没说考虑空间复杂度)
@@ -390,5 +391,49 @@ static class Edge {
         }
         return false;
     }
+
+
+    private static boolean dfs(String node,
+                           Map<String, List<Edge>> graph,
+                           boolean[] used,
+                           Set<String> required,
+                           Set<String> seen,
+                           String target) {
+    // 记录是否是本层新加的景点
+    boolean added = false;
+    if (required.contains(node) && !seen.contains(node)) {
+        seen.add(node);
+        added = true; // 标记是这层新增的
+    }
+
+    // 如果到达终点且景点都看过了
+    if (node.equals(target) && seen.containsAll(required)) {
+        return true;
+    }
+
+    // 遍历邻居
+    if (!graph.containsKey(node)) {
+        // 回溯 seen
+        if (added) seen.remove(node);
+        return false;
+    }
+
+    for (Edge e : graph.get(node)) {
+        if (used[e.id]) continue;
+
+        used[e.id] = true;
+        if (dfs(e.to, graph, used, required, seen, target)) {
+            return true;
+        }
+        used[e.id] = false; // 回溯 used
+    }
+
+    // 回溯 seen
+    if (added) {
+        seen.remove(node);
+    }
+
+    return false;
+}
 
 ```
