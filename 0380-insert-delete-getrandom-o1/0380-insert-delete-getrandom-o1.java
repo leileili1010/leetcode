@@ -16,22 +16,23 @@ class RandomizedSet {
         return true;
     }
     
-    public boolean remove(int val) {
+  public boolean remove(int val) {
         if (!map.containsKey(val)) return false;
 
         int idx = map.get(val);
-        int lastVal = list.get(list.size() - 1);
+        int lastIdx = list.size() - 1;
+        int lastVal = list.get(lastIdx);
 
-        // 1️⃣ swap 最后一个元素到 idx 位置
-        list.set(idx, lastVal);
+        // ✅ 1️⃣ swap 目标元素与最后一个元素
+        Collections.swap(list, idx, lastIdx);
 
-        // 2️⃣ 更新最后一个元素的索引
+        // ✅ 2️⃣ 更新最后一个元素在 map 中的新索引
         map.put(lastVal, idx);
 
-        // 3️⃣ 删除最后一个元素
-        list.remove(list.size() - 1);
+        // ✅ 3️⃣ 删除最后一个元素
+        list.remove(lastIdx);
 
-        // 4️⃣ 移除 val 的映射
+        // ✅ 4️⃣ 删除 val 的映射
         map.remove(val);
 
         return true;
