@@ -10,25 +10,32 @@ class Node {
 
 class Solution {
     public Node flatten(Node head) {
-        if (head == null) return head;
-
+        if (head == null) return null;
+        
         Node dummy = new Node(-1, null, head, null);
-        dfs(dummy, head);
+        Deque<Node> stack = new ArrayDeque<>();
+        stack.push(head);
+        Node curr, prev = dummy;
 
+        while (!stack.isEmpty()) {
+            curr = stack.pop();
+            curr.prev = prev;
+            prev.next = curr;
+
+            Node tempNext = curr.next;
+
+            if (tempNext != null) stack.push(tempNext);
+            if (curr.child != null) {
+                stack.push(curr.child);
+                curr.child = null;
+            }
+            prev = curr;
+            
+        }
+        
         dummy.next.prev = null;
         return dummy.next;
     }
 
-    private Node dfs(Node prev, Node curr) {
-        if (curr == null) return prev;
-        curr.prev = prev;
-        prev.next = curr;
-
-        Node tempNext = curr.next;
-        
-        Node tail = dfs(curr, curr.child);
-        curr.child = null;
-        
-        return dfs(tail, tempNext);
-    }
+   
 }
