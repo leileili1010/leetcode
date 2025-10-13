@@ -1,17 +1,22 @@
 class Solution {
-    public int reverse(int x) {                    
-        boolean isNegative = x < 0;
-        x = Math.abs(x);
+    public int reverse(int x) {
+        int res = 0;
 
-        long res = 0;
         while (x != 0) {
-            int digit = x % 10;
-            x /= 10;
-            res = res * 10 + digit;
+            int pop = x % 10;
+            x = x / 10;
+
+            // overflow conditions
+            if (res > Integer.MAX_VALUE / 10 || (
+                res == Integer.MAX_VALUE && pop > 7
+            )) return 0;
+            if (res < Integer.MIN_VALUE / 10 || (
+                res == Integer.MIN_VALUE && pop < -8
+            )) return 0;
+
+            res = res * 10 + pop;
         }
 
-        if (isNegative) res = -res;
-        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) return 0;
-        return (int) res;
+        return res;
     }
 }
