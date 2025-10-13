@@ -9,34 +9,29 @@ class Node {
 */
 
 class Solution {
-    private Node prev = null;
+  public Node flatten(Node head) {
+    if (head == null) return head;
+    // dummy node to ensure the `prev` pointer is never none
+    Node dummy = new Node(-1, null, head, null);
 
-    public Node flatten(Node head) {
-        if (head == null) return null;
-        dfs(head);
-        return head;
-    }
+    dfs(dummy, head);
 
-    private void dfs(Node node) {
-        if (node == null) return;
+    // detach the pseudo head from the real head
+    dummy.next.prev = null;
+    return  dummy.next;
+  }
+  /* return the tail of the flatten list */
+  public Node dfs(Node prev, Node curr) {
+    if (curr == null) return prev;
+    curr.prev = prev;
+    prev.next = curr;
 
-        Node next = node.next; // 保存原始 next
+    // the curr.next would be tempered in the recursive function
+    Node tempNext = curr.next;
 
-        // 连接前一个节点和当前节点
-        if (prev != null) {
-            prev.next = node;
-            node.prev = prev;
-        }
+    Node tail = dfs(curr, curr.child);
+    curr.child = null;
 
-        prev = node; // 更新前驱节点
-
-        // 递归 flatten child（相当于 preorder 的左子树）
-        if (node.child != null) {
-            dfs(node.child);
-            node.child = null; // 清空 child
-        }
-
-        // 递归 flatten next（相当于 preorder 的右子树）
-        dfs(next);
-    }
+    return dfs(tail, tempNext);
+  }
 }
