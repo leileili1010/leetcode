@@ -4,8 +4,8 @@ class Solution {
 
     public String longestPalindrome(String s) {
         for (int i = 0; i < s.length(); i++) {
-            helper(s, i, 0);
-            helper(s, i, 1);
+            helper(s, i, 0); //假设subarray是基数
+            helper(s, i, 1); // 假设subarray是偶数
         }
 
         return s.substring(start, start + maxLen);
@@ -19,8 +19,8 @@ class Solution {
             
         }
 
-        left++;
-        right--;
+        left++; //走过了要退回一步
+        right--; //走过了要退回一步
         if (right - left + 1 > maxLen) {
             start = left;
             maxLen = right - left + 1;
