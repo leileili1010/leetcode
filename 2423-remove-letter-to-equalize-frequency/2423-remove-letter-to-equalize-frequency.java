@@ -1,0 +1,25 @@
+class Solution {
+    public boolean equalFrequency(String word) {
+        int[] freq = new int[26];
+        for (char c : word.toCharArray()) freq[c - 'a']++;
+
+        // 嘗試刪除每一個字元，看是否能平衡
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] == 0) continue;
+            freq[i]--;  // 刪掉一個字母
+            if (isEqual(freq)) return true;
+            freq[i]++;  // 回溯
+        }
+        return false;
+    }
+
+    private boolean isEqual(int[] freq) {
+        int target = 0;
+        for (int f : freq) {
+            if (f == 0) continue;
+            if (target == 0) target = f;
+            else if (f != target) return false;
+        }
+        return true;
+    }
+}
