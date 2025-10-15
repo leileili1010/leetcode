@@ -3,11 +3,9 @@ class Solution {
         int maxSum = nums[0], curSum = nums[0];
 
         for (int i = 1; i < nums.length; i++) {
-            curSum = Math.max(nums[i], curSum + nums[i]);
-            maxSum = Math.max(maxSum, curSum);
+            curSum = Math.max(nums[i], curSum+nums[i]);
+            maxSum = Math.max(curSum, maxSum);
         }
-
         return maxSum;
-
     }
 }
