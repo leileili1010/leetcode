@@ -1,32 +1,36 @@
 class BrowserHistory {
     private Deque<String> backStack;
-    private Deque<String> forwardStack; 
+    private Deque<String> forwardStack;
+    private String current; 
 
     public BrowserHistory(String homepage) {
         backStack = new ArrayDeque<>();
         forwardStack = new ArrayDeque<>();
-        backStack.push(homepage);
+        current = homepage;
     }
     
     public void visit(String url) {
-        backStack.push(url);
+        backStack.push(current);
         if (!forwardStack.isEmpty()) forwardStack.clear();
+        current = url;
     }
     
     public String back(int steps) {
-        while (backStack.size() > 1 && steps > 0) {
-            forwardStack.push(backStack.pop());
+        while (!backStack.isEmpty() && steps > 0) {
+            forwardStack.push(current);
+            current = backStack.pop();
             steps--;
         }
-        return backStack.peek();
+        return current;
     }
     
     public String forward(int steps) {
         while (!forwardStack.isEmpty() && steps > 0) {
-            backStack.push(forwardStack.pop());
+            backStack.push(current);
+            current = forwardStack.pop();
             steps--;
         }
-        return backStack.peek();
+        return current;
     }
 }
 
