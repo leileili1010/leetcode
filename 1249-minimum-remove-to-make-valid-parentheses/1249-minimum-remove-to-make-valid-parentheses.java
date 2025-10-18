@@ -1,7 +1,7 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        Set<Integer> remove = new HashSet<>();
         Deque<Integer> stack = new ArrayDeque<>();
+        Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -9,26 +9,22 @@ class Solution {
                 stack.push(i);
             } else if (c == ')') {
                 if (stack.isEmpty()) {
-                    // No matching '(' → mark for removal
-                    remove.add(i);
+                    set.add(i);
                 } else {
-                    stack.pop(); // matched
+                    stack.pop();
                 }
             }
         }
 
-        // Remaining '(' are unmatched
         while (!stack.isEmpty()) {
-            remove.add(stack.pop());
+            set.add(stack.pop());
         }
 
-        // Build valid string
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            if (!remove.contains(i)) {
-                sb.append(s.charAt(i));
-            }
+            if (!set.contains(i)) sb.append(s.charAt(i));
         }
+
         return sb.toString();
     }
 }
