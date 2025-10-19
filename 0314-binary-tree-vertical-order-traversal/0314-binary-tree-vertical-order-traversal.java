@@ -14,42 +14,44 @@
  * }
  */
 class Solution {
-  public List<List<Integer>> verticalOrder(TreeNode root) {
-    List<List<Integer>> output = new ArrayList();
-    if (root == null) {
-      return output;
-    }
-
-    Map<Integer, ArrayList> columnTable = new HashMap();
-    // Pair of node and its column offset
-    Queue<Pair<TreeNode, Integer>> queue = new ArrayDeque();
-    int column = 0;
-    queue.offer(new Pair(root, column));
-
-    int minColumn = 0, maxColumn = 0;
-
-    while (!queue.isEmpty()) {
-      Pair<TreeNode, Integer> p = queue.poll();
-      root = p.getKey();
-      column = p.getValue();
-
-      if (root != null) {
-        if (!columnTable.containsKey(column)) {
-          columnTable.put(column, new ArrayList<Integer>());
+    static class Pair {
+        TreeNode node;
+        int col;
+        Pair(TreeNode node, int col) {
+            this.node = node;
+            this.col = col;
         }
-        columnTable.get(column).add(root.val);
-        minColumn = Math.min(minColumn, column);
-        maxColumn = Math.max(maxColumn, column);
-
-        queue.offer(new Pair(root.left, column - 1));
-        queue.offer(new Pair(root.right, column + 1));
-      }
     }
+    
+     public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
 
-    for(int i = minColumn; i < maxColumn + 1; ++i) {
-      output.add(columnTable.get(i));
+        // Map<column, list of nodes>
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<Pair> queue = new LinkedList<>();
+
+        queue.offer(new Pair(root, 0));
+        int minCol = 0, maxCol = 0;
+
+        while (!queue.isEmpty()) {
+            Pair p = queue.poll();
+            TreeNode node = p.node;
+            int col = p.col;
+
+            map.computeIfAbsent(col, x -> new ArrayList<>()).add(node.val);
+
+            minCol = Math.min(minCol, col);
+            maxCol = Math.max(maxCol, col);
+
+            if (node.left != null) queue.offer(new Pair(node.left, col - 1));
+            if (node.right != null) queue.offer(new Pair(node.right, col + 1));
+        }
+
+        for (int i = minCol; i <= maxCol; i++) {
+            result.add(map.get(i));
+        }
+
+        return result;
     }
-
-    return output;
-  }
 }
