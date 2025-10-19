@@ -1,11 +1,11 @@
 class Solution {
     public int maximumEnergy(int[] energy, int k) {
         int n = energy.length;
+        int ans = Integer.MIN_VALUE;
     
         // 1. state: dp[i] means the total energy you’d get if you start at index i.
         int[] dp = new int[n];
-        int ans = Integer.MIN_VALUE;
-
+        
         // fill from end to front
         for (int i = n - 1; i >= 0; i--) {
             
