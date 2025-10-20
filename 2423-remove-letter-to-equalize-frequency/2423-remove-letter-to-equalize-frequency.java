@@ -4,6 +4,7 @@ class Solution {
         for (char c: word.toCharArray()) freq[c-'a']++;
 
         for (int i = 0; i< freq.length; i++) {
+            if (freq[i] == 0) continue;
             freq[i]--;
             if (isEqual(freq)) return true;
             freq[i]++;
