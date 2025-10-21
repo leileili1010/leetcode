@@ -23,22 +23,22 @@ class Solution {
         if (node == null) return null;
 
         Deque<Node> que = new ArrayDeque<>();
-        HashMap<Node, Node> visited = new HashMap<>();
+        HashMap<Node, Node> map = new HashMap<>();
 
-        que.offer(node); // que: 1
-        visited.put(node, new Node(node.val, new ArrayList<>())); // visited: 1
+        que.offer(node);
+        map.put(node, new Node(node.val, new ArrayList<>()));
 
-        while(!que.isEmpty()) { // que: 2, 4
-            Node curr = que.poll(); // curr = 2
+        while (!que.isEmpty()) {
+            Node curr = que.poll();
 
-            for (Node neighbor: curr.neighbors) { // 3: 1,3
-                if (!visited.containsKey(neighbor)) {
-                    visited.put(neighbor, new Node(neighbor.val, new ArrayList<>())); // visited: 1,2, 4, 3
-                    que.offer(neighbor); // que: 4, 3
+            for (Node neighbor: curr.neighbors) {
+                if (!map.containsKey(neighbor)) {
+                    que.offer(neighbor);
+                    map.put(neighbor, new Node(neighbor.val, new ArrayList<>()));
                 }
-                visited.get(curr).neighbors.add(visited.get(neighbor)); // new node 2.neighbors = 1, 3
+                map.get(curr).neighbors.add(map.get(neighbor));
             }
         }
-        return visited.get(node);
+        return map.get(node);
     }
 }
