@@ -1,30 +1,30 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> set = new HashSet<>(wordList);
-        if (!set.contains(endWord)) return 0; // true
+        if (!set.contains(endWord)) return 0;
 
         Set<String> visited = new HashSet<>();
         Deque<String> que = new ArrayDeque<>();
-        que.offer(beginWord); // que: hit
-        visited.add(beginWord); // visited: hit, hot, dot, lot
+        que.offer(beginWord);
+        visited.add(beginWord);
 
-        int count = 0; // count = 0
+        int distance = 0;
         while (!que.isEmpty()) {
-            int n = que.size(); // n = 1
-            count++; // count = 2
+            int n = que.size();
+            distance++;
+            
+            for (int i = 0; i < n; i++) {
+                String curr = que.poll();
 
-            for (int i = 0; i < n; i++) { // i = 0
-                String curr = que.poll(); // curr = dot, log
-
-                for (String next: getNextWords(curr, set)) { // dot: dot, lot, 
-                    if (next.equals(endWord)) return count+1; // 
+                for (String next: getNextWords(curr, set)) {
+                    if (next.equals(endWord)) return distance+1;
                     if (!visited.contains(next)) {
                         que.offer(next);
                         visited.add(next);
                     }
                 }
             }
-        }   
+        }
         return 0;
     }
 
@@ -33,17 +33,13 @@ class Solution {
         
         for (char c = 'a'; c <= 'z'; c++) {
             for (int i = 0; i < word.length(); i++) {
-                if (word.charAt(i) == c) continue;
-                String next = replace(word, i, c);
-                if (set.contains(next)) res.add(next); 
+                if (c == word.charAt(i)) continue;
+                char[] letters =  word.toCharArray();
+                letters[i] = c;
+                String next = new String(letters);
+                if (set.contains(next)) res.add(next);
             }
         }
         return res;
-    }
-
-    private String replace(String word, int idx, char c) {
-        char[] letters = word.toCharArray();
-        letters[idx] = c;
-        return new String(letters);
     }
 }
