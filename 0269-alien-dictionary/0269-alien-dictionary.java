@@ -1,9 +1,10 @@
 class Solution {
     public String alienOrder(String[] words) {
-        // 1 construct graph and indegree
+        // 1. build graph and indegree
         HashMap<Character, Set<Character>> graph = new HashMap<>();
         HashMap<Character, Integer> indegree = new HashMap<>();
-        
+        int n = words.length;
+
         for (String word: words) {
             for (char c: word.toCharArray()) {
                 graph.putIfAbsent(c, new HashSet<>());
@@ -11,14 +12,16 @@ class Solution {
             }
         }
 
-        for (int i = 0; i < words.length-1; i++) {
+        for (int i = 0; i < n-1; i++) {
             String word1 = words[i];
             String word2 = words[i+1];
+
             if (word1.length() > word2.length() && word1.startsWith(word2)) return "";
 
             for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
                 char ch1 = word1.charAt(j);
                 char ch2 = word2.charAt(j);
+
                 if (ch1 != ch2) {
                     if (!graph.get(ch1).contains(ch2)) {
                         graph.get(ch1).add(ch2);
@@ -29,25 +32,25 @@ class Solution {
             }
         }
 
-        // 2 
         Deque<Character> que = new ArrayDeque<>();
         for (char key: indegree.keySet()) {
-            if (indegree.get(key) == 0) que.offer(key);
+            if (indegree.get(key) == 0) {
+                que.offer(key);
+            }
         }
 
-        // 3. bfs
         StringBuilder sb = new StringBuilder();
         while (!que.isEmpty()) {
-            char cur = que.poll();
-            sb.append(cur);
+            char curr = que.poll();
+            sb.append(curr);
 
-            for (char c: graph.get(cur)) {
+            for (char c: graph.get(curr)) {
                 indegree.put(c, indegree.get(c)-1);
                 if (indegree.get(c) == 0) que.offer(c);
             }
         }
 
-        return sb.length() == graph.size()? sb.toString(): "";
-        
+        if (sb.length() != indegree.size()) return "";
+        return sb.toString();
     }
 }
