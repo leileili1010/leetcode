@@ -148,3 +148,23 @@ private static int[] printArray(int[] nums) {
         System.out.println(executionTimes[k-1]);
     }
 ```
+
+### 
+
+```java
+   public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String line1 = sc.nextLine();
+        String line2 = sc.nextLine();
+
+        Set<Character> set1 = new HashSet<>();
+        for (char c : line1.toCharArray()) set1.add(c);
+
+        Set<Character> set2 = new HashSet<>();
+        for (char c : line2.toCharArray()) set2.add(c);
+
+        set1.retainAll(set2); // keep only common characters
+        System.out.println(set1.size());
+    }
+
+```
