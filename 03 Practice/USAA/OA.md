@@ -46,7 +46,6 @@ private static int findMode(int[] nums) {
 ```
 
 ### 3. 找array的 GCD
-
 ```java
  private static int findGCD(int[] nums) {
        int res = nums[0];
@@ -67,30 +66,49 @@ private static int findMode(int[] nums) {
     }
 ```
 
-### 3. 升序排列array后间隔一个元素打印
+### 4. 升序排列array后间隔一个元素打印
+升序数组后每隔一个数存一个数到array中；给定一个数组，首先需要将数组排列，然后将排列后的数组，从头开始遍历，每隔一个element就将下一个element存到一个新的数组里，最后返回新的数组，比如给定 arr = [3,5,12,2,5], return = [2,5,12]
 
+```java
+private static int[] printArray(int[] nums) {
+    Arrays.sort(nums);
+    List<Integer> list = new ArrayList<>();
 
-1:str里找str次数
+    for (int i = 0; i < nums.length; i+= 2) {
+        list.add(nums[i]);
+    }
 
+    int[] res = new int[list.size()];
+    for (int i = 0; i < list.size(); i++) {
+        res[i] = list.get(i);
+    }
 
-2. 查找字符串出现substring的次数；给予两个string，返回第二个string在第一个string中出现的次数
-3. 升序数组后每隔一个数存一个数到array中；给定一个数组，首先需要将数组排列，然后将排列后的数组，从头开始遍历，每隔一个element就将下一个element存到一个新的数组里，最后返回新的数组，比如给定 arr = [3,5,12,2,5], return = [2,5,12]
+    return res;
+}
+```
 
-2. DP，parent string里sub string出现的次数
-3. 
+### 5. parent string里sub string出现的次数
+查找字符串出现substring的次数；给予两个string，返回第二个string在第一个string中出现的次数. I was given two string inputs. If I remember correctly one input was the secret code so like ‘tom’ and you are suppose to find the amount of times it appears in the second input which would look something like this ‘tomfjekxhrkftomfefjsebfqtom’.
 
+```java
+ public static int countOccurrences(String text, String word) {
+        int length = word.length();
+        int i = 0, count = 0;
 
+        while (i+length <= text.length()) {
+            String str = text.substring(i, i+length);
+            if (str.equals(word)) {
+                count++;
+                i = i+length; // i++ if ovelapping allows
+            } else {
+                i++;
+            }
+        }
+        return count;
+}
+```
 
-
-You are given a string, the string is 2 lines, you are supposed to compare the first line with the second. Then count the amount of times a letter comes out in both lines. Again not sure what I did wrong on this one, I tried my answer in vscode and it worked good. Man if someone does these tests and passes them please DM me.
-
-This question in my opinion was the hardest, I ran out of time here because I spent to much time trying to fix my other solutions, but the question was in the lines of an
-
-alternate sort of a list consists of alternate elements (starting from the first position) of the given list after sorting it in an ascending order. you are given a list of unsorted elements write an algorithm to find the alter sort of the given list. -
-
-Instead of trying to figure out the solution, I tried to memorize the question lol I only had 90 seconds so there was no way I was going to finish. But it seems like you are give two lists you need to sort one in ascending order, and then compare how the other list is sorted, the question was weird to read and understand. Figured I would try and memorize it, and maybe help one of you out.
-
-### printFertilityDayOneValue
+### 6. printFertilityDayOneValue
 ![alt text](image.png)
 
 
@@ -113,7 +131,7 @@ Instead of trying to figure out the solution, I tried to memorize the question l
 }
 ```
 
-### findKthExcutionTime
+### 7. findKthExcutionTime
 ![alt text](image-1.png)
 ```java
   public static void findKthTime() {
