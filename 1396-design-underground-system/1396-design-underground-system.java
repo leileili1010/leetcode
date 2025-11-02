@@ -1,15 +1,12 @@
 class Trip {
     String start;
-    String end;
     int startTime;
-    int endTime;
 
     public Trip(String start, int startTime) {
         this.start = start;
         this.startTime = startTime;
     }
 }
-
 
 class UndergroundSystem {
     Map<Integer, Trip> customerTrips;
