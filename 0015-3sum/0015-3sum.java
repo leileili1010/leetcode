@@ -1,30 +1,36 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        // sort nums to avoid duplicates
+        // loop nums, [0, n-2), num, skip duplicates
+        // left & right pointers, to find target = 0-num, here using binanry search
+            // skip duplicates
+
+        int n = nums.length;
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        int N = nums.length;
 
-        for (int i = 0; i < N; i++) {
-            int a = nums[i];
-            if (a > 0 ) return res;
-            if (i > 0 && a == nums[i-1]) continue;
-            int target = 0-a;
-
-            int left = i+1, right = N-1;
+        for (int i = 0; i < n-2; i++) {
+            // corner case;
+            if (nums[i] > 0) return res;
+            
+            // skip duplicates
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            
+            int target = 0 - nums[i];
+            int left = i+1, right = n-1;
+           
             while (left < right) {
-                int b = nums[left];
-                int c = nums[right];
-                if (b + c < target) {
+                if (nums[left] + nums[right] < target) {
                     left++;
-                } else if (b + c > target) {
+                } else if (nums[left] + nums[right] > target) {
                     right--;
                 } else {
-                    res.add(Arrays.asList(a, b, c));
+                    res.add(new ArrayList<>(Arrays.asList(nums[i], nums[left], nums[right])));
                     left++;
                     right--;
-                    while (left < right && nums[left] == nums[left-1]) left++;
+                    while(left < right && nums[left] == nums[left-1]) left++;
                 }
-            }
+            } 
         }
         return res;
     }
