@@ -1,12 +1,8 @@
 class Bank {
     long[] balance;
-    int start;
-    int end;
 
     public Bank(long[] balance) {
         this.balance = balance;
-        start = 1;
-        end = balance.length;
     }
     
     public boolean transfer(int account1, int account2, long money) {
@@ -33,7 +29,7 @@ class Bank {
     }
 
     private boolean isValidAccount(int account) {
-        return account >= start && account <= end;
+        return account >= 1 && account <= balance.length;
     }
 
     private boolean isValidAmount(int account, long money) {
