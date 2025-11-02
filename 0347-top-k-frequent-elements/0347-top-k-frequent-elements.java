@@ -1,25 +1,29 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        // construct frequency map
-        // maxHeap<int[num, freq]> sort by frequencey
-        // pop k times
-
-        Map<Integer, Integer> map = new HashMap<>();
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[1]-a[1]));
-        int[] res = new int[k];
-        
-        for (int num: nums) {
-            map.put(num, map.getOrDefault(num, 0)+1);
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
         }
 
-        for (int key: map.keySet()) {
-            maxHeap.offer(new int[]{key, map.get(key)});
+        // bucket[i] = list of numbers that appear i times
+        List<Integer>[] bucket = new List[nums.length + 1];
+        for (int num : freqMap.keySet()) {
+            int freq = freqMap.get(num);
+            if (bucket[freq] == null) bucket[freq] = new ArrayList<>();
+            bucket[freq].add(num);
         }
 
-        for (int i = 0; i < k; i++) {
-            res[i] = maxHeap.poll()[0];
+        // collect results from highest frequency to lowest
+        List<Integer> res = new ArrayList<>();
+        for (int i = nums.length; i >= 1 && res.size() < k; i--) {
+            if (bucket[i] != null) {
+                res.addAll(bucket[i]);
+            }
         }
 
-        return res;
+        // convert to int[]
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) ans[i] = res.get(i);
+        return ans;
     }
 }
