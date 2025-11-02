@@ -1,27 +1,26 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-        int destination = graph.length-1;
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> paths = new ArrayList<>(); // answer
+       
+        Deque<List<Integer>> que = new ArrayDeque<>(); // to store current path
         List<Integer> path = new ArrayList<>();
-        Deque<List<Integer>> que = new ArrayDeque<>();
-
+       
         path.add(0);
-        que.offer(path);
+        que.add(path);
 
         while (!que.isEmpty()) {
-            List<Integer> curPath = que.poll();
-            int last = curPath.get(curPath.size()-1);
-
-            for (int next: graph[last]) {
-                List<Integer> newPath = new ArrayList<>(curPath);
-                newPath.add(next);
-                if (next == destination) {
-                    res.add(newPath);
-                    continue;
-                }
-                que.offer(newPath);
+            List<Integer> currPath = que.poll();
+            int lastNode = currPath.get(currPath.size() - 1);
+            if (lastNode == graph.length - 1) {
+                paths.add(new ArrayList<>(currPath));
+                continue;
+            } 
+            for (int num : graph[lastNode]) {
+                List<Integer> newPath = new ArrayList<>(currPath);
+                newPath.add(num);
+                que.add(newPath);
             }
         }
-        return res;       
+        return paths;
     }
 }
