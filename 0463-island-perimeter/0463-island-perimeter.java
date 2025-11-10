@@ -1,49 +1,45 @@
 class Solution {
-    int rows;
-    int cols;
-    int[][] steps = {{0,1}, {0, -1}, {-1, 0}, {1, 0}};
-    int perimeter;
+    int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+    int rows, cols;
 
     public int islandPerimeter(int[][] grid) {
         rows = grid.length;
         cols = grid[0].length;
-        perimeter = 0;
-        boolean[][] visited = new boolean[rows][cols]; 
-        
+        boolean[][] visited = new boolean[rows][cols];
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 1 && !visited[i][j]) {
-                    bfs(i, j, visited, grid);
+                if (grid[i][j] == 1) {
+                    // Start BFS once — there’s only one island
+                    return bfs(i, j, visited, grid);
                 }
             }
         }
-
-        return perimeter + 1;     
+        return 0;
     }
 
-    private void bfs(int row, int col, boolean[][] visited, int[][] grid) {
-        Deque<int[]> que = new ArrayDeque<>();
-        que.offer(new int[]{row, col});
+    private int bfs(int row, int col, boolean[][] visited, int[][] grid) {
+        Deque<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{row, col});
         visited[row][col] = true;
+        int perimeter = 0;
 
-        while (!que.isEmpty()) {
-            int[] cur = que.poll();
-            perimeter += 3;
-            
-            for (int[] step: steps) {
-                int x = cur[0] + step[0];
-                int y = cur[1] + step[1];
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int r = cur[0], c = cur[1];
 
-                if (isValid(x, y, visited, grid)) {
-                    que.offer(new int[] {x, y});
+            for (int[] d : dirs) {
+                int x = r + d[0], y = c + d[1];
+                // Out of bounds or water adds to perimeter
+                if (x < 0 || y < 0 || x >= rows || y >= cols || grid[x][y] == 0) {
+                    perimeter++;
+                } else if (!visited[x][y]) {
                     visited[x][y] = true;
-                    perimeter--;
+                    q.offer(new int[]{x, y});
                 }
             }
         }
-    }
 
-    private boolean isValid(int x, int y, boolean[][] visited, int[][] grid) {
-        return x >= 0 && x < rows && y >= 0 && y < cols && !visited[x][y] && grid[x][y] == 1;
+        return perimeter;
     }
 }
