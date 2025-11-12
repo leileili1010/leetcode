@@ -1,5 +1,6 @@
 class Solution {
-    int rows, cols;
+    int rows;
+    int cols;
     int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public void wallsAndGates(int[][] rooms) {
@@ -8,11 +9,11 @@ class Solution {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (rooms[i][j] == 0) { // gate
+                if (rooms[i][j] == 0) {
                     bfs(i, j, rooms);
                 }
             }
-        }
+        }    
     }
 
     private void bfs(int row, int col, int[][] rooms) {
@@ -23,19 +24,19 @@ class Solution {
             int[] cur = que.poll();
             int x0 = cur[0], y0 = cur[1];
 
-            for (int[] dir : dirs) {
+            for (int[] dir: dirs) {
                 int x = x0 + dir[0];
                 int y = y0 + dir[1];
 
                 if (isValid(x, y, rooms) && rooms[x][y] > rooms[x0][y0] + 1) {
                     rooms[x][y] = rooms[x0][y0] + 1;
-                    que.offer(new int[]{x, y});  
+                    que.offer(new int[]{x, y});
                 }
             }
         }
     }
 
     private boolean isValid(int x, int y, int[][] rooms) {
-        return x >= 0 && x < rows && y >= 0 && y < cols && rooms[x][y] != -1;
+        return x >= 0 && x < rows && y >= 0 && y < cols && rooms[x][y] != 0 && rooms[x][y] != -1;
     }
 }
