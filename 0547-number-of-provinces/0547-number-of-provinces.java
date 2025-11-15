@@ -1,13 +1,12 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
         // cities: 0, 1, 2...n-1
-        // loop through each cell
-            // if 1 count++, start bfs, using isConnected to find the next cell
+        // loop through each city
+            // if the city has not been visited, count++, start bfs, using isConnected to find the next city
             // visited to mark cities already connected
-
-        int count = 0; 
         int cities = isConnected.length;
         boolean[] visited = new boolean[cities];
+        int count = 0;
 
         for (int i = 0; i < cities; i++) {
             if (!visited[i]) {
@@ -15,7 +14,6 @@ class Solution {
                 bfs(i, isConnected, visited);
             }
         }
-
         return count;
     }
 
@@ -24,15 +22,15 @@ class Solution {
         que.offer(city);
         visited[city] = true;
 
-        while(!que.isEmpty()) {
+        while (!que.isEmpty()) {
             int cur = que.poll();
 
-            for (int next = 0 ; next < isConnected[cur].length; next++) {
-                if (isConnected[cur][next] == 1 && !visited[next]) {
+            for (int next = 0; next < isConnected[cur].length; next++) {
+                if (!visited[next] && isConnected[cur][next] == 1) {
                     que.offer(next);
                     visited[next] = true;
-                } 
+                }
             }
-        }
+        }       
     }
 }
