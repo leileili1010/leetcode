@@ -27,7 +27,7 @@ class Solution {
         while(!que.isEmpty()) {
             int cur = que.poll();
 
-            for (int next = 0 ; next < isConnected[city].length; next++) {
+            for (int next = 0 ; next < isConnected[cur].length; next++) {
                 if (isConnected[cur][next] == 1 && !visited[next]) {
                     que.offer(next);
                     visited[next] = true;
