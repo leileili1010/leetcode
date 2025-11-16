@@ -1,67 +1,60 @@
 class Solution {
+    int rows;
+    int cols;
+    int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
     public int countSubIslands(int[][] grid1, int[][] grid2) {
-        int n = grid1.length;
-        int m = grid1[0].length;
+        // loop through grid2 
+        // if we found 1 && not visited before, start bfs
+        // bfs
+            // using grid1 to check if it is a subisland
+            // mark all connected as visited
+            // return bolean is subisland
+        // if is subisland, count++
+        
+        rows = grid2.length;
+        cols = grid2[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        int count = 0;
 
-        int subIslandCount = 0;
-        boolean[][] visited = new boolean[n][m];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (!visited[i][j] && grid2[i][j] == 1) {
+                    boolean isSubisland = bfs(i, j, grid2, grid1, visited);
+                    if (isSubisland) count++;
+                }
+            }
+        }
+        return count;
+    }
 
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(grid2[i][j] == 1 && !visited[i][j]){
-                    boolean isSubIsland = bfs(grid1,grid2,visited,i,j,n,m);
-                    if(isSubIsland){
-                        subIslandCount++;
-                    }
+    private boolean bfs(int row, int col, int[][] grid2, int[][] grid1, boolean[][] visited) {
+        Deque<int[]> que = new ArrayDeque<>();
+        que.offer(new int[]{row, col});
+        visited[row][col] = true;
+        boolean isSubisland = true;
+
+        while(!que.isEmpty()) {
+            int[] cur = que.poll();
+            if (grid1[cur[0]][cur[1]] != 1 && isSubisland) isSubisland = false;
+           
+            for (int[] dir: dirs) {
+                int newRow = dir[0] + cur[0];
+                int newCol = dir[1] + cur[1];
+
+                if (isValid(newRow, newCol, grid2, visited)) {
+                    que.offer(new int[]{newRow, newCol});
+                    visited[newRow][newCol] = true;
                 }
             }
         }
 
-        return subIslandCount;
+        return isSubisland;
     }
 
-    private boolean bfs(int[][] grid1, int[][] grid2, boolean[][] visited, int i, int j, int n, int m){
-        Queue<Pair> queue = new LinkedList<>();
-        queue.add(new Pair(i,j));
-        visited[i][j] = true;
-
-        boolean isSubIsland = true;
-
-        if(grid1[i][j] != 1){
-            isSubIsland = false;
-        }
-
-        int[] dx = {-1,0,1,0};
-        int[] dy = {0,1,0,-1};
-
-        while(!queue.isEmpty()){
-            Pair p = queue.remove();
-            int x = p.xCord;
-            int y = p.yCord;
-
-            for(int a=0; a<4; a++){
-                int newX = x + dx[a];
-                int newY = y + dy[a];
-
-                if(newX >= 0 && newX < n && newY >= 0 && newY < m && grid2[newX][newY] == 1 && visited[newX][newY] == false){
-                    if(grid1[newX][newY] != 1){
-                        isSubIsland = false;
-                    }
-                    visited[newX][newY] = true;
-                    queue.add(new Pair(newX,newY));
-                }
-            }
-        }
-
-        return isSubIsland;
+    private boolean isValid(int row, int col, int[][] grid, boolean[][] visited) {
+        return row >= 0 && row < rows && col >= 0 && col < cols && grid[row][col] == 1 
+                && !visited[row][col];
     }
-}
-
-class Pair{
-    int xCord;
-    int yCord;
-    public Pair(int x, int y){
-        this.xCord = x;
-        this.yCord = y;
-    }
+     
 }
