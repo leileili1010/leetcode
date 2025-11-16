@@ -1,60 +1,51 @@
 class Solution {
-    int rows;
-    int cols;
-    int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+    int rows, cols;
+    int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
 
     public int countSubIslands(int[][] grid1, int[][] grid2) {
-        // loop through grid2 
-        // if we found 1 && not visited before, start bfs
-        // bfs
-            // using grid1 to check if it is a subisland
-            // mark all connected as visited
-            // return bolean is subisland
-        // if is subisland, count++
-        
-        rows = grid2.length;
-        cols = grid2[0].length;
+        rows = grid1.length;
+        cols = grid1[0].length;
+
         boolean[][] visited = new boolean[rows][cols];
         int count = 0;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (!visited[i][j] && grid2[i][j] == 1) {
-                    boolean isSubisland = bfs(i, j, grid2, grid1, visited);
-                    if (isSubisland) count++;
+
+                // 只从 grid2 的岛屿开始 DFS
+                if (grid2[i][j] == 1 && !visited[i][j]) {
+                    // DFS 返回 true = 这是一个 sub island
+                    if (dfs(grid1, grid2, visited, i, j)) {
+                        count++;
+                    }
                 }
             }
         }
+
         return count;
     }
 
-    private boolean bfs(int row, int col, int[][] grid2, int[][] grid1, boolean[][] visited) {
-        Deque<int[]> que = new ArrayDeque<>();
-        que.offer(new int[]{row, col});
-        visited[row][col] = true;
-        boolean isSubisland = true;
+    private boolean dfs(int[][] grid1, int[][] grid2,
+                        boolean[][] visited, int r, int c) {
+        // 越界/水/访问过 → 不影响 sub island 的有效性
+        if (r < 0 || r >= rows || c < 0 || c >= cols)
+            return true;
+        if (grid2[r][c] == 0 || visited[r][c])
+            return true;
 
-        while(!que.isEmpty()) {
-            int[] cur = que.poll();
-            if (grid1[cur[0]][cur[1]] != 1 && isSubisland) isSubisland = false;
-           
-            for (int[] dir: dirs) {
-                int newRow = dir[0] + cur[0];
-                int newCol = dir[1] + cur[1];
+        visited[r][c] = true;
 
-                if (isValid(newRow, newCol, grid2, visited)) {
-                    que.offer(new int[]{newRow, newCol});
-                    visited[newRow][newCol] = true;
-                }
-            }
+        // 判断当前点是否合法（grid1 必须也是 1）
+        boolean valid = (grid1[r][c] == 1);
+
+        // DFS 四个方向，同时必须全部都 valid
+        for (int[] d : dirs) {
+            int nr = r + d[0];
+            int nc = c + d[1];
+            boolean child = dfs(grid1, grid2, visited, nr, nc);
+            valid = valid && child;
         }
 
-        return isSubisland;
+        return valid;
     }
-
-    private boolean isValid(int row, int col, int[][] grid, boolean[][] visited) {
-        return row >= 0 && row < rows && col >= 0 && col < cols && grid[row][col] == 1 
-                && !visited[row][col];
-    }
-     
 }
