@@ -1,51 +1,67 @@
 class Solution {
-    int rows, cols;
-    int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
-
     public int countSubIslands(int[][] grid1, int[][] grid2) {
-        rows = grid1.length;
-        cols = grid1[0].length;
+        int n = grid1.length;
+        int m = grid1[0].length;
 
-        boolean[][] visited = new boolean[rows][cols];
-        int count = 0;
+        int subIslandCount = 0;
+        boolean[][] visited = new boolean[n][m];
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-
-                // 只从 grid2 的岛屿开始 DFS
-                if (grid2[i][j] == 1 && !visited[i][j]) {
-                    // DFS 返回 true = 这是一个 sub island
-                    if (dfs(grid1, grid2, visited, i, j)) {
-                        count++;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid2[i][j] == 1 && !visited[i][j]){
+                    boolean isSubIsland = bfs(grid1,grid2,visited,i,j,n,m);
+                    if(isSubIsland){
+                        subIslandCount++;
                     }
                 }
             }
         }
 
-        return count;
+        return subIslandCount;
     }
 
-    private boolean dfs(int[][] grid1, int[][] grid2,
-                        boolean[][] visited, int r, int c) {
-        // 越界/水/访问过 → 不影响 sub island 的有效性
-        if (r < 0 || r >= rows || c < 0 || c >= cols)
-            return true;
-        if (grid2[r][c] == 0 || visited[r][c])
-            return true;
+    private boolean bfs(int[][] grid1, int[][] grid2, boolean[][] visited, int i, int j, int n, int m){
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(i,j));
+        visited[i][j] = true;
 
-        visited[r][c] = true;
+        boolean isSubIsland = true;
 
-        // 判断当前点是否合法（grid1 必须也是 1）
-        boolean valid = (grid1[r][c] == 1);
-
-        // DFS 四个方向，同时必须全部都 valid
-        for (int[] d : dirs) {
-            int nr = r + d[0];
-            int nc = c + d[1];
-            boolean child = dfs(grid1, grid2, visited, nr, nc);
-            valid = valid && child;
+        if(grid1[i][j] != 1){
+            isSubIsland = false;
         }
 
-        return valid;
+        int[] dx = {-1,0,1,0};
+        int[] dy = {0,1,0,-1};
+
+        while(!queue.isEmpty()){
+            Pair p = queue.remove();
+            int x = p.xCord;
+            int y = p.yCord;
+
+            for(int a=0; a<4; a++){
+                int newX = x + dx[a];
+                int newY = y + dy[a];
+
+                if(newX >= 0 && newX < n && newY >= 0 && newY < m && grid2[newX][newY] == 1 && visited[newX][newY] == false){
+                    if(grid1[newX][newY] != 1){
+                        isSubIsland = false;
+                    }
+                    visited[newX][newY] = true;
+                    queue.add(new Pair(newX,newY));
+                }
+            }
+        }
+
+        return isSubIsland;
+    }
+}
+
+class Pair{
+    int xCord;
+    int yCord;
+    public Pair(int x, int y){
+        this.xCord = x;
+        this.yCord = y;
     }
 }
