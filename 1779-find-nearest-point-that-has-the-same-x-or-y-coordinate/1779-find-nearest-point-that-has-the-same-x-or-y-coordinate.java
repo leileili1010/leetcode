@@ -1,17 +1,8 @@
-class Pair {
-    int index;
-    int distance;
-
-    Pair(int index, int distance) {
-        this.index = index;
-        this.distance = distance;
-    }
-}
-
 class Solution {
     public int nearestValidPoint(int x, int y, int[][] points) {
+        int bestIndex = -1;
+        int minDist = Integer.MAX_VALUE;
         int n = points.length;
-        Pair res = new Pair(-1, Integer.MAX_VALUE);
 
         for (int i = 0; i < n; i++) {
             int[] point = points[i];
@@ -19,12 +10,12 @@ class Solution {
 
             if (x == px || y == py) {
                 int distance = Math.abs(x-px) + Math.abs(y-py);
-                if (distance < res.distance) {
-                    res.index = i;
-                    res.distance = distance;
+                if (distance < minDist) {
+                    bestIndex = i;
+                    minDist = distance;
                 }
             }
         }
-        return res.index;
+        return bestIndex;
     }
 }
