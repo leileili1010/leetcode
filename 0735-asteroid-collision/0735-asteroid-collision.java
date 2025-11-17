@@ -1,33 +1,35 @@
 class Solution {
     public int[] asteroidCollision(int[] asteroids) {
-        List<Integer> stack = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int num : asteroids) {
-            // int size = stack.size();
-            while (stack.size() > 0 && num < 0 && stack.get(stack.size() - 1) > 0) {
-                int diff = num + stack.get(stack.size() - 1);
-                if (diff < 0) {
-                    stack.remove(stack.size() - 1);
-                    // size--; // Update the size after removing an element
-                } else if (diff > 0) {
-                    num = 0;
-                } else {
-                    stack.remove(stack.size() - 1);
-                    num = 0;
-                    // size--; // Update the size after removing an element
-                }
+        for (int asteroid: asteroids) {
+            boolean alive = true;
+
+            while (!stack.isEmpty() && stack.peek() > 0 && asteroid < 0) {
+                int top = stack.peek();
+                // case 1: asteroid abs > top, top explode
+                if (top < -asteroid) {
+                    stack.pop();
+                    continue;
+                } else if (top == -asteroid) {
+                    // case 2: top == abs asteroid
+                    stack.pop();
+                } 
+                    
+                // case 3: top > -asteroid && case 2
+                    alive = false;
+                    break;
             }
 
-            if (num != 0) {
-                stack.add(num);
-            }
+            if (alive) stack.push(asteroid);
         }
 
-        int[] result = new int[stack.size()];
-        for (int j = 0; j < stack.size(); j++) {
-            result[j] = stack.get(j);
-        }
+        int n = stack.size();
+        int[] res = new int[n];
+        for (int i = n-1; i >= 0 && n > 0; i--) {
+            res[i] = stack.pop();
+        }   
 
-        return result;
+        return res;
     }
 }
