@@ -11,10 +11,10 @@ class Solution {
                 res.add(arr[right]);
                 right++;
             } else if (right >= n) {
-                res.add(arr[left]);
+                res.add(0, arr[left]);
                 left--;
             } else if (Math.abs(arr[left] - x) <= Math.abs(arr[right] - x)) {
-                res.add(arr[left]);
+                res.add(0, arr[left]);
                 left--;
             } else {
                 res.add(arr[right]);
@@ -23,8 +23,6 @@ class Solution {
 
             k--;
         }
-
-        Collections.sort(res); // MUST SORT !!!
         return res;
     }
 
