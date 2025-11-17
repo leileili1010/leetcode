@@ -1,6 +1,6 @@
 class Solution {
     public int nextGreaterElement(int n) {
-        char[] arr = Integer.toString(n).toCharArray();
+        char[] arr = String.valueOf(n).toCharArray();
         int len = arr.length;
         
         // 1. find the first decreasing digit from right
