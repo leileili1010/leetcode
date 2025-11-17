@@ -1,46 +1,51 @@
 class Solution {
-    int rows;
-    int cols;
-    int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    
-    public int largestIsland(int[][] grid) {
-        rows = grid.length;
-        cols = grid[0].length;
-        int mark = 1;
-        int maxArea = 0;
-        Map<Integer, Integer> map = new HashMap<>();
+    int rows, cols;
+    private static final int[][] DIRS = {{0,1},{0,-1},{1,0},{-1,0}};
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 1) {
-                    mark++;
-                    int area = bfs(i, j, grid, mark);
-                    map.put(mark, area);
+    public int largestIsland(int[][] grid) {
+        this.rows = grid.length;
+        this.cols = grid[0].length;
+
+        int mark = 2; // island ids start from 2
+        Map<Integer, Integer> areaMap = new HashMap<>();
+        int maxArea = 0;
+
+        // Step 1: BFS to color all islands and calculate area
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 1) {
+                    int area = bfsColor(grid, r, c, mark);
+                    areaMap.put(mark, area);
                     maxArea = Math.max(maxArea, area);
+                    mark++;
                 }
             }
         }
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 0) {
-                    Set<Integer> ids = new HashSet<>();
-                    int area = 1;
+        // Step 2: Try to flip every 0 and calculate possible max area
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 0) {
+                    Set<Integer> neighborIds = new HashSet<>();
+                    int newArea = 1; // flip this 0 to 1
 
-                    for (int[] dir: dirs) {
-                        int newRow = dir[0] + i;
-                        int newCol = dir[1] + j;
+                    for (int[] d : DIRS) {
+                        int nr = r + d[0];
+                        int nc = c + d[1];
 
-                        if (isValid(newRow, newCol) && grid[newRow][newCol] > 1) {
-                            ids.add(grid[newRow][newCol]);
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                            int id = grid[nr][nc];
+                            if (id > 1) {
+                                neighborIds.add(id);
+                            }
                         }
                     }
 
-                    for (int num: ids) {
-                        area += map.get(num);
+                    for (int id : neighborIds) {
+                        newArea += areaMap.get(id);
                     }
-                    
-                    maxArea = Math.max(area, maxArea);
+
+                    maxArea = Math.max(maxArea, newArea);
                 }
             }
         }
@@ -48,31 +53,36 @@ class Solution {
         return maxArea;
     }
 
-    private int bfs(int row, int col, int[][] grid, int mark) {
-        Deque<int[]> que = new ArrayDeque<>();
-        que.offer(new int[]{row, col});
-        grid[row][col] = mark;
-        int count = 0;
+    // BFS: color the island and calculate area
+    private int bfsColor(int[][] grid, int sr, int sc, int mark) {
+        Deque<Integer> queue = new ArrayDeque<>();
+        queue.offer(encode(sr, sc));
+        grid[sr][sc] = mark;
 
-        while (!que.isEmpty()) {
-            int[] curr = que.poll();
-            count++;
+        int area = 0;
 
-            for (int[] dir: dirs) {
-                int newRow = dir[0] + curr[0];
-                int newCol = dir[1] + curr[1];
+        while (!queue.isEmpty()) {
+            int code = queue.poll();
+            int r = code / cols;
+            int c = code % cols;
+            area++;
 
-                if (isValid(newRow, newCol) && grid[newRow][newCol] == 1) {
-                    que.offer(new int[]{newRow, newCol});
-                    grid[newRow][newCol] = mark;
+            for (int[] d : DIRS) {
+                int nr = r + d[0];
+                int nc = c + d[1];
+
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                    grid[nr][nc] = mark;
+                    queue.offer(encode(nr, nc));
                 }
             }
         }
 
-        return count;
+        return area;
     }
 
-    private boolean isValid(int row, int col) {
-        return row >= 0 && row < rows && col >= 0 && col < cols;
+    // Encode (r,c) to single int
+    private int encode(int r, int c) {
+        return r * cols + c;
     }
 }
