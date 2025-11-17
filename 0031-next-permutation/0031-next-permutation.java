@@ -1,29 +1,34 @@
 class Solution {
     public void nextPermutation(int[] nums) {
         int n = nums.length;
-        int i = n - 2;
-
-        // Step 1: find pivot
-        while (i >= 0 && nums[i] >= nums[i + 1]) {
+        int i = n-2;
+        
+        // 1. find the pivot, from right to left, the first decreasing number
+        while (i >= 0 && nums[i] >= nums[i+1]) {
             i--;
         }
-
-        // Step 2: find the next larger number and swap
+        
+        // 2. find the smallest number > pivot, from n-1 to pivot+1 index
         if (i >= 0) {
-            int j = n - 1;
-            while (j >= 0 && nums[j] <= nums[i]) {
+            int j = n-1;
+
+            while (j > i && nums[j] <= nums[i]) {
                 j--;
             }
+
+            // 3. swap pivot and the number we found
             swap(nums, i, j);
         }
 
-        // Step 3: reverse the suffix
-        reverse(nums, i + 1, n - 1);
+        // 4. reverse the partial digits order right to the pivot index
+        reverse(nums, i+1, n-1);
     }
 
-    private void reverse(int[] nums, int left, int right) {
+    private void reverse (int[] nums, int left, int right) {
         while (left < right) {
-            swap(nums, left++, right--);
+            swap(nums, left, right);
+            left++;
+            right--;
         }
     }
 
