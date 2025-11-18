@@ -1,31 +1,44 @@
 class Solution {
-    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
-        // int[][] aray of [difficulty, profit]
-        // sort by difficulty
-        // sort worker by ability
-        // loop through each worker
-            // using a pointer, while (point < n && within the worker's ability), to find the maxProfit
-            // acculate each worker's profit
-        int n = profit.length;
-        int[][] jobs = new int[n][2]; // [difficulty, profit]
 
-        for (int i = 0; i < n; i++) {
-            jobs[i] = new int[]{difficulty[i], profit[i]};
+    public int maxProfitAssignment(
+        int[] difficulty,
+        int[] profit,
+        int[] worker
+    ) {
+        List<int[]> jobProfile = new ArrayList<>();
+        jobProfile.add(new int[] { 0, 0 });
+        for (int i = 0; i < difficulty.length; i++) {
+            jobProfile.add(new int[] { difficulty[i], profit[i] });
         }
 
-        Arrays.sort(jobs, (a,b) -> Integer.compare(a[0], b[0]));
-        Arrays.sort(worker);
+        // Sort by difficulty values in increasing order.
+        Collections.sort(jobProfile, (a, b) -> Integer.compare(a[0], b[0]));
+        for (int i = 0; i < jobProfile.size() - 1; i++) {
+            jobProfile.get(i + 1)[1] = Math.max(
+                jobProfile.get(i)[1],
+                jobProfile.get(i + 1)[1]
+            );
+        }
 
-        int res = 0, j = 0;
-        int maxProfit = 0;
-        for (int w: worker) {
-            while (j < n && w >= jobs[j][0]) {
-                maxProfit = Math.max(maxProfit, jobs[j][1]);
-                j++;
+        int netProfit = 0;
+        for (int i = 0; i < worker.length; i++) {
+            int ability = worker[i];
+
+            // Find the job with just smaller or equal difficulty than ability.
+            int l = 0, r = jobProfile.size() - 1, jobProfit = 0;
+            while (l <= r) {
+                int mid = (l + r) / 2;
+                if (jobProfile.get(mid)[0] <= ability) {
+                    jobProfit = Math.max(jobProfit, jobProfile.get(mid)[1]);
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
             }
-            res += maxProfit;
-        }
 
-        return res;
+            // Increment profit of current worker to total profit.
+            netProfit += jobProfit;
+        }
+        return netProfit;
     }
 }
