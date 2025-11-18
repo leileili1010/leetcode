@@ -1,91 +1,88 @@
 class Solution {
-    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    private Map<Integer, Integer> delayed = new HashMap<>();
-    private int maxHeapSize = 0, minHeapSize = 0;
+    private PriorityQueue<Integer> leftHalf;
+    private PriorityQueue<Integer> rightHalf;
+    private Map<Integer, Integer> delayed;
+    private int leftHalfSize;
+    private int rightHalfSize;
 
     public double[] medianSlidingWindow(int[] nums, int k) {
+        leftHalf = new PriorityQueue<>(Collections.reverseOrder());
+        rightHalf = new PriorityQueue<>();
+        delayed = new HashMap<>(); // <number to be deleted, times>
         int n = nums.length;
-        double[] result = new double[n - k + 1];
+        double[] res = new double[n-k+1];
+        leftHalfSize = 0;
+        rightHalfSize = 0;
 
-        // 1. 初始化前 k 个元素
         for (int i = 0; i < k; i++) {
             addNum(nums[i]);
-        }
-        result[0] = getMedian(k);
+        } 
 
-        // 2. 滑动窗口
+        res[0] = getMedian(k);
+
         for (int i = k; i < n; i++) {
-            int newNum = nums[i];        // 进入窗口的新元素
-            int outNum = nums[i - k];    // 离开窗口的旧元素
-
+            int newNum = nums[i];
+            int oldNum = nums[i-k];
+            
             addNum(newNum);
-            removeNum(outNum);           // 延迟删除
+            removeNum(oldNum);
 
-            result[i - k + 1] = getMedian(k);
+            res[i-k+1] = getMedian(k);
         }
-
-        return result;
+        return res;
     }
 
-    // 插入元素
     private void addNum(int num) {
-        if (maxHeap.isEmpty() || num <= maxHeap.peek()) {
-            maxHeap.offer(num);
-            maxHeapSize++;
+        if (leftHalf.isEmpty() || num <= leftHalf.peek()) {
+            leftHalf.offer(num);
+            leftHalfSize++;
         } else {
-            minHeap.offer(num);
-            minHeapSize++;
+            rightHalf.offer(num);
+            rightHalfSize++;
         }
-        balanceHeaps();
+        balanceHeaps(); // balance after adding 
     }
 
-       // 平衡两个堆 (保证 maxHeapSize >= minHeapSize，且差值不超过 1)
     private void balanceHeaps() {
-        if (maxHeapSize > minHeapSize + 1) {
-            minHeap.offer(maxHeap.poll());
-            maxHeapSize--;
-            minHeapSize++;
-            prune(maxHeap);
-        } else if (maxHeapSize < minHeapSize) {
-            maxHeap.offer(minHeap.poll());
-            maxHeapSize++;
-            minHeapSize--;
-            prune(minHeap);
+        if (leftHalfSize > rightHalfSize + 1) {
+            rightHalf.offer(leftHalf.poll());
+            leftHalfSize--;
+            rightHalfSize++;
+            prune(leftHalf);
+        } else if (leftHalfSize < rightHalfSize) {
+            leftHalf.offer(rightHalf.poll());
+            leftHalfSize++;
+            rightHalfSize--;
+            prune(rightHalf);
         }
     }
 
-        // 清理堆顶的过期元素
     private void prune(PriorityQueue<Integer> heap) {
         while (!heap.isEmpty() && delayed.containsKey(heap.peek())) {
             int num = heap.peek();
-            delayed.put(num, delayed.get(num) - 1);
+            delayed.put(num, delayed.get(num)-1);
             if (delayed.get(num) == 0) delayed.remove(num);
             heap.poll();
         }
     }
 
-    // 延迟删除元素
     private void removeNum(int num) {
-        delayed.put(num, delayed.getOrDefault(num, 0) + 1);
-
-        if (num <= maxHeap.peek()) {
-            maxHeapSize--;
-            if (num == maxHeap.peek()) prune(maxHeap); // 如果刚好在堆顶，立刻清理
+        delayed.put(num, delayed.getOrDefault(num, 0)+1);
+        
+        if (num <= leftHalf.peek()) {
+            leftHalfSize--;
+            if (num == leftHalf.peek()) prune(leftHalf);
         } else {
-            minHeapSize--;
-            if (num == minHeap.peek()) prune(minHeap);
+            rightHalfSize--;
+            if (num == rightHalf.peek()) prune(rightHalf);
         }
-        balanceHeaps();
+        balanceHeaps(); // balance after deleting
     }
 
-
-    // 获取中位数
     private double getMedian(int k) {
-        if (k % 2 == 1) {
-            return (double) maxHeap.peek();
-        } else {
-            return ((double) maxHeap.peek() + (double) minHeap.peek()) / 2.0;
+        if (k % 2 ==1) {
+            return (double)leftHalf.peek();
         }
+        return ((double)leftHalf.peek() + rightHalf.peek())/2.0;
     }
 }
