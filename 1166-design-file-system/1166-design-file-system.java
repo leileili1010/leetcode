@@ -1,53 +1,30 @@
-class TrieNode {
-    public Map<String, TrieNode> children;
-    public int val;
-
-    public TrieNode(int val) {
-        children = new HashMap<>();
-        this.val = val;
-    }
-}
-
 class FileSystem {
-    TrieNode root;
+    Map<String, Integer> map; 
 
     public FileSystem() {
-        root = new TrieNode(-1);    
+        map = new HashMap<>();
     }
     
     public boolean createPath(String path, int value) {
-        // if not exists, creat path
-        // or return false if exits or parent path does not exist
-        String[] words = path.split("/");
-        int n = words.length;
-        TrieNode node = root;
+        // Coner case
+        if (path.isEmpty() || path.equals("/")) return false;
 
-        for (int i = 1; i < n-1; i++) {
-            String word = words[i];
-            if (!node.children.containsKey(word)) return false;
-            node = node.children.get(word);
-        }
+        // check if already exists
+        if (map.containsKey(path)) return false;
 
-        String last = words[n-1];
-        if (node.children.containsKey(last)) {
-            return false;
-        }
-        node.children.put(last, new TrieNode(value));
+        // check if parent exists
+        int lastSlashIndex = path.lastIndexOf("/");
+        String parent = path.substring(0, lastSlashIndex);
+
+        if (parent.length() > 1 && !map.containsKey(parent)) return false;
+       
+       // Valid case
+        map.put(path, value);
         return true;
     }
     
     public int get(String path) {
-        // return value 
-        // return -1 if path does not exist
-        String[] words = path.split("/");
-        TrieNode node = root;
-
-        for (int i = 1; i < words.length; i++) {
-            String word = words[i];
-            if (!node.children.containsKey(word)) return -1;
-            node = node.children.get(word);    
-        }
-        return node.val;
+        return map.getOrDefault(path, -1);
     }
 }
 
