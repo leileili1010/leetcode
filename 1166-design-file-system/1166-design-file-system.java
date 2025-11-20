@@ -1,30 +1,59 @@
+class TrieNode {
+    public Map<String, TrieNode> children;
+    public int val;
+
+    public TrieNode(int val) {
+        this.val = val;
+        children = new HashMap<>();
+    }
+}
+
 class FileSystem {
-    Map<String, Integer> map; 
+    TrieNode root;
 
     public FileSystem() {
-        map = new HashMap<>();
+        root = new TrieNode(-1);
     }
     
     public boolean createPath(String path, int value) {
-        // Coner case
+        // corner case
         if (path.isEmpty() || path.equals("/")) return false;
 
-        // check if already exists
-        if (map.containsKey(path)) return false;
+        // check if parents exist
+        TrieNode node = root;
+        String[] words = path.split("/"); // ["", "leetcode", "problems"]
+        int n = words.length;
 
-        // check if parent exists
-        int lastSlashIndex = path.lastIndexOf("/");
-        String parent = path.substring(0, lastSlashIndex);
+        for (int i = 1; i < n-1; i++) { // only check parents
+            String word = words[i];
+            if (!node.children.containsKey(word)) return false;
+            node = node.children.get(word);
+        }
 
-        if (parent.length() > 1 && !map.containsKey(parent)) return false;
-       
-       // Valid case
-        map.put(path, value);
+        // check if path exists
+        String last = words[n-1];
+        if (node.children.containsKey(last)) return false;
+
+        // create path
+        node.children.put(last, new TrieNode(value));
         return true;
     }
     
     public int get(String path) {
-        return map.getOrDefault(path, -1);
+        // corner case
+        if (path.isEmpty() || path.equals("/")) return -1;
+
+        TrieNode node = root;
+        String[] words = path.split("/"); // ["", "leetcode", "problems"]
+        int n = words.length;
+
+        for (int i = 1; i < n; i++) {
+            String word = words[i];
+            if (!node.children.containsKey(word)) return -1;
+            node = node.children.get(word);
+        }
+
+        return node.val;
     }
 }
 
