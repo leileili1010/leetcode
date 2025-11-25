@@ -4,7 +4,7 @@
 
 [75]: https://leetcode.com/problems/sort-colors/
 
-## Approach 1: using array to count numbers - counting sort
+## Approach 1: using array to count numbers - counting sort (避免用这种方法)
 - using array to count numbers (much faster than HashMap)
 - update the original array
 - time: O(n)
