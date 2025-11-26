@@ -36,6 +36,7 @@ class Solution {
 }
 ```
 ## Approach 2: partition 两次
+- 这种解法可以理解为同向双指针，pointer and wall就是两个指针，wall我们设定是在找寻对比的数字前面
 - 3个值， partition 两次，4个值partition 3 次
     - 第一次partition: 比1小的和比1大的分开
     - 第二次partition: 比2小的和比2大的分开
@@ -112,13 +113,13 @@ class Solution {
 // 简单好理解写法
 class Solution {
     public void sortColors(int[] nums) {
-        int left = 0, right = nums.length-1;
+        int wall = 0, end = nums.length-1;
 
-        for (int i = 0; i <= right; i++){
-            if (nums[i] == 0 && i > left) {
-                swap(nums, left++, i--);
-            } else if (nums[i] == 2 && i < right) {
-                swap(nums, right--, i--);
+        for (int i = 0; i <= end; i++){
+            if (nums[i] == 0 && i > wall) {
+                swap(nums, wall++, i--);
+            } else if (nums[i] == 2 && i < end) {
+                swap(nums, end--, i--);
             }
         }
     }
