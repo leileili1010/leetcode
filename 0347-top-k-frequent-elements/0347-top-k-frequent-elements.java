@@ -1,29 +1,32 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> freqMap = new HashMap<>();
-        for (int num : nums) {
-            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        // contruct frequency map
+        // bucket sort
+            // An arrya of length of N+1
+            // loop through map to get frequncy, 
+            // arr[freq] = new ArrayList<>(), and then add nums
+        // loop through arr from backwards, select k numbers
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num: nums) map.put(num, map.getOrDefault(num, 0)+1);
+
+        int n = nums.length;
+        List<Integer>[] freq = new List[n+1];
+        for (int key: map.keySet()) {
+            int idx = map.get(key);
+            if (freq[idx] == null) freq[idx] = new ArrayList<>();
+            freq[idx].add(key);
         }
 
-        // bucket[i] = list of numbers that appear i times
-        List<Integer>[] bucket = new List[nums.length + 1];
-        for (int num : freqMap.keySet()) {
-            int freq = freqMap.get(num);
-            if (bucket[freq] == null) bucket[freq] = new ArrayList<>();
-            bucket[freq].add(num);
-        }
-
-        // collect results from highest frequency to lowest
-        List<Integer> res = new ArrayList<>();
-        for (int i = nums.length; i >= 1 && res.size() < k; i--) {
-            if (bucket[i] != null) {
-                res.addAll(bucket[i]);
+        int[] res = new int[k];
+        int idx = 0;
+        for (int i = n; i >= 0 && idx < k; i--) {
+            if (freq[i] == null) continue;
+            for (int num: freq[i]) {
+                res[idx++] = num;
+                if (idx >= k) break;
             }
         }
 
-        // convert to int[]
-        int[] ans = new int[k];
-        for (int i = 0; i < k; i++) ans[i] = res.get(i);
-        return ans;
+        return res;
     }
 }
