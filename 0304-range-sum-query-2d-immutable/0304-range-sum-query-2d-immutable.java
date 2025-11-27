@@ -6,9 +6,9 @@ class NumMatrix {
         int cols = matrix[0].length;
         prefix = new int[rows+1][cols+1];
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                prefix[i+1][j+1] = matrix[i][j] + prefix[i][j+1] + prefix[i+1][j] - prefix[i][j];
+        for (int i = 1; i < rows + 1; i++) {
+            for (int j = 1; j < cols + 1; j++) {
+                prefix[i][j] = matrix[i-1][j-1] + prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1];
             }
         }
     }
