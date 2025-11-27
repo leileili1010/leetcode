@@ -1,41 +1,41 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        // row 
-        for (int row = 0; row < 9; row++) {
-            Set<Character> set = new HashSet<>();
-            for (int col = 0; col < 9; col++) {
-                char cur = board[row][col];
-                if (cur == '.') continue;
-                if (set.add(cur) && cur-'0' >=0 && cur-'0' <= 9) continue;
-                else return false;
+        // rows
+        for (int i = 0; i < 9; i++) {
+            Set<Integer> set = new HashSet<>();
+            for (int j = 0; j <9; j++) {
+                if (!isValid(i, j, board, set)) return false;
             }
         }
 
-        // col
-        for (int col = 0; col < 9; col++) {
-            Set<Character> set = new HashSet<>();
-            for (int row = 0; row < 9; row++) {
-                char cur = board[row][col];
-                if (cur == '.') continue;
-                if (set.add(cur) && cur-'0' >=0 && cur-'0' <= 9) continue;
-                else return false;
+        // cols
+        for (int j = 0; j < 9; j++) {
+            Set<Integer> set = new HashSet<>();
+            for (int i = 0; i < 9; i++) {
+                 if (!isValid(i, j, board, set)) return false;
             }
         }
 
         // square
         for (int square = 0; square < 9; square++) {
-            Set<Character> set = new HashSet<>();
+            Set<Integer> set = new HashSet<>();
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    int row = (square / 3) * 3 + i;
+                    int row = (square / 3) * 3 + i; // 很好的方法来move to 下一个square
                     int col = (square % 3) * 3 + j;
-                    char cur = board[row][col];
-                    if (cur == '.') continue;
-                    if (set.add(cur) && cur-'0' >=0 && cur-'0' <= 9) continue;
-                    else return false;
+                    if (!isValid(row, col, board, set)) return false;
                 }
             }
         }
+        
+
         return true;
+    }
+
+    private boolean isValid(int row, int col, char[][] board, Set<Integer> set) {
+        if (board[row][col] == '.') return true;
+
+        int num = board[row][col] - '0';
+        return num > 0 && num < 10 && set.add(num);
     }
 }
