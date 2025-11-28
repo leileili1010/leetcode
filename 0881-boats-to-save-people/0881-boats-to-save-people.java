@@ -1,20 +1,17 @@
 class Solution {
     public int numRescueBoats(int[] people, int limit) {
-        Arrays.sort(people); // sort people by weight
-        int i = 0;
-        int j = people.length - 1;
-        int boats = 0;
+        Arrays.sort(people);
+        int left = 0, right = people.length-1;
+        int count = 0;
 
-        while (i <= j) {
-            // If the lightest + heaviest can fit together, pair them
-            if (people[i] + people[j] <= limit) {
-                i++;
-            }
-            // Either way, the heaviest person (people[j]) must go
-            j--;
-            boats++;
+        while (left <= right) {
+            if (people[left] + people[right] <= limit) left++;
+
+            right--;
+            count++;
         }
 
-        return boats;
+        return count;
+        
     }
 }
