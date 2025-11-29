@@ -12,9 +12,12 @@ class Solution {
         // corner case
         if (nums[0] > 0) return res;
 
-        for (int i = 0; i < n; i++) {
-            if (i > 0 && nums[i] == nums[i-1]) continue;
+        for (int i = 0; i < n-2; i++) {
             int num1 = nums[i];
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            if (num1 + nums[i+1] + nums[i+1] > 0) break;
+            if (num1 + nums[n-2] + nums[n-1] < 0) continue;
+            
             int target = 0-num1;
             int left = i+1, right = n-1;
 
@@ -26,6 +29,8 @@ class Solution {
                 } else {
                     res.add(new ArrayList<>(Arrays.asList(num1, nums[left++], nums[right--])));
                     while (left < right && nums[left] == nums[left-1]) left++;
+                    while (left < right && nums[right] == nums[right+1]) right--;
+
                 }
             }
         }
