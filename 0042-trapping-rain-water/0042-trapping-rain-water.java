@@ -13,13 +13,11 @@ class Solution {
                 leftMax = Math.max(leftMax, height[left]);
             } else {
                 right--;
-                int water = rightMax - height[right];
+                int water = rightMax - height[right]; 
                 res += water > 0? water: 0;
                 rightMax = Math.max(rightMax, height[right]);
             }
-        }
+        } 
         return res;
-        
-
     }
 }
