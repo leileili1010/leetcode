@@ -1,29 +1,37 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
+        // count frequency for each letter in s1
+        // use sliding window of s1.length() to count letter for s2 letter frequency
+        // compare those two frequency arrays, equal return true
+
         // corner case
         int m = s1.length();
         if (s2.length() < m) return false;
-        
-        // count freq for each letter in s1
-        int[] cntS1 = new int[26];
+
+        int[] count = new int[26];
+        int less = 0;
         for (char c: s1.toCharArray()) {
-            cntS1[c-'a']++;
+            if (count[c-'a'] == 0) less++;
+            count[c-'a']++;
         }
 
         char[] s = s2.toCharArray();
-        int[] cntS2 = new int[26];
-        for (char i = 0; i < s.length; i++) {
-            // 1. enter the window
-            char c = s[i];
-            cntS2[c-'a']++;
-            if (i + 1 < m) continue; // window is too small
+        for (int i = 0; i < s.length; i++) {
+            int idx = s[i]-'a';
+            count[idx]--;
+            if (count[idx] == 0) less--;
 
-            // 2. compare two count array
-            if (Arrays.equals(cntS1, cntS2)) return true;
+            if (i + 1 < m) continue;
 
-            // 3. leave the window, start prep for next window
-            cntS2[s[i-m+1] - 'a']--;
+            if (less == 0) return true;
+
+            int out = s[i-m+1]-'a';
+            if (count[out] == 0) {
+                less++;
+            }
+            count[out]++;
         }
+
         return false;
     }
 }
