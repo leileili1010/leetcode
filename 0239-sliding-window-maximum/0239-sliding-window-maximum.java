@@ -1,27 +1,29 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        // sliding window moves 
-        // maxHeap to easily grab the max during the window, maxHeap<int[num, index]>
-            // when new number entering the window: put new number in maxHeap
-            // when old number leaving the window: only update if it is the max
         int n = nums.length;
-        int[] res = new int[n-k+1];
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[0] - a[0]));
+        int[] ans = new int[n - k + 1]; // 窗口个数
+        Deque<Integer> q = new ArrayDeque<>(); // 更快的写法见【Java 数组】
 
-        for (int i = 0; i < k; i++) {
-            maxHeap.offer(new int[]{nums[i], i});
-        }
-        res[0] = maxHeap.peek()[0];
+        for (int i = 0; i < n; i++) {
+            // 1. 右边入
+            while (!q.isEmpty() && nums[q.getLast()] <= nums[i]) {
+                q.removeLast(); // 维护 q 的单调性
+            }
+            q.addLast(i); // 注意保存的是下标，这样下面可以判断队首是否离开窗口
 
-        for (int i = k; i < n; i++) {
-            maxHeap.offer(new int[]{nums[i], i});
-
-            while (maxHeap.peek()[1] < i-k+1) {
-                maxHeap.poll();
+            // 2. 左边出
+            int left = i - k + 1; // 窗口左端点
+            if (q.getFirst() < left) { // 队首离开窗口
+                q.removeFirst();
             }
 
-            res[i-k+1] = maxHeap.peek()[0]; 
+            // 3. 在窗口左端点处记录答案
+            if (left >= 0) {
+                // 由于队首到队尾单调递减，所以窗口最大值就在队首
+                ans[left] = nums[q.getFirst()];
+            }
         }
-        return res;
+
+        return ans;
     }
 }
