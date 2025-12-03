@@ -1,7 +1,14 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int[] cntS = new int[128];
+        // use two arries to count letter frequency
+        // use sliding window
+            // enter new letter, if tcount has it, update scount
+            // if scount == tcount, validcount++;
+            // while validcount == need, shrink window  
+                // udpate minLen, minStart
+                // when a letter leavs the window, udpate scount if tcount has it
         int[] cntT = new int[128];
+        int[] cntS = new int[128];
         int need = 0;
 
         for (char c: t.toCharArray()) {
@@ -9,35 +16,32 @@ class Solution {
             cntT[c]++;
         }
 
-        int left = 0, hava = 0, minStart = 0, minLen = Integer.MAX_VALUE;
-        
         char[] arr = s.toCharArray();
+        int left = 0, have = 0, minStart = 0, minLen = arr.length+1;
         
         for (int i = 0; i < arr.length; i++) {
-            char curr = arr[i];
-            if (cntT[curr] > 0) {
-                cntS[curr]++;
-                if (cntS[curr] == cntT[curr]) hava++;
-            }    
+            char rc = arr[i];
+            if (cntT[rc] > 0) {
+                cntS[rc]++;
+                if (cntS[rc] == cntT[rc]) have++;
+            }
 
-            while (hava == need) {
+            while (have == need) {
                 if (i-left+1 < minLen) {
-                    minStart = left;
                     minLen = i-left+1;
+                    minStart = left;
                 }
-
                 char lc = arr[left];
-               
                 if (cntT[lc] > 0) {
                     cntS[lc]--;
-                    if (cntS[lc] < cntT[lc]) hava--;
-                }  
+                    if (cntS[lc] < cntT[lc]) have--;
+                }
 
                 left++;
             }
-
         }
 
-        return minLen == Integer.MAX_VALUE? "": s.substring(minStart, minStart+minLen);
+        return minLen == arr.length+1? "": s.substring(minStart, minStart+minLen);
+        
     }
 }
