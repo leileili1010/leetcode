@@ -31,15 +31,17 @@ class Solution {
                 freeRooms.offer((int)usedRooms.poll()[1]);
             }
 
+            int room;
             // case 1: no free rooms
             if (freeRooms.isEmpty()) {
                 long[] earliest = usedRooms.poll();
-                freeRooms.offer((int)earliest[1]);
+                room = (int)earliest[1];
                 end = earliest[0] + duration;
+            } else {
+                // case 2: free rooms available
+                room = freeRooms.poll();
             }
-
-            // case 2: free rooms available
-            int room = freeRooms.poll();
+         
             usedRooms.offer(new long[]{end, room});
             count[room]++;
         }
