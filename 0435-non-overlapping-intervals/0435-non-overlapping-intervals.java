@@ -9,6 +9,8 @@ class Solution {
             if (interval[0] < end) {
                 res++;
                 end = Math.min(end, interval[1]);
+            } else {
+                end = interval[1];
             }
         }
 
