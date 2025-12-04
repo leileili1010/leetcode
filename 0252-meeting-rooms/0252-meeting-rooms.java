@@ -1,15 +1,8 @@
 class Solution {
     public boolean canAttendMeetings(int[][] intervals) {
-        if (intervals.length == 0) return true;
-        Arrays.sort(intervals, (a,b) -> (a[1] - b[1]));
-        int end = intervals[0][1];
-
-        for (int i = 1; i < intervals.length; i++) {
-            int[] interval = intervals[i];
-            if (interval[0] < end) {
-                return false;
-            }
-            end = interval[1];
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        for (int i = 0; i < intervals.length - 1; i++) {
+            if (intervals[i+1][0] < intervals[i][1]) return false;
         }
         return true;
     }
