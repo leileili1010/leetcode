@@ -8,7 +8,7 @@ class Solution {
             times.add(new int[]{interval[1], -1});
         }
 
-        Collections.sort(times, (a,b) -> a[0] == b[0]? a[1]-b[1]: a[0]-b[0]);
+        Collections.sort(times, (a,b) -> (a[0] - b[0]));
 
         for (int[] time: times) {
             count += time[1];
@@ -16,5 +16,6 @@ class Solution {
         }
 
         return res;
+
     }
 }
