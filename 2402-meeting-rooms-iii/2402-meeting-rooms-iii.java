@@ -1,26 +1,56 @@
 class Solution {
     public int mostBooked(int n, int[][] meetings) {
-        var cnt = new int[n];
-        var idle = new PriorityQueue<Integer>();
-        for (var i = 0; i < n; ++i) idle.offer(i);
-        var using = new PriorityQueue<Pair<Long, Integer>>((a, b) -> !Objects.equals(a.getKey(), b.getKey()) ? Long.compare(a.getKey(), b.getKey()) : Integer.compare(a.getValue(), b.getValue()));
-        Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
-        for (var m : meetings) {
-            long st = m[0], end = m[1];
-            while (!using.isEmpty() && using.peek().getKey() <= st) {
-                idle.offer(using.poll().getValue()); // 维护在 st 时刻空闲的会议室
+        // 1. sort meetings by start time
+        // 2. use two minHeaps
+            // freeRooms: room number, put all rooms in it
+            // usedRooms: int[endtime, roomNumber]
+        // 3. loop through meetings
+            // 1) first check if any used room finishes and could be put in freeRooms
+            // 2) case1: no free room
+                // pull used room and put in avaible room
+                // update end time for meeting used room end + current duration
+            // 3) case2: free room availbe: 
+                // poll free room, update used room, count++
+        
+        Arrays.sort(meetings, (a,b) -> a[0] - b[0]);
+        PriorityQueue<Integer> freeRooms = new PriorityQueue<>();
+        PriorityQueue<long[]> usedRooms = new PriorityQueue<>(
+            (a, b) -> a[0] == b[0] ? Long.compare(a[1], b[1]) : Long.compare(a[0], b[0])
+        ); // [endTime, roomNo]
+        int[] count = new int[n];
+        
+        for (int i = 0; i < n; i++) freeRooms.offer(i);
+        
+        for (int[] meeting: meetings) {
+            long start = meeting[0];
+            long end = meeting[1];
+            long duration = end - start;
+
+            // check if any usedRooms becomes free atp
+            while (!usedRooms.isEmpty() && start >= usedRooms.peek()[0]) {
+                freeRooms.offer((int)usedRooms.poll()[1]);
             }
-            int id;
-            if (idle.isEmpty()) {
-                var p = using.poll(); // 没有可用的会议室，那么弹出一个最早结束的会议室（若有多个同时结束的，会弹出下标最小的）
-                end += p.getKey() - st; // 更新当前会议的结束时间
-                id = p.getValue();
-            } else id = idle.poll();
-            ++cnt[id];
-            using.offer(new Pair<>(end, id)); // 使用一个会议室
+
+            // case 1: no free rooms
+            if (freeRooms.isEmpty()) {
+                long[] earliest = usedRooms.poll();
+                freeRooms.offer((int)earliest[1]);
+                end = earliest[0] + duration;
+            }
+
+            // case 2: free rooms available
+            int room = freeRooms.poll();
+            usedRooms.offer(new long[]{end, room});
+            count[room]++;
         }
-        var ans = 0;
-        for (var i = 0; i < n; ++i) if (cnt[i] > cnt[ans]) ans = i;
-        return ans;
+
+        int res = 0;
+        for (int i = 1; i < n; i++) {
+            if (count[i] > count[res]) {
+                res = i;
+            }
+        }    
+
+        return res;
     }
 }
