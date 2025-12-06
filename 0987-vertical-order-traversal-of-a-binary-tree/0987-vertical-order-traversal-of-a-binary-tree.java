@@ -14,28 +14,32 @@
  * }
  */
 class Solution {
-    public List<List<Integer>> verticalTraversal(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
-        Map<Integer, List<int[]>> map = new TreeMap<>(); // <col, int[val, row];
-        dfs(root, 0, 0, map);
+    private int minCol;
 
-        for (List<int[]> list: map.values()) {
-            list.sort((a,b) -> a[0] != b[0]? a[0]-b[0]: a[1]-b[1]);
-            List<Integer> temp = new ArrayList<>(list.size());
-            for (int[] nums: list) {
-                temp.add(nums[1]);
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        Map<Integer, List<int[]>> groups = new HashMap<>();
+        dfs(root, 0, 0, groups);
+
+        List<List<Integer>> ans = new ArrayList<>(groups.size());
+        for (int col = minCol; col < minCol + groups.size(); col++) {
+            List<int[]> g = groups.get(col);
+            g.sort((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+            List<Integer> vals = new ArrayList<>(g.size());
+            for (int[] p : g) {
+                vals.add(p[1]);
             }
-            res.add(temp);
+            ans.add(vals);
         }
-        return res;
+        return ans;
     }
 
-    private void dfs(TreeNode node, int row, int col, Map<Integer, List<int[]>> map) {
-        if (node == null) return;
-
-        // preorder traversal
-        map.computeIfAbsent(col, k -> new ArrayList<>()).add(new int[]{row, node.val});
-        dfs(node.left, row+1, col-1, map);
-        dfs(node.right, row+1, col+1, map);
+    private void dfs(TreeNode node, int row, int col, Map<Integer, List<int[]>> groups) {
+        if (node == null) {
+            return;
+        }
+        minCol = Math.min(minCol, col);
+        groups.computeIfAbsent(col, k -> new ArrayList<>()).add(new int[]{row, node.val});
+        dfs(node.left, row + 1, col - 1, groups);
+        dfs(node.right, row + 1, col + 1, groups);
     }
 }
