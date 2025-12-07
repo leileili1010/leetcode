@@ -1,52 +1,79 @@
 class Solution {
+    private int rows;
+    private int cols;
+
     public int shortestDistance(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
+        // count No.of buildings
+        // loop through all buildings, and start bfs
+            // level order traversal to go 4 directions, if valid cell, update distance and reach, put in queue and mark visited
+        // go through each cell that is 0 and check if reach == no.of buildings and compared path lenght;
+        
+        rows = grid.length;
+        cols = grid[0].length;  
+        int[][] reach = new int[rows][cols];
+        int[][] distance = new int[rows][cols];
+        int totalBuildings = 0;
 
-        int[][] distMatrix = new int[rows][cols];
-        int canReachVal = 0; // 每一轮 BFS 只访问 grid == canReachVal 的格子
-        int minTotalDist = Integer.MAX_VALUE;
+        // 1. count no.of buildings
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) totalBuildings++;
+            }
+        }  
 
-        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                if (grid[r][c] == 1) { // 从每个 building BFS
-
-                    minTotalDist = Integer.MAX_VALUE; 
-                    Queue<int[]> queue = new ArrayDeque<>();
-                    queue.offer(new int[]{r, c, 0}); // row, col, distance
-
-                    while (!queue.isEmpty()) {
-                        int[] cur = queue.poll();
-                        int cr = cur[0], cc = cur[1], dist = cur[2];
-                        int newDist = dist + 1;
-
-                        for (int[] d : dirs) {
-                            int nr = cr + d[0];
-                            int nc = cc + d[1];
-
-                            // 只访问“上一轮能达到”的空地
-                            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols
-                                && grid[nr][nc] == canReachVal) {
-
-                                distMatrix[nr][nc] += newDist;
-                                grid[nr][nc]--; // 把 0 → -1 → -2 → ...
-                                queue.offer(new int[]{nr, nc, newDist});
-                                minTotalDist = Math.min(minTotalDist, distMatrix[nr][nc]);
-                            }
-                        }
-                    }
-
-                    // 结束后，下一轮只能访问 grid == canReachVal - 1 的空地
-                    canReachVal--;
-
-                    // 若某一 building 找不到任何空地，说明全局无解
-                    if (minTotalDist == Integer.MAX_VALUE) return -1;
+        // 2. loop all buildings, bfs each building and update reach and distance for empty cell
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    bfs(i, j, grid, distance, reach);
                 }
             }
         }
 
-        return minTotalDist == Integer.MAX_VALUE ? -1 : minTotalDist;
+        // 3. find the valid cell
+        int count = Integer.MAX_VALUE;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 0 && reach[i][j] == totalBuildings) {
+                    count = Math.min(count, distance[i][j]);
+                }
+            }
+        }
+
+        return count == Integer.MAX_VALUE? -1: count;
+    }
+
+    private void bfs(int row, int col, int[][] grid, int[][] distance, int[][] reach) {
+        Deque<int[]> que = new ArrayDeque<>();
+        boolean[][] visited = new boolean[rows][cols];
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        que.offer(new int[]{row, col});
+        visited[row][col] = true;
+
+        int dist = 0;
+        while (!que.isEmpty()) {
+            int n = que.size();
+            dist++;
+
+            for (int i = 0; i < n; i++) {
+                int[] cur = que.poll();
+
+                for (int[] dir: dirs) {
+                    int newRow = cur[0] + dir[0];
+                    int newCol = cur[1] + dir[1];
+
+                    if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && !visited[newRow][newCol]
+                        && grid[newRow][newCol] == 0
+                    ) {
+                        distance[newRow][newCol] += dist;
+                        reach[newRow][newCol]++;
+                        visited[newRow][newCol] = true;
+                        que.offer(new int[]{newRow, newCol});
+                    }
+                }
+            }
+        }
+        
     }
 }
