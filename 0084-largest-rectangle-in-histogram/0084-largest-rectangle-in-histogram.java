@@ -1,19 +1,18 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        int max = 0;
-        int N = heights.length;
-
-        for (int i = 0; i <= N; i++) {
-            int curHeight = i == N? 0: heights[i];
-
-            while (!stack.isEmpty() && curHeight < heights[stack.peek()]) {
-                int height = heights[stack.pop()];
-                int width = stack.isEmpty()? i: i - stack.peek()-1;
-                max = Math.max(max, height * width);
+        int n = heights.length;
+        Deque<Integer> st = new ArrayDeque<>();
+        st.push(-1); // 在栈中只有一个数的时候，栈顶的「下面那个数」是 -1，对应 left[i] = -1 的情况
+        int ans = 0;
+        for (int right = 0; right <= n; right++) {
+            int h = right < n ? heights[right] : -1;
+            while (st.size() > 1 && heights[st.peek()] >= h) {
+                int i = st.pop(); // 矩形的高（的下标）
+                int left = st.peek(); // 栈顶下面那个数就是 left
+                ans = Math.max(ans, heights[i] * (right - left - 1));
             }
-            stack.push(i);
+            st.push(right);
         }
-        return max;
+        return ans;
     }
 }
