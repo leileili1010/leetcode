@@ -1,21 +1,29 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
+        // h = heights[i]
+        // w = right - left -1
+        // monotonic stack, numbers in ascending order
+            // loop heights, if current h > prev h, put it in stack
+            // if current h <= prev h
+                // height = heights[stack.pop()]
+                // right = i
+                // left = stack.peek() after poping
+
         int n = heights.length;
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(-1); // 在栈中只有一个数的时候，栈顶的「下面那个数」是 -1，对应 left[i] = -1 的情况
-        int ans = 0;
-       
+        Deque<Integer> stack = new ArrayDeque<>(); // index
+        int maxArea = 0;
+
         for (int right = 0; right <= n; right++) {
-            int h = right < n ? heights[right] : 0;
-            
-            while (stack.size() > 1 && heights[stack.peek()] >= h) {
-                int i = stack.pop(); // 矩形的高（的下标）
-                int left = stack.peek(); // 栈顶下面那个数就是 left
-                ans = Math.max(ans, heights[i] * (right - left - 1));
+            int curHeight = right == n? -1: heights[right]; 
+
+            while (!stack.isEmpty() && curHeight <= heights[stack.peek()]) {
+                int height = heights[stack.pop()];
+                int left = stack.isEmpty()? -1: stack.peek();
+                int width = right - left - 1;
+                maxArea = Math.max(maxArea, height * width);
             }
             stack.push(right);
         }
-        
-        return ans;
+        return maxArea;
     }
 }
