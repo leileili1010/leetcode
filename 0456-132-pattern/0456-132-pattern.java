@@ -1,26 +1,26 @@
 class Solution {
     public boolean find132pattern(int[] nums) {
-        // i < j < k, nums[i] < nums[k] < nums[j]
-        // loop from right to left to first find j and k
-            // stack to save j, must be decreasing
-            // if encountring nums[i] > stack.peek(), pop as nums[k] whick this condition is not satisfied, and put nums[i] in stack
-            // we only need one more number that's smaller than nums[k] and we find the answer
+        // monotonic stack for j number, in decreasing order
+        // loop from right to left
+            // if new number is smaller then prev one, put it in stack
+            // if new number is greater than prev one, keep poping out previous numbers -- k number
+        // find one more number that's smaller than k, return true
+        // return false
 
         int n = nums.length;
-        Deque<Integer> stack = new ArrayDeque<>(); // num, decreasing order
+        Deque<Integer> stack = new ArrayDeque<>(); // number
         int numK = Integer.MIN_VALUE;
 
         for (int i = n-1; i >= 0; i--) {
-            int num = nums[i];
-            if (num < numK) {
-                return true;
-            }
+            if (nums[i] < numK) return true;
 
-            while (!stack.isEmpty() && num > stack.peek()) {
+            while (!stack.isEmpty() && nums[i] > stack.peek()) {
                 numK = stack.pop();
             }
+
             stack.push(nums[i]);
-        }
+        } 
+
         return false;
     }
 }
