@@ -18,6 +18,9 @@ class Solution {
                 maxRight = Math.max(maxRight, height[right]);
             }
         }
+
         return res;
+        
+        
     }
 }
