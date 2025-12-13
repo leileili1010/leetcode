@@ -9,7 +9,7 @@ class Solution {
         for (int num: nums) set.add(num);
         int res = 0;
 
-        for (int num: nums) {
+        for (int num: set) {
             if (set.contains(num-1)) continue;
             int count = 1;
             
