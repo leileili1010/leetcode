@@ -3,11 +3,11 @@ class MinStack {
 
     public MinStack() {
         stack = new ArrayDeque<>();
+        stack.push(new int[] {0, Integer.MAX_VALUE});
     }
     
     public void push(int val) {
-        int min = stack.isEmpty()? val: Math.min(val, stack.peek()[1]);
-        stack.push(new int[]{val, min}); 
+        stack.push(new int[]{val, Math.min(val, stack.peek()[1])}); 
     }
     
     public void pop() {
