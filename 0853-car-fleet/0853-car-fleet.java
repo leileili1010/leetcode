@@ -1,9 +1,9 @@
 class Car {
-    int speed;
     int position;
+    int speed;
     double timeToDestination;
 
-    Car (int position, int speed) {
+    Car(int position, int speed) {
         this.position = position;
         this.speed = speed;
     }
@@ -12,28 +12,36 @@ class Car {
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
         int n = position.length;
+
         Car[] cars = new Car[n];
 
+        // 1. 构造 Car 对象
         for (int i = 0; i < n; i++) {
             cars[i] = new Car(position[i], speed[i]);
-            int distance = target-position[i];
-            cars[i].timeToDestination = distance/speed[i] * 1.0;
+            cars[i].timeToDestination = (double)(target - position[i]) / speed[i];
         }
 
-        // cars: (0,1,12), (3,3,3), (5,1,7), (8,4,1), (10,2,1)
+        // 2. 按 position 从小到大排序（靠后 → 靠前）
+        Arrays.sort(cars, (a, b) -> a.position - b.position);
 
-        Arrays.sort(cars, (a,b) -> (a.position - b.position));
+        // 3. 必须从右往左处理 → stack 只放 time
+        Deque<Double> stack = new ArrayDeque<>();
 
-        Deque<Car> stack = new ArrayDeque<>();
+        // 从最右边（靠近 target）开始
+        for (int i = n - 1; i >= 0; i--) {
+            double t = cars[i].timeToDestination;
 
-        for (Car car: cars) {
-            while (!stack.isEmpty() && stack.peek().timeToDestination <= car.timeToDestination) {
-                Car prev = stack.pop(); 
+            // 如果当前车时间 > stack.peek()，说明追不上 → 新车队
+            if (stack.isEmpty() || t > stack.peek()) {
+                stack.push(t);
             }
-            
-            stack.push(car); // (0,1,12), (5,1,7), (10,2,1)
+            // 否则（t <= stack.peek()），说明它能追上 → 属于现有车队
+            else {
+                // do nothing
+            }
         }
 
         return stack.size();
     }
 }
+
