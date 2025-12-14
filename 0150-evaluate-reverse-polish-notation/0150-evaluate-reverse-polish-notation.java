@@ -1,34 +1,25 @@
 class Solution {
     public int evalRPN(String[] tokens) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        int res = 0;
+        Deque<Integer> st = new ArrayDeque<>(); // 更快的写法见
+        for (String token : tokens) {
+            char c = token.charAt(0);
+            if (token.length() > 1 || Character.isDigit(c)) { // token 是数字
+                st.push(Integer.parseInt(token));
+                continue;
+            }
 
-        for (String token: tokens) {
-            if (token.equals("+") || token.equals("-") ||
-                token.equals("/") || token.equals("*")) {
-                int b = stack.pop();
-                int a = stack.pop();
-                res = calculate(a, b, token);
-                stack.push(res);
+            int x = st.pop();
+            int y = st.pop(); // 无法直接修改栈顶
+            if (c == '+') {
+                st.push(y + x);
+            } else if (c == '-') {
+                st.push(y - x);
+            } else if (c == '*') {
+                st.push(y * x);
             } else {
-                stack.push(Integer.parseInt(token));
+                st.push(y / x);
             }
         }
-        return stack.peek();
-    }
-
-    private int calculate(int a, int b, String operator) {
-        switch (operator) {
-            case "+":
-                return a + b;
-            case "-":
-                return a - b;
-            case "/":
-                return a / b;
-            case "*":
-                return a * b;
-            default:
-                return a + b;
-        }
+        return st.peek();
     }
 }
