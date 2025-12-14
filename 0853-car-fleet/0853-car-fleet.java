@@ -35,10 +35,6 @@ class Solution {
             if (stack.isEmpty() || t > stack.peek()) {
                 stack.push(t);
             }
-            // 否则（t <= stack.peek()），说明它能追上 → 属于现有车队
-            else {
-                // do nothing
-            }
         }
 
         return stack.size();
