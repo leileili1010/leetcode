@@ -1,53 +1,41 @@
 class Solution {
     public int search(int[] nums, int target) {
-        // distinct numbers
-        // 1. binary search: find the pivot, the min value
-        // 2. binary search: search target in a range
-        
+        // Binary search to find min of nums
+        // Binary search to find target
         int n = nums.length;
-        int minIndex = findMinIndex(nums);
-        int left, right;
-        
-        if (minIndex == 0) {
-            left = 0;
-            right = n-1;
-        } else {
-            if (target <= nums[n-1]) {
-                left = minIndex;
-                right = n-1;
-            } else {
-                left = 0;
-                right = minIndex-1;
-            }
-        }
+        int minIndex = findMin(nums);
+
+        int left = 0, right = n-1;
 
         while (left <= right) {
             int mid = left + (right-left)/2;
+            int realMid = (mid + minIndex) % n;
 
-            if (nums[mid] < target) {
+            if (nums[realMid] < target) {
                 left = mid + 1;
-            } else if (nums[mid] > target) {
+            } else if (nums[realMid] > target) {
                 right = mid -1;
             } else {
-                return mid;
+                return realMid;
             }
         }
+
         return -1;
     }
 
-    private int findMinIndex(int[] nums) {
-        int start = 0, end = nums.length-1;
+    private int findMin(int[] nums) {
+        int left = 0, right = nums.length-1;
 
-        while (start + 1 < end) {
-            int mid = start + (end-start)/2;
-
-            if (nums[mid] > nums[end]) {
-                start = mid;
+        while (left + 1 < right) {
+            int mid = left + (right-left)/2;
+            
+            if (nums[mid] > nums[right]) {
+                left = mid;
             } else {
-                end = mid;
+                right = mid;
             }
         }
 
-        return nums[start] < nums[end]? start: end;
+        return nums[left] < nums[right]? left: right;
     }
 }
