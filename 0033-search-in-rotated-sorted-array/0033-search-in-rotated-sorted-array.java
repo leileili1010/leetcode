@@ -1,41 +1,29 @@
 class Solution {
     public int search(int[] nums, int target) {
-        // Binary search to find min of nums
-        // Binary search to find target
-        int n = nums.length;
-        int minIndex = findMin(nums);
+        int start = 0, end = nums.length-1;
 
-        int left = 0, right = n-1;
+        while (start + 1 < end) {
+            int mid = start + (end-start)/2;
 
-        while (left <= right) {
-            int mid = left + (right-left)/2;
-            int realMid = (mid + minIndex) % n;
-
-            if (nums[realMid] < target) {
-                left = mid + 1;
-            } else if (nums[realMid] > target) {
-                right = mid -1;
+            if (nums[mid] > nums[end]) {
+                // larger half
+                if (target >= nums[start] && target <= nums[mid]) {
+                    end = mid;
+                } else {
+                    start = mid;
+                }
             } else {
-                return realMid;
+                // smaller half
+                if (target >= nums[mid] && target <= nums[end]) {
+                    start = mid;
+                } else {
+                    end = mid;
+                }
             }
         }
 
+        if (nums[start] == target) return start;
+        if (nums[end] == target) return end;
         return -1;
-    }
-
-    private int findMin(int[] nums) {
-        int left = 0, right = nums.length-1;
-
-        while (left + 1 < right) {
-            int mid = left + (right-left)/2;
-            
-            if (nums[mid] > nums[right]) {
-                left = mid;
-            } else {
-                right = mid;
-            }
-        }
-
-        return nums[left] < nums[right]? left: right;
     }
 }
