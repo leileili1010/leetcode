@@ -51,10 +51,7 @@ class Solution {
             tail = tail.next;
         }
 
-        if (list1 != null) tail.next = list1; // when one list is longer than the other
-        else tail.next = list2;
-        // tail.next = (list1 != null)? list1: list2;
-
+        tail.next = list1 != null? list1: list2;
         return dummy.next;
     }
 }
