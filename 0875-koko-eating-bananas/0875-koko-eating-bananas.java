@@ -1,29 +1,28 @@
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-        // binary search: left = 1, right = max piles
-        // calulate time: loop througgh piles 
-
         int left = 1, right = Arrays.stream(piles).max().getAsInt();
+        int res = 0;
 
         while (left <= right) {
-            int mid = left + (right-left)/2; // mid = 4
+            int mid = left + (right-left)/2;
 
-            if (calculateTime(mid, piles) <= h) {
-                right = mid - 1; // right = 3
+            if (validTime(piles, h, mid)) {
+                res = mid;
+                right = mid - 1;
             } else {
-                left = mid + 1; // left = 4
+                left = mid + 1;
             }
         }
-        return left;
+        return res;
     }
 
-    private long calculateTime(int k, int[] piles) {
-        long res = 0;
+    private boolean validTime(int[] piles, int h, int mid) {
+        long time = 0;
 
         for (int pile: piles) {
-            res += pile % k == 0? pile/k : pile/k + 1; // 1+2+2+3
+            time += pile % mid == 0? pile / mid: pile/mid + 1;
         }
 
-        return res; // 8
+        return time <= h;
     }
 }
