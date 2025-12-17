@@ -51,8 +51,7 @@ class Solution {
         if (cur == null) {
             return prev;
         }
-        ListNode temp = null;
-        temp = cur.next;// 先保存下一个节点
+        ListNode temp = cur.next;// 先保存下一个节点
         cur.next = prev;// 反转
         // 更新prev、cur位置
         // prev = cur;
