@@ -44,6 +44,7 @@ class Solution {
 // 递归法
 class Solution {
     public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
         return reverse(null, head); // prev = null, cur = head;
     }
 
