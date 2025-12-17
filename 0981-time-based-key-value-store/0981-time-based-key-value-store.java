@@ -24,19 +24,16 @@ class TimeMap {
     
     public String get(String key, int timestamp) {
         if (!map.containsKey(key)) return "";
+        
         List<Node> list = map.get(key);
-
-        if (list.get(0).timestamp > timestamp) return "";
-
         int left = 0, right = list.size()-1;
         String res = "";
+        
         while (left <= right) {
             int mid = left + (right - left)/2;
             Node t = list.get(mid);
 
-            if (t.timestamp == timestamp) {
-                return t.val;
-            } else if (t.timestamp < timestamp) {
+            if (t.timestamp <= timestamp) {
                 res = t.val;
                 left = mid + 1;
             } else {
