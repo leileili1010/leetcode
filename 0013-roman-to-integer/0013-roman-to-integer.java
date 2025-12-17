@@ -10,11 +10,9 @@ class Solution {
         }
 
         // 2.
-        char[] strs = s.toCharArray();
-        int prev = 0, res = 0;
-
-        for (int i = 0; i < strs.length; i++) {
-            int cur = map.get(strs[i]);
+        int prev = Integer.MAX_VALUE, res = 0;
+        for (char c: s.toCharArray()) {
+            int cur = map.get(c);
 
             if (prev == 0 || cur <= prev) {
                 res += cur;
