@@ -1,47 +1,47 @@
-class Node {
-    String val;
+class Pair {
     int timestamp;
+    String value;
 
-    Node(String val, int timestamp) {
-        this.val = val;
+    Pair(int timestamp, String value) {
         this.timestamp = timestamp;
+        this.value = value;
     }
 }
-
 class TimeMap {
-    Map<String, List<Node>> map;
+    Map<String, List<Pair>> map;
 
     public TimeMap() {
-       // initializes the object of the data structure
-       map = new HashMap<>();
-
+        map = new HashMap<>();
     }
     
     public void set(String key, String value, int timestamp) {
-        // Stores the key key with the value value at the given time timestamp
-        map.computeIfAbsent(key, k -> new ArrayList<>()).add(new Node(value, timestamp));
+        map.putIfAbsent(key, new ArrayList<>());
+        map.get(key).add(new Pair(timestamp, value));
     }
     
     public String get(String key, int timestamp) {
         if (!map.containsKey(key)) return "";
-        
-        List<Node> list = map.get(key);
+        List<Pair> list = map.get(key);
         int left = 0, right = list.size()-1;
-        String res = "";
-        
-        while (left <= right) {
-            int mid = left + (right - left)/2;
-            Node t = list.get(mid);
 
-            if (t.timestamp <= timestamp) {
-                res = t.val;
-                left = mid + 1;
+        while (left + 1 < right) {
+            int mid = left + (right-left)/2;
+            Pair pair = list.get(mid);
+            
+            if (pair.timestamp <= timestamp) {
+                left = mid;
             } else {
-                right = mid -1;
+                right = mid;
             }
         }
-
-        return res;
+        // Always check right first because it's the higher candidate.
+        if (list.get(right).timestamp <= timestamp) {
+            return list.get(right).value;
+        }
+        if (list.get(left).timestamp <= timestamp) {
+            return list.get(left).value;
+        }
+        return "";
     }
 }
 
