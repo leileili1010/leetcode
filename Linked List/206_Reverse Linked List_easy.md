@@ -29,37 +29,15 @@ class Solution {
     public ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) return head;
 
-        ListNode cur = head;
-        ListNode temp = null;
-        ListNode pre = null;
-
+        ListNode prev = null, cur = head;
         while (cur != null) {
-            temp = cur.next; //存储下一个位置以便于cur移动
-            cur.next = pre; // 断开原链接，再翻转链接；
-            pre = cur; // 保存当下位置作为previous 位置
-            cur = temp; //cur移动到下一个位置
-        }
-        return pre;
-    }
-}
-
-// a smilar to above
-class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null) return null;
-
-        ListNode cur = head;
-        ListNode temp = head;
-
-        while (cur != null) {
-            cur = cur.next;
-            temp.next = cur.next;
-            cur.next = head;
-            head = cur;
+            ListNode temp = cur.next;
+            cur.next = prev;
+            prev = cur;
             cur = temp;
-        
         }
-        return head;
+
+        return prev;
     }
 }
 
