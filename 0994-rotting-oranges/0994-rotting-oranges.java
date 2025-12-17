@@ -17,6 +17,7 @@ class Solution {
         int time = 0;
         while (!queue.isEmpty() && fresh > 0) {
             int size = queue.size();
+             time++;
             for (int i = 0; i < size; i++) {
                 int[] cur = queue.poll();
 
@@ -28,10 +29,11 @@ class Solution {
                         grid[x][y] = 2;
                         queue.offer(new int[]{x, y});
                         fresh--;
+                        if (fresh == 0) return time;
                     }
                 }
             }
-              time++;
+           
         }
         return fresh == 0? time: -1;
         
