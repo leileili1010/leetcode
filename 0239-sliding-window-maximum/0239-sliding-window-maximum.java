@@ -1,36 +1,22 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        // 1. initialization
-            // queue to save index
-        // 2. slide window, 
-            // enter the window: 
-                // if the prior elements in queue are less than the current number, keeping polling (while loop)
-                // add current index to queue
-                // remove expired index from queue if it is expired
-        // 3. update res array, the max for res[i] is the first elemnt (most left) in the queue
         int n = nums.length;
         int[] res = new int[n-k+1];
-        Deque<Integer> queue = new ArrayDeque<>(); // index        
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[0]-a[0])); // int[val, index]
+        
+        for (int i = 0; i < n; i++) { // i = 5
+            maxHeap.offer(new int[]{nums[i], i}); //maxHeap: [1,0] [3,1] [-1,2] [-3,3] [5,4] [3,5]
+            
+            if (i < k-1) continue;
 
-        for (int i = 0; i < n; i++) {
-            int num = nums[i];
-            // add num and remove invalid from the window
-            while (!queue.isEmpty() && num >= nums[queue.getLast()]) {
-                queue.removeLast();
+            // left bound: 
+            while (maxHeap.peek()[1] < i-k+1) {
+                maxHeap.poll();
             }
-            queue.addLast(i);
-
-            // remove expired index 
-            int left = i-k+1;
-            if (queue.getFirst() < left) queue.removeFirst();
-
-            if (left >= 0) {
-                 res[left] = nums[queue.getFirst()];
-            }
-
-           
-        }  
-
-        return res;
+            res[i-k+1] = maxHeap.peek()[0]; 
+        }
+        return res; // res ; {3, 3, 5, 5}
     }
 }
+
+// [1,3,-1,-3,5,3,6,7]
