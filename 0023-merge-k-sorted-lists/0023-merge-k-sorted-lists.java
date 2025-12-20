@@ -10,33 +10,28 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        int m = lists.length;
-        if (m == 0) {
-            return null;
-        }
-        for (int step = 1; step < m; step *= 2) {
-            for (int i = 0; i < m - step; i += step * 2) {
-                lists[i] = mergeTwoLists(lists[i], lists[i + step]);
-            }
-        }
-        return lists[0];
-    }
+        // minHeap: 3 heads
+        // poll top, if top.next not null, add to minheap, top add to res
+        // O(Nlogk)
+        // O(k)
 
-    // 21. 合并两个有序链表
-    private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode dummy = new ListNode(); // 用哨兵节点简化代码逻辑
-        ListNode cur = dummy; // cur 指向新链表的末尾
-        while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                cur.next = list1; // 把 list1 加到新链表中
-                list1 = list1.next;
-            } else { // 注：相等的情况加哪个节点都是可以的
-                cur.next = list2; // 把 list2 加到新链表中
-                list2 = list2.next;
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a,b) -> (a.val-b.val));
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        
+        for(ListNode node: lists) {
+            if (node != null) minHeap.offer(node);
+        }
+
+        while (!minHeap.isEmpty()) {
+            ListNode node = minHeap.poll();
+            if (node.next != null) {
+                minHeap.offer(node.next);
             }
+            cur.next = node;
             cur = cur.next;
         }
-        cur.next = list1 != null ? list1 : list2; // 拼接剩余链表
+
         return dummy.next;
     }
 }
