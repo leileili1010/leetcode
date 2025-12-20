@@ -10,27 +10,39 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        // minHeap: 3 heads
-        // poll top, if top.next not null, add to minheap, top add to res
-        // O(Nlogk)
-        // O(k)
+        // merge 0 & 1, 2 & 3
+        // merge 0 & 2
+        // return 0
+        
+        int m = lists.length;
+        if (m == 0) return null;
+        
+        // step: 1, 2, 4, 8...
+        for (int step = 1; step < m; step *= 2) {
+            // left starting point for each pair to merge
+            for (int i = 0; i < m -step; i += step * 2) {
+                lists[i] = mergeList(lists[i], lists[i+step]);
+            }
+        }
+        return lists[0];
+    }
 
-        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a,b) -> (a.val-b.val));
+    private ListNode mergeList(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(-1);
         ListNode cur = dummy;
-        
-        for(ListNode node: lists) {
-            if (node != null) minHeap.offer(node);
-        }
 
-        while (!minHeap.isEmpty()) {
-            ListNode node = minHeap.poll();
-            if (node.next != null) {
-                minHeap.offer(node.next);
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                cur.next = list1;
+                list1 = list1.next;
+            } else {
+                cur.next = list2;
+                list2 = list2.next;
             }
-            cur.next = node;
             cur = cur.next;
         }
+
+        cur.next = list1 != null? list1: list2;
 
         return dummy.next;
     }
