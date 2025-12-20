@@ -1,16 +1,15 @@
 class Solution {
     public boolean isPalindrome(int x) {
-        if (x < 0) return false;
-
-        long reverse = 0;
-        int num = x;
-        while (num != 0) {
-            int digit = num % 10; // digit = 1
-            num = num / 10; // x = 0
-            reverse = 10 * reverse + digit; // reverse = 121
+        // x < 0 or x为10的倍数，都不可能是palindrome
+        if (x < 0 || x > 0 && x % 10 == 0) {
+            return false;
         }
 
-        return reverse == x;
-
+        int rev = 0;
+        while (rev < x /10) {
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        return rev == x || rev == x/10;
     }
 }
