@@ -10,7 +10,7 @@ class Solution {
             for (int j = i+1; j < n-2; j++) {
                 if (j > i+1 && nums[j] == nums[j-1]) continue;
                 
-                // if (nums[i] + (long)nums[j] * 3 > target) return res;
+                if (nums[i] + (long)nums[j] * 3 > target) continue;
                 if (nums[i] + nums[j] + (long)nums[n-1] * 2 < target) continue;
 
                 int left = j+1, right = n-1;
