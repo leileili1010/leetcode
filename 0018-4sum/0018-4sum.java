@@ -11,11 +11,11 @@ class Solution {
                 if (j > i+1 && nums[j] == nums[j-1]) continue;
                 
                 // if (nums[i] + (long)nums[j] * 3 > target) return res;
-                // if (nums[i] + nums[j] + (long)nums[n-1] * 2 < target) continue;
+                if (nums[i] + nums[j] + (long)nums[n-1] * 2 < target) continue;
 
                 int left = j+1, right = n-1;
                 while (left < right) {
-                    long sum = nums[i] + nums[j] + nums[left] + nums[right];
+                    long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
 
                     if (sum > target) {
                         right--;
