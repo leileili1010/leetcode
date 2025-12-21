@@ -1,51 +1,34 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
-        Arrays.sort(nums); // to remove duplicates
-        backtracking(nums, res, target, new ArrayList<>(), 0, 4);
-        return res;
-    }
-
-    private void backtracking(int[] nums, List<List<Integer>> res, int target, List<Integer> list, int start, int k) {
         int n = nums.length;
-        
-        // base case
-        if (k == 2) {
-            twoSum(nums, res, list, start, target); 
-            return;
-        }
+        Arrays.sort(nums);
 
-        for (int i = start; i < n; i++) {
-            if (i > start && nums[i] == nums[i-1]) continue; // remove duplicates
-           
-            // pruning
-            if (n - i < k) return;
-            if ((long)nums[i] * k > target) return;
-            if ((long)nums[i] + (long)nums[n-1] * (k-1) < target) continue;
+        for (int i = 0; i < n-3; i++) {
+            if (i > 0 && nums[i] == nums[i-1]) continue;
 
-            list.add(nums[i]);
-            backtracking(nums, res, target-nums[i], list, i+1, k-1); // k means we still need k numbers
-            list.remove(list.size()-1);
-        }
-    }
+            for (int j = i+1; j < n-2; j++) {
+                if (j > i+1 && nums[j] == nums[j-1]) continue;
+                
+                // if (nums[i] + (long)nums[j] * 3 > target) return res;
+                // if (nums[i] + nums[j] + (long)nums[n-1] * 2 < target) continue;
 
-    private void twoSum(int[] nums, List<List<Integer>> res, List<Integer> list, int start, int target) {
-        int left = start, right = nums.length-1;
+                int left = j+1, right = n-1;
+                while (left < right) {
+                    long sum = nums[i] + nums[j] + nums[left] + nums[right];
 
-        while (left < right) {
-            int sum = nums[left] + nums[right];
-            if (sum > target) {
-                right--;
-            } else if (sum < target) {
-                left++;
-            } else {
-                List<Integer> temp = new ArrayList<>(list);
-                temp.add(nums[left++]);
-                temp.add(nums[right--]);
-                res.add(temp);
-                while (left < right && nums[left] == nums[left-1]) left++;
-                while (left < right && nums[right] == nums[right+1]) right--;
+                    if (sum > target) {
+                        right--;
+                    } else if (sum < target) {
+                        left++;
+                    } else {
+                        res.add(Arrays.asList(nums[i], nums[j], nums[left++], nums[right--]));
+                        while (left < right && nums[left] == nums[left-1]) left++;
+                        while (left < right && nums[right] == nums[right+1]) right--;
+                    }
+                }
             }
         }
+        return res;
     }
 }
