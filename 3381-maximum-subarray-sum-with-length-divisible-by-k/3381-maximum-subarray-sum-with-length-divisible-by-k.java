@@ -6,7 +6,7 @@ class Solution {
         for (int i = 0; i < n; i++) prefixSum[i+1] = nums[i] + prefixSum[i];
 
         // 2. 前缀和 % k 分组
-        long[] minPrefixSum = new long[k];
+        long[] minPrefixSum = new long[k+1];
         Arrays.fill(minPrefixSum, Long.MAX_VALUE/2);
 
         // 3. 遍历前缀和，计算最大subarray sum，更新最小前缀和
