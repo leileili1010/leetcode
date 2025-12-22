@@ -1,35 +1,29 @@
 class MyStack {
-    Deque<Integer> que1;
-    Deque<Integer> que2;
-
+    Deque<Integer> que;
+  
     public MyStack() {
-        que1 = new ArrayDeque<>();
-        que2 = new ArrayDeque<>();
+        que = new ArrayDeque<>();
     }
     
     public void push(int x) {
-        que2.offer(x);
+        int size = que.size();
+        que.offer(x);
         
-        while (!que1.isEmpty()) {
-            que2.offer(que1.poll());
+        for (int i = 0; i < size; i++) {
+            que.offer(que.poll());
         }
-
-        Deque<Integer> temp = que1;
-        que1 = que2;
-        que2 = temp;
-
     }
     
     public int pop() {
-        return que1.poll();
+        return que.poll();
     }
     
     public int top() {
-        return que1.peek();
+        return que.peek();
     }
     
     public boolean empty() {
-        return que1.isEmpty();
+        return que.isEmpty();
     }
 }
 
