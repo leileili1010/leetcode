@@ -1,30 +1,27 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        // initialization: 
-            // monotonic stack, index, in descending order
-        // 枚举 
-            // loop through heights，
-            // if num > prev, put in stack
-            // else pop and calcuate area 
+        // 单调栈 - 单调递增，存入的是index
+        // 枚举高度， 需要知道宽度
+        int n = heights.length;
+        Deque<Integer> stack = new ArrayDeque<>(); // <index>, ascending order
+        stack.push(-1);
+        int max = 0;
 
-        
-        int res = 0, n = heights.length;
-        Deque<Integer> stack = new ArrayDeque<>(); // index, in descending order
+        // heights = [2,1,5,6,2,3]
+                   // 0 1 2 3 4 5
 
-        for (int i = 0; i <= n; i++) { // i = 6
-            int curheight = i == n? -1: heights[i]; // curheight = -1
+        for (int i = 0; i <= n; i++) {
+            int curHeight = i != n? heights[i]: -1;
 
-            while (!stack.isEmpty() && curheight < heights[stack.peek()]) { // T
-                int height = heights[stack.pop()]; // h = 2
-                int left = stack.isEmpty()? -1: stack.peek();// left = 1
-                int width = i-left-1; // w = 4
-                res = Math.max(res, height * width); // res = 10
-            } 
-
-            stack.push(i); // stack: 1
+            while (stack.size() > 1 && curHeight < heights[stack.peek()]) {
+                int idx = stack.pop();
+                int left = stack.peek();
+                int width = i - left - 1;
+                int height = heights[idx];
+                max = Math.max(max, width * height);
+            }
+            stack.push(i);
         }
-        return res;
+        return max;
     }
 }
-
-
