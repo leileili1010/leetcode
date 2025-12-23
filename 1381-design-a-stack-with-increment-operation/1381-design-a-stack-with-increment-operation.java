@@ -1,15 +1,16 @@
 class CustomStack {
     int[] stack;
+    int[] add;
     int top;
-
+ 
     public CustomStack(int maxSize) {
-        // Initializes the object with maxSize which is the maximum number of elements in the stack
         stack = new int[maxSize];
+        add = new int[maxSize];
         top = -1;
     }
     
+    
     public void push(int x) {
-        // Adds x to the top of the stack if the stack has not reached the maxSize
         if (top + 1 < stack.length) {
             top++;
             stack[top] = x;
@@ -17,19 +18,22 @@ class CustomStack {
     }
     
     public int pop() {
-        // Pops and returns the top of the stack or -1 if the stack is empty
         if (top == -1) return -1;
+
+        int res = stack[top] + add[top];
+        if (top != 0) {
+            add[top-1] += add[top];
+        }
+        add[top] = 0;
         top--;
-        return stack[top+1];
-        
+        return res;
     }
     
+    
     public void increment(int k, int val) {
-        // Increments the bottom k elements of the stack by val. 
-        // If there are less than k elements in the stack, increment all the elements in the stack.
-        int limit = Math.min(k, top + 1);
-        for (int i = 0; i < limit; i++) {
-            stack[i] += val;
+        int limit = Math.min(k-1, top);
+        if (limit >= 0) {
+            add[limit] += val;
         }
     }
 }
