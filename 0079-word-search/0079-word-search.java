@@ -27,7 +27,7 @@ class Solution {
             int y = col + dir[1];
 
             if (x >= 0 && x < board.length && y >= 0 && y < board[0].length && board[x][y] == word.charAt(idx) && !visited[x][y]) {
-                return dfs(board, word, x, y, idx + 1, visited);
+               if (dfs(board, word, x, y, idx + 1, visited)) return true;
             }
         }
 
