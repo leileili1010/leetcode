@@ -1,6 +1,6 @@
 class Solution {
-    public int lengthOfLastWord(String s) {
-        String[] strs = s.split(" ");
-        return strs[strs.length-1].length();
-    }
+   public int lengthOfLastWord(String s) {
+    s = s.trim(); // 去掉首尾空格
+    return s.length() - s.lastIndexOf(' ') - 1;
+}
 }
