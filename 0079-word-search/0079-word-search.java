@@ -1,4 +1,6 @@
 class Solution {
+    private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
     public boolean exist(char[][] board, String word) {
         int m = board.length, n = board[0].length;
         char[] w = word.toCharArray();
@@ -30,24 +32,25 @@ class Solution {
     }
 
     private boolean dfs(char[][] board, char[] word, int i, int j, int k) {
-        if (k == word.length) return true;
-        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word[k]) {
-            return false;
+        if (board[i][j] != word[k]) return false;
+        if (k == word.length - 1) return true;
+
+        board[i][j] = 0; // 标记访问
+
+        for (int[] d : DIRS) {
+            int x = i + d[0];
+            int y = j + d[1];
+
+            if (0 <= x && x < board.length && 
+                0 <= y && y < board[0].length &&
+                dfs(board, word, x, y, k + 1))   // <-- 正确递归
+            {
+                return true;
+            }
         }
 
-        // 标记访问：利用位运算或特殊字符原地修改
-        char temp = board[i][j];
-        board[i][j] = 0; 
-
-        // 递归四个方向
-        boolean res = dfs(board, word, i + 1, j, k + 1) ||
-                      dfs(board, word, i - 1, j, k + 1) ||
-                      dfs(board, word, i, j + 1, k + 1) ||
-                      dfs(board, word, i, j - 1, k + 1);
-
-        // 回溯：恢复现场
-        board[i][j] = temp;
-        return res;
+        board[i][j] = word[k]; // 回溯恢复
+        return false;
     }
 }
 
