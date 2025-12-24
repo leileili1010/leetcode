@@ -16,7 +16,7 @@ class Solution {
 
         for (int i = 0; i < n; i++) {
             Car car = new Car(position[i], speed[i]);
-            car.time = (double)(target - position[i]) / speed[i];
+            car.time = (double)((target - position[i]) / speed[i]);
             cars[i] = car;
         }  
         Arrays.sort(cars, (a,b) -> (a.position - b.position));
