@@ -8,7 +8,7 @@ class Solution {
         // map: (2: 0) (4: 1)
         // stack: [4 ] 
         // res [3, -1] 
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(n, 1);
         for (int i = 0; i < n; i++) {
             map.put(nums1[i], i);
         }
@@ -17,11 +17,9 @@ class Solution {
         for (int num: nums2) { // num = 4
             while (!stack.isEmpty() && num > stack.peek()) {
                 int top = stack.pop(); // 3
-                if (map.containsKey(top)) {
-                    res[map.get(top)] = num;
-                }
+                res[map.get(top)] = num;
             }
-            stack.push(num);
+            if (map.containsKey(num)) stack.push(num);
         }
         return res;
     }
