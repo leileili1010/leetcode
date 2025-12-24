@@ -1,56 +1,48 @@
 class Solution {
-    private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-
     public boolean exist(char[][] board, String word) {
-        // 为了方便，直接用数组代替哈希表
-        int[] cnt = new int[128];
-        for (char[] row : board) {
-            for (char c : row) {
-                cnt[c]++;
-            }
-        }
-
-        // 优化一
+        int m = board.length, n = board[0].length;
         char[] w = word.toCharArray();
-        int[] wordCnt = new int[128];
+        
+        // 1. 频次预检查 (面试官非常喜欢这个优化)
+        int[] counts = new int[128];
+        for (char[] row : board) {
+            for (char c : row) counts[c]++;
+        }
         for (char c : w) {
-            if (++wordCnt[c] > cnt[c]) {
-                return false;
-            }
+            if (--counts[c] < 0) return false;
         }
 
-        // 优化二
-        if (cnt[w[w.length - 1]] < cnt[w[0]]) {
-            w = new StringBuilder(word).reverse().toString().toCharArray();
-        }
+        // 2. 搜索方向优化 (可选，但建议口述)
+        // 如果尾部字符在矩阵中更少，反转单词从尾部开始搜
+        // ... (此处可根据时间决定是否实现)
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (dfs(i, j, 0, board, w)) {
-                    return true; // 搜到了！
-                }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, w, i, j, 0)) return true;
             }
         }
-        return false; // 没搜到
+        return false;
     }
 
-    private boolean dfs(int i, int j, int k, char[][] board, char[] word) {
-        if (board[i][j] != word[k]) { // 匹配失败
+    private boolean dfs(char[][] board, char[] word, int i, int j, int k) {
+        if (k == word.length) return true;
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word[k]) {
             return false;
         }
-        if (k == word.length - 1) { // 匹配成功！
-            return true;
-        }
-        board[i][j] = 0; // 标记访问过
-        for (int[] d : DIRS) {
-            int x = i + d[0];
-            int y = j + d[1]; // 相邻格子
-            if (0 <= x && x < board.length && 0 <= y && y < board[x].length && dfs(x, y, k + 1, board, word)) {
-                return true; // 搜到了！
-            }
-        }
-        board[i][j] = word[k]; // 恢复现场
-        return false; // 没搜到
+
+        // 标记访问：利用位运算或特殊字符原地修改
+        char temp = board[i][j];
+        board[i][j] = 0; 
+
+        // 递归四个方向
+        boolean res = dfs(board, word, i + 1, j, k + 1) ||
+                      dfs(board, word, i - 1, j, k + 1) ||
+                      dfs(board, word, i, j + 1, k + 1) ||
+                      dfs(board, word, i, j - 1, k + 1);
+
+        // 回溯：恢复现场
+        board[i][j] = temp;
+        return res;
     }
 }
 
