@@ -3,18 +3,23 @@ class Solution {
         int m = board.length, n = board[0].length;
         char[] w = word.toCharArray();
         
-        // 1. 频次预检查 (面试官非常喜欢这个优化)
+        // 1. 统计每一个字母在board中出现的频率
         int[] counts = new int[128];
         for (char[] row : board) {
             for (char c : row) counts[c]++;
         }
+
+        // 2. 如果某一个字母在word中出现的频率大于board中的总个数，return false
         for (char c : w) {
             if (--counts[c] < 0) return false;
         }
 
-        // 2. 搜索方向优化 (可选，但建议口述)
+        // 3. 搜索方向优化 (可选，但建议口述)
         // 如果尾部字符在矩阵中更少，反转单词从尾部开始搜
         // ... (此处可根据时间决定是否实现)
+        if (counts[w[w.length-1]] < counts[w[0]]) {
+            w = new StringBuilder(word).reverse().toString().toCharArray();
+        }
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
