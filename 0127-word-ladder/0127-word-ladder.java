@@ -1,39 +1,48 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // corner case: endword not in wordlist, return 0
+        // corner case 
         Set<String> wordSet = new HashSet<>(wordList);
         if (!wordSet.contains(endWord)) return 0;
 
-        // bfs
-        Set<String> visited = new HashSet<>();
+        // initialization
         Deque<String> queue = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
         queue.offer(beginWord);
         visited.add(beginWord);
-        int count = 1;
 
+        // dfs
+        int count = 1;
         while (!queue.isEmpty()) {
             int n = queue.size();
-
+           
             for (int i = 0; i < n; i++) {
                 String cur = queue.poll();
                 char[] chars = cur.toCharArray();
-                
-                for (int j = 0; j < chars.length; j++) {
-                    char old = chars[j];
-                    for (char k = 'a'; k <= 'z'; k++) {
-                        if (old == k) continue;
-                        chars[j] = k;
-                        String newStr = new String(chars);
-                        if (newStr.equals(endWord)) return count+1;
-                        if (wordSet.contains(newStr) && visited.add(newStr)) {
-                            queue.offer(newStr);
-                        }
+                for (String next: getNextWords(chars, wordSet)) {
+                    if (next.equals(endWord)) return count+1;
+                    if (visited.add(next)) {
+                        queue.offer(next);
                     }
-                    chars[j] = old;
                 }
             }
             count++;
-        } 
+        }
         return 0;
+    }
+
+    private List<String> getNextWords(char[] chars, Set<String> set) {
+        List<String> res = new ArrayList<>();
+        
+        for (int i = 0; i < chars.length; i++) {
+            char old = chars[i];
+            for (char c = 'a'; c <= 'z'; c++) {
+                if (c == old) continue;
+                chars[i] = c;
+                String newStr = new String(chars);
+                if (set.contains(newStr))res.add(newStr);
+            }
+            chars[i] = old;
+        }
+        return res;
     }
 }
