@@ -3,53 +3,43 @@ class Solution {
         Set<String> dict = new HashSet<>(wordList);
         if (!dict.contains(endWord)) return 0;
 
-        Set<String> beginSet = new HashSet<>();
-        Set<String> endSet = new HashSet<>();
+        Deque<String> queue = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
 
-        beginSet.add(beginWord);
-        endSet.add(endWord);
+        queue.offer(beginWord);
+        visited.add(beginWord);
 
-        int steps = 1;
+        int steps = 1; // beginWord itself counts as level 1
 
-        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+        while (!queue.isEmpty()) {
+            int size = queue.size();
 
-            // Always expand the smaller set (关键优化)
-            if (beginSet.size() > endSet.size()) {
-                Set<String> temp = beginSet;
-                beginSet = endSet;
-                endSet = temp;
-            }
+            for (int i = 0; i < size; i++) {
 
-            Set<String> next = new HashSet<>();
+                String cur = queue.poll();
+                char[] chars = cur.toCharArray();
 
-            for (String word : beginSet) {
-                char[] chars = word.toCharArray();
-
-                for (int i = 0; i < chars.length; i++) {
-                    char old = chars[i];
+                // ⭐ inline transform — 直接展开，无 helper function，无 List
+                for (int j = 0; j < chars.length; j++) {
+                    char old = chars[j];
 
                     for (char c = 'a'; c <= 'z'; c++) {
                         if (c == old) continue;
-                        chars[i] = c;
 
-                        String newWord = new String(chars);
+                        chars[j] = c;
+                        String next = new String(chars);
 
-                        // 两边相遇了！答案就是 steps+1
-                        if (endSet.contains(newWord)) return steps + 1;
+                        if (next.equals(endWord)) return steps + 1;
 
-                        // 尚未访问且在字典中
-                        if (dict.contains(newWord) && visited.add(newWord)) {
-                            next.add(newWord);
+                        if (dict.contains(next) && visited.add(next)) {
+                            queue.offer(next);
                         }
                     }
 
-                    chars[i] = old;
+                    chars[j] = old; // restore
                 }
             }
 
-            // Move forward from the side we expanded
-            beginSet = next;
             steps++;
         }
 
