@@ -1,54 +1,58 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // level order bfs
-            // loop each word in a level
-                // loop each letter in a word
-                    // change the letter from a to z, put it in queue if in wordlist
-        
-        // corner case 
-        Set<String> wordSet = new HashSet<>(wordList);
-        if (!wordSet.contains(endWord)) return 0;
+        Set<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) return 0;
 
-        // initialization
-        Deque<String> queue = new ArrayDeque<>();
+        Set<String> beginSet = new HashSet<>();
+        Set<String> endSet = new HashSet<>();
         Set<String> visited = new HashSet<>();
-        queue.offer(beginWord);
-        visited.add(endWord);
 
-        // bfs
-        int count = 1; // per requirement
-        while (!queue.isEmpty()) {
-            int n = queue.size();
+        beginSet.add(beginWord);
+        endSet.add(endWord);
 
-            for (int i = 0; i < n; i++) {
-                String cur = queue.poll();
-                char[] chars = cur.toCharArray();
+        int steps = 1;
 
-                for (String next: getNextWords(chars, wordSet)) {
-                    if (next.equals(endWord)) return count+1;
-                    if (visited.add(next)) {
-                        queue.offer(next);
+        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+
+            // Always expand the smaller set (关键优化)
+            if (beginSet.size() > endSet.size()) {
+                Set<String> temp = beginSet;
+                beginSet = endSet;
+                endSet = temp;
+            }
+
+            Set<String> next = new HashSet<>();
+
+            for (String word : beginSet) {
+                char[] chars = word.toCharArray();
+
+                for (int i = 0; i < chars.length; i++) {
+                    char old = chars[i];
+
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == old) continue;
+                        chars[i] = c;
+
+                        String newWord = new String(chars);
+
+                        // 两边相遇了！答案就是 steps+1
+                        if (endSet.contains(newWord)) return steps + 1;
+
+                        // 尚未访问且在字典中
+                        if (dict.contains(newWord) && visited.add(newWord)) {
+                            next.add(newWord);
+                        }
                     }
+
+                    chars[i] = old;
                 }
             }
-            count++;
+
+            // Move forward from the side we expanded
+            beginSet = next;
+            steps++;
         }
+
         return 0;
-    }
-
-    private List<String> getNextWords(char[] chars, Set<String> wordSet) {
-        List<String> res = new ArrayList<>();
-
-        for (int i = 0; i < chars.length; i++) {
-            char old = chars[i];
-            for (char c = 'a'; c <= 'z'; c++) {
-                if (c == old) continue;
-                chars[i] = c;
-                String newWord = new String(chars);
-                if (wordSet.contains(newWord)) res.add(newWord);
-            }
-            chars[i] = old;
-        }
-        return res;
     }
 }
