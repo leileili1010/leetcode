@@ -1,58 +1,55 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> dict = new HashSet<>(wordList);
-        if (!dict.contains(endWord)) return 0;
+        // 0. check edge case and use set to improve search speed
+        Set<String> wordsList = new HashSet<>(wordList); // O(N)
+        if (!wordsList.contains(endWord)) return 0;
 
-        Set<String> beginSet = new HashSet<>();
-        Set<String> endSet = new HashSet<>();
+        // template
+        // 1. Define data structure
         Set<String> visited = new HashSet<>();
+        Deque<String> que = new ArrayDeque<>();
+        
+        // 2. init 
+        que.offer(beginWord);
+        visited.add(beginWord);
+        int count = 1;
 
-        beginSet.add(beginWord);
-        endSet.add(endWord);
-
-        int steps = 1;
-
-        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
-
-            // Always expand the smaller set (关键优化)
-            if (beginSet.size() > endSet.size()) {
-                Set<String> temp = beginSet;
-                beginSet = endSet;
-                endSet = temp;
-            }
-
-            Set<String> next = new HashSet<>();
-
-            for (String word : beginSet) {
-                char[] chars = word.toCharArray();
-
-                for (int i = 0; i < chars.length; i++) {
-                    char old = chars[i];
-
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == old) continue;
-                        chars[i] = c;
-
-                        String newWord = new String(chars);
-
-                        // 两边相遇了！答案就是 steps+1
-                        if (endSet.contains(newWord)) return steps + 1;
-
-                        // 尚未访问且在字典中
-                        if (dict.contains(newWord) && visited.add(newWord)) {
-                            next.add(newWord);
-                        }
+        // O(N * L^2)
+        // 3. Iteration
+        while (!que.isEmpty()) { // O(N);
+            int size = que.size();
+            count++;
+            for (int i = 0; i < size; i++) {
+                String cur = que.poll();
+                for (String nextWord: getNextWords(wordsList, cur)) { // O(L^2)
+                    if (nextWord.equals(cur)) continue;                   
+                    if (nextWord.equals(endWord)) {
+                        return count;
                     }
-
-                    chars[i] = old;
+                    if (visited.add(nextWord)) que.offer(nextWord);
                 }
             }
-
-            // Move forward from the side we expanded
-            beginSet = next;
-            steps++;
         }
-
         return 0;
+    }
+
+    private List<String> getNextWords(Set<String> wordsList, String word) {
+        List<String> res = new ArrayList<>();
+        char[] letters = word.toCharArray();
+
+        for (char c = 'a'; c <= 'z'; c++) { // (26)
+            for (int i = 0; i < letters.length; i++) { // O(L)
+                if (letters[i] == c) continue;
+                String newWord = replace(word, c, i); // O(L)
+                if (wordsList.contains(newWord)) res.add(newWord);
+            }
+        }
+        return res;
+    }
+
+    private String replace(String word, char c, int idx) {
+        char[] letters = word.toCharArray();
+        letters[idx] = c;
+        return new String(letters);
     }
 }
