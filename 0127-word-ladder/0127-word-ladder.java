@@ -1,48 +1,47 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // corner case 
-        Set<String> wordSet = new HashSet<>(wordList);
-        if (!wordSet.contains(endWord)) return 0;
+        // min -> level order BFS
+            // iterate every word in a level
+                // iterate every letter in a word
+                    // change a letter from a to z, put it in queue if 1) in wordlist 2) not visited
+        
+        // corner case
+        Set<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) return 0;
 
         // initialization
         Deque<String> queue = new ArrayDeque<>();
-        Set<String> visited = new HashSet<>();
+        Set<String> visisted = new HashSet<>();
         queue.offer(beginWord);
-        visited.add(beginWord);
+        visisted.add(beginWord);
 
-        // dfs
-        int count = 1;
+        // BFS
+        int steps = 1; // per requirement
         while (!queue.isEmpty()) {
             int n = queue.size();
-           
+
+            // enter a level order traversal
             for (int i = 0; i < n; i++) {
                 String cur = queue.poll();
                 char[] chars = cur.toCharArray();
-                for (String next: getNextWords(chars, wordSet)) {
-                    if (next.equals(endWord)) return count+1;
-                    if (visited.add(next)) {
-                        queue.offer(next);
+
+                for (int j = 0; j < chars.length; j++) {
+                    char old = chars[j];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == old) continue;
+                        chars[j] = c;
+                        String newWord = new String(chars);
+                        if (newWord.equals(endWord)) return steps+1;
+                        if (dict.contains(newWord) && visisted.add(newWord)) {
+                            queue.offer(newWord);
+                        }
                     }
+                    chars[j] = old;
                 }
             }
-            count++;
+            // exit level
+            steps++;
         }
         return 0;
-    }
-
-    private List<String> getNextWords(char[] chars, Set<String> set) {
-        List<String> res = new ArrayList<>();
-        
-        for (int i = 0; i < chars.length; i++) {
-            char old = chars[i];
-            for (char c = 'a'; c <= 'z'; c++) {
-                if (c == old) continue;
-                chars[i] = c;
-                String newStr = new String(chars);
-                if (set.contains(newStr))res.add(newStr);
-            }
-            chars[i] = old;
-        }
-        return res;
     }
 }
