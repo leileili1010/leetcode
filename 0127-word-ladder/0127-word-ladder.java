@@ -1,48 +1,48 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        // corner case
         Set<String> dict = new HashSet<>(wordList);
         if (!dict.contains(endWord)) return 0;
 
-        Deque<String> queue = new ArrayDeque<>();
+        // initialization
+        Set<String> beginSet = new HashSet<>();
+        Set<String> endSet = new HashSet<>();
         Set<String> visited = new HashSet<>();
+        beginSet.add(beginWord);
+        endSet.add(endWord);
 
-        queue.offer(beginWord);
-        visited.add(beginWord);
+        // bi-dir bfs
+        int steps = 1; // per requirement
+        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+            // always loop through teh smaller Set
+            if (beginSet.size() > endSet.size()) {
+                Set<String> temp = beginSet;
+                beginSet = endSet;
+                endSet = temp;
+            }
+            Set<String> nextSet = new HashSet<>();
 
-        int steps = 1; // beginWord itself counts as level 1
+            // level order traversal
+            for (String word: beginSet) {
+                char[] chars = word.toCharArray();
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-
-            for (int i = 0; i < size; i++) {
-
-                String cur = queue.poll();
-                char[] chars = cur.toCharArray();
-
-                // ⭐ inline transform — 直接展开，无 helper function，无 List
-                for (int j = 0; j < chars.length; j++) {
-                    char old = chars[j];
-
+                for (int i = 0; i < chars.length; i++) {
+                    char old = chars[i];
                     for (char c = 'a'; c <= 'z'; c++) {
                         if (c == old) continue;
-
-                        chars[j] = c;
+                        chars[i] = c;
                         String next = new String(chars);
-
-                        if (next.equals(endWord)) return steps + 1;
-
+                        if (endSet.contains(next)) return steps + 1;
                         if (dict.contains(next) && visited.add(next)) {
-                            queue.offer(next);
+                            nextSet.add(next);
                         }
                     }
-
-                    chars[j] = old; // restore
+                    chars[i] = old;
                 }
             }
-
             steps++;
-        }
-
+            beginSet = nextSet;
+        }   
         return 0;
     }
 }
