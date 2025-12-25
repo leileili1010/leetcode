@@ -1,48 +1,48 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // corner case
-        Set<String> dict = new HashSet<>(wordList);
-        if (!dict.contains(endWord)) return 0;
+        // corner case 
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord)) return 0;
 
         // initialization
-        Set<String> beginSet = new HashSet<>();
-        Set<String> endSet = new HashSet<>();
+        Deque<String> queue = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
-        beginSet.add(beginWord);
-        endSet.add(endWord);
+        queue.offer(beginWord);
+        visited.add(beginWord);
 
-        // bi-dir bfs
-        int steps = 1; // per requirement
-        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
-            // always loop through teh smaller Set
-            if (beginSet.size() > endSet.size()) {
-                Set<String> temp = beginSet;
-                beginSet = endSet;
-                endSet = temp;
-            }
-            Set<String> nextSet = new HashSet<>();
-
-            // level order traversal
-            for (String word: beginSet) {
-                char[] chars = word.toCharArray();
-
-                for (int i = 0; i < chars.length; i++) {
-                    char old = chars[i];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == old) continue;
-                        chars[i] = c;
-                        String next = new String(chars);
-                        if (endSet.contains(next)) return steps + 1;
-                        if (dict.contains(next) && visited.add(next)) {
-                            nextSet.add(next);
-                        }
+        // dfs
+        int count = 1;
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+           
+            for (int i = 0; i < n; i++) {
+                String cur = queue.poll();
+                char[] chars = cur.toCharArray();
+                for (String next: getNextWords(chars, wordSet)) {
+                    if (next.equals(endWord)) return count+1;
+                    if (visited.add(next)) {
+                        queue.offer(next);
                     }
-                    chars[i] = old;
                 }
             }
-            steps++;
-            beginSet = nextSet;
-        }   
+            count++;
+        }
         return 0;
+    }
+
+    private List<String> getNextWords(char[] chars, Set<String> set) {
+        List<String> res = new ArrayList<>();
+        
+        for (int i = 0; i < chars.length; i++) {
+            char old = chars[i];
+            for (char c = 'a'; c <= 'z'; c++) {
+                if (c == old) continue;
+                chars[i] = c;
+                String newStr = new String(chars);
+                if (set.contains(newStr))res.add(newStr);
+            }
+            chars[i] = old;
+        }
+        return res;
     }
 }
