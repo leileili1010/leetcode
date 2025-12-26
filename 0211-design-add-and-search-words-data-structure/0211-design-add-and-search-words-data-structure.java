@@ -1,64 +1,55 @@
 class TrieNode {
-    public Map<Character, TrieNode> children;
-    public boolean isWord;
-    public String word;
+    TrieNode[] children;
+    boolean isWord;
 
-    public TrieNode() {
-        children = new HashMap<>();
+    TrieNode() {
+        children = new TrieNode[26];
         isWord = false;
-        word = null;
     }
 }
 
 class WordDictionary {
-    TrieNode root;
-
+    private TrieNode root;
+    
     public WordDictionary() {
-        root = new TrieNode();
+        root = new TrieNode();    
     }
     
     public void addWord(String word) {
-        TrieNode node = root;
-
-        for (char letter: word.toCharArray()) {
-            if (!node.children.containsKey(letter)) {
-                node.children.put(letter, new TrieNode());
+        TrieNode cur = root;
+        for (char c: word.toCharArray()) {
+            c -= 'a';
+            if (cur.children[c] == null) {
+                cur.children[c] = new TrieNode();
             }
-            node = node.children.get(letter);
+            cur = cur.children[c];
         }
-        node.isWord = true;
-        node.word = word;
+        cur.isWord = true;
     }
     
     public boolean search(String word) {
-        return dfs(root, word, 0);
+       return dfs(root, word, 0);
     }
 
     private boolean dfs(TrieNode node, String word, int idx) {
-        if (idx == word.length()) {
-            return node.isWord; // 可能会出现abc在字典中，但是ab不在，所以要return node.isWord
-        }
-        char letter = word.charAt(idx);
-        
-        // case 1: current letter is '.'
-        if (letter == '.') {
-            for (char child: node.children.keySet()) {
-                if (dfs(node.children.get(child), word, idx+1)) {
+        if (node == null) return false;
+
+        if (idx == word.length()) return node.isWord;
+
+        char c = word.charAt(idx);
+
+        // case 1: current char is '.'
+        if (c == '.') {
+            for (TrieNode child : node.children) {
+                if (dfs(child, word, idx + 1)) {
                     return true;
                 }
             }
             return false;
         }
 
-        // case 2: current letter is not '.'
-        if (node.children.containsKey(letter)) {
-            if (dfs(node.children.get(letter), word, idx+1)) {
-                return true;
-            }
-        }
-
-        // cannot find the word, return false
-        return false;
+        // case 2: current char is a letter
+        return dfs(node.children[c - 'a'], word, idx + 1);
     }
 }
 
