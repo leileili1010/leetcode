@@ -32,25 +32,24 @@ class WordDictionary {
     }
 
     private boolean dfs(TrieNode node, String word, int idx) {
+        if (node == null) return false;
+
         if (idx == word.length()) return node.isWord;
 
         char c = word.charAt(idx);
 
-        // case 1: current letter is '.'
+        // case 1: current char is '.'
         if (c == '.') {
-            for (TrieNode child: node.children) {
-                if (child != null && dfs(child, word, idx+1)) {
+            for (TrieNode child : node.children) {
+                if (child != null && dfs(child, word, idx + 1)) {
                     return true;
                 }
             }
             return false;
-        } 
-
-        // case 2: current letter is not '.'
-        if (node.children[c-'a'] != null) {
-           if (dfs(node.children[c-'a'], word, idx+1)) return true;
         }
-        return false;
+
+        // case 2: current char is a letter
+        return dfs(node.children[c - 'a'], word, idx + 1);
     }
 }
 
