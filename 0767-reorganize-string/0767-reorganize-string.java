@@ -2,41 +2,36 @@ class Solution {
     public String reorganizeString(String s) {
         int n = s.length();
         int[] count = new int[26];
-        int max = 0, maxChar = 0;
-
-        // 统计频率
-        for (char c : s.toCharArray()) {
-            int idx = c - 'a';
-            count[idx]++;
-            if (count[idx] > max) {
-                max = count[idx];
-                maxChar = idx;
+        int m = 0;
+        char mch = 0;
+        for (char ch : s.toCharArray()) {
+            if (++count[ch - 'a'] > m) {
+                m = count[ch - 'a'];
+                mch = ch;
             }
         }
-
-        // 如果最大频率超过 limit → 无法重排
-        if (max > (n + 1) / 2) return "";
-
-        char[] res = new char[n];
-        int index = 0;
-
-        // 先放置出现次数最多的字符（放在偶数 index）
-        while (count[maxChar] > 0) {
-            res[index] = (char)(maxChar + 'a');
-            index += 2;
-            count[maxChar]--;
+        if (m > n - m + 1) {
+            return "";
         }
 
-        // 放置剩余字符
-        for (int i = 0; i < 26; i++) {
-            while (count[i] > 0) {
-                if (index >= n) index = 1; // 偶数位放完 → 换到奇数位
-                res[index] = (char)(i + 'a');
-                index += 2;
-                count[i]--;
+        char[] ans = new char[n];
+        int i = 0;
+        for (; m-- > 0; i += 2) {
+            ans[i] = mch; // 先填出现次数最多的字母
+        }
+        count[mch - 'a'] = 0;
+
+        // 再填其它字母
+        for (int j = 0; j < 26; j++) {
+            int cnt = count[j];
+            while (cnt-- > 0) {
+                if (i >= n) {
+                    i = 1; // 填完偶数填奇数
+                }
+                ans[i] = (char) ('a' + j);
+                i += 2;
             }
         }
-
-        return new String(res);
+        return new String(ans);
     }
 }
