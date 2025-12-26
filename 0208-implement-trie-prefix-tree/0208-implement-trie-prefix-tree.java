@@ -1,20 +1,19 @@
 class TrieNode {
     Map<Character, TrieNode> children;
-    boolean isWord;
     String word;
+    boolean isWord;
 
     TrieNode() {
         children = new HashMap<>();
-        isWord = false;
         word = null;
+        isWord = false;
     }
 }
-
 class Trie {
-    TrieNode root;
+    private TrieNode root;
 
     public Trie() {
-        root = new TrieNode();
+        root = new TrieNode();    
     }
     
     public void insert(String word) {
@@ -26,25 +25,24 @@ class Trie {
             node = node.children.get(c);
         }
         node.isWord = true;
-        node.word = word; 
+        node.word = word;
     }
     
     public boolean search(String word) {
-        TrieNode node = root;
-        for (char c: word.toCharArray()) {
-            if (!node.children.containsKey(c)) return false;
-            node = node.children.get(c);
-        }
-        return node.isWord;
+        return find(word) == 2;
     }
     
     public boolean startsWith(String prefix) {
-         TrieNode node = root;
-        for (char c: prefix.toCharArray()) {
-            if (!node.children.containsKey(c)) return false;
-            node = node.children.get(c);
+        return find(prefix) != 0;
+    }
+
+    private int find(String word) {
+        TrieNode node = root;
+        for (char c: word.toCharArray()) {
+            if (!node.children.containsKey(c)) return 0;
+            node = node.children.get(c); 
         }
-        return true;
+        return node.isWord? 2: 1; // 2-match word, 1-match prefix
     }
 }
 
