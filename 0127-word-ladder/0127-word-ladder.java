@@ -1,26 +1,30 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // min -> level order BFS
-            // iterate every word in a level
-                // iterate every letter in a word
-                    // change a letter from a to z, put it in queue if 1) in wordlist 2) not visited
-        
+        // corner case: end not in wordList, return 0
+        // min/shortest -> Level order BFS
+            // iterate each Level
+                // iterate each word
+                    // iterate each letter
+                        // 26 changes
+                        // found endword, return steps
+                        // if not count atm, 1) in wordList && !visited, put in queue
+
         // corner case
         Set<String> dict = new HashSet<>(wordList);
         if (!dict.contains(endWord)) return 0;
 
         // initialization
         Deque<String> queue = new ArrayDeque<>();
-        Set<String> visisted = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         queue.offer(beginWord);
-        visisted.add(beginWord);
+        visited.add(beginWord);
 
         // BFS
         int steps = 1; // per requirement
         while (!queue.isEmpty()) {
-            int n = queue.size();
+            int n = queue.size();   
 
-            // enter a level order traversal
+            // enter level order travasal
             for (int i = 0; i < n; i++) {
                 String cur = queue.poll();
                 char[] chars = cur.toCharArray();
@@ -31,15 +35,15 @@ class Solution {
                         if (c == old) continue;
                         chars[j] = c;
                         String newWord = new String(chars);
-                        if (newWord.equals(endWord)) return steps+1;
-                        if (dict.contains(newWord) && visisted.add(newWord)) {
+                        if (newWord.equals(endWord)) return steps + 1;
+                        if (dict.contains(newWord) && visited.add(newWord)) {
                             queue.offer(newWord);
                         }
                     }
                     chars[j] = old;
                 }
             }
-            // exit level
+            // exit level order
             steps++;
         }
         return 0;
