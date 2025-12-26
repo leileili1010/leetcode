@@ -22,41 +22,56 @@ class Solution {
             return;
         }
         char ch = board[i1][j1];
-        now = now.children.get(ch);
-        if (!"".equals(now.word)) {
-            ans.add(now.word);
+        Trie nxt = now.children.get(ch);
+        if (!"".equals(nxt.word)) {
+            ans.add(nxt.word);
+            nxt.word = "";
         }
 
-        board[i1][j1] = '#';
-        for (int[] dir : dirs) {
-            int i2 = i1 + dir[0], j2 = j1 + dir[1];
-            if (i2 >= 0 && i2 < board.length && j2 >= 0 && j2 < board[0].length) {
-                dfs(board, now, i2, j2, ans);
+        if (!nxt.children.isEmpty()) {
+            board[i1][j1] = '#';
+            for (int[] dir : dirs) {
+                int i2 = i1 + dir[0], j2 = j1 + dir[1];
+                if (i2 >= 0 && i2 < board.length && j2 >= 0 && j2 < board[0].length) {
+                    dfs(board, nxt, i2, j2, ans);
+                }
             }
+            board[i1][j1] = ch;
         }
-        board[i1][j1] = ch;
+
+        if (nxt.children.isEmpty()) {
+            now.children.remove(ch);
+        }
     }
 }
 
 class Trie {
-    String word;
-    Map<Character, Trie> children;
-    boolean isWord;
+    TrieNode root;
 
     public Trie() {
-        this.word = "";
-        this.children = new HashMap<Character, Trie>();
+        root = new TrieNode();
     }
 
     public void insert(String word) {
-        Trie cur = this;
+        TrieNode cur = root;
         for (int i = 0; i < word.length(); ++i) {
             char c = word.charAt(i);
             if (!cur.children.containsKey(c)) {
-                cur.children.put(c, new Trie());
+                cur.children.put(c, new TrieNode());
             }
             cur = cur.children.get(c);
         }
         cur.word = word;
     }
 }
+
+class TrieNode {
+    String word;
+    Map<Character, TrieNode> children;
+
+     public TrieNode() {
+        word = "";
+        children = new HashMap<Character, TrieNode>();
+    }
+}
+
