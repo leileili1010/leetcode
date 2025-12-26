@@ -1,69 +1,64 @@
-class WordDictionary {
-    private Trie root;
+class TrieNode {
+    public Map<Character, TrieNode> children;
+    public boolean isWord;
+    public String word;
 
-    public WordDictionary() {
-        root = new Trie();
-    }
-    
-    public void addWord(String word) {
-        root.insert(word);
-    }
-    
-    public boolean search(String word) {
-        return dfs(word, 0, root);
-    }
-
-    private boolean dfs(String word, int index, Trie node) {
-        if (index == word.length()) {
-            return node.isEnd();
-        }
-        char ch = word.charAt(index);
-        if (Character.isLetter(ch)) {
-            int childIndex = ch - 'a';
-            Trie child = node.getChildren()[childIndex];
-            if (child != null && dfs(word, index + 1, child)) {
-                return true;
-            }
-        } else {
-            for (int i = 0; i < 26; i++) {
-                Trie child = node.getChildren()[i];
-                if (child != null && dfs(word, index + 1, child)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public TrieNode() {
+        children = new HashMap<>();
+        isWord = false;
+        word = null;
     }
 }
 
-class Trie {
-    private Trie[] children;
-    private boolean isEnd;
+class WordDictionary {
+    TrieNode root;
 
-    public Trie() {
-        children = new Trie[26];
-        isEnd = false;
+    public WordDictionary() {
+        root = new TrieNode();
     }
     
-    public void insert(String word) {
-        Trie node = this;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new Trie();
+    public void addWord(String word) {
+        TrieNode node = root;
+
+        for (char letter: word.toCharArray()) {
+            if (!node.children.containsKey(letter)) {
+                node.children.put(letter, new TrieNode());
             }
-            node = node.children[index];
+            node = node.children.get(letter);
         }
-        node.isEnd = true;
+        node.isWord = true;
+        node.word = word;
+    }
+    
+    public boolean search(String word) {
+        return dfs(root, word, 0);
     }
 
-    public Trie[] getChildren() {
-        return children;
-    }
+    private boolean dfs(TrieNode node, String word, int idx) {
+        if (idx == word.length()) {
+            return node.isWord; // 可能会出现abc在字典中，但是ab不在，所以要return node.isWord
+        }
+        char letter = word.charAt(idx);
+        
+        // case 1: current letter is '.'
+        if (letter == '.') {
+            for (char child: node.children.keySet()) {
+                if (dfs(node.children.get(child), word, idx+1)) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-    public boolean isEnd() {
-        return isEnd;
+        // case 2: current letter is not '.'
+        if (node.children.containsKey(letter)) {
+            if (dfs(node.children.get(letter), word, idx+1)) {
+                return true;
+            }
+        }
+
+        // cannot find the word, return false
+        return false;
     }
 }
 
