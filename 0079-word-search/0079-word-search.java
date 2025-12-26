@@ -7,7 +7,22 @@ class Solution {
         int n = board[0].length;
         char[] letters = word.toCharArray();
 
-        for (int i = 0; i < m; i++) {
+        // optimazation 1
+        int[] count = new int[128];
+        for (char[] row: board) {
+            for (char c: row) count[c]++;
+        }
+
+        for (char c: word.toCharArray()) {
+            if (--count[c] < 0) return false;
+        }
+
+        // optimazation 2: dfs direction
+        if (count[letters[letters.length-1]] < count[letters[0]]) {
+            letters = new StringBuilder(word).reverse().toString().toCharArray();
+        }
+
+        for (int i = 0; i < m; i++) { // O (M * N * 4^L)
             for (int j = 0; j < n; j++) {
                 if (dfs(board, letters, i, j, 0)) return true;
             }
