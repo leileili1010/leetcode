@@ -1,11 +1,9 @@
 class TrieNode {
     TrieNode[] children;
-    String word;
     boolean isWord;
 
     TrieNode() {
         children = new TrieNode[26];
-        word = null;
         isWord = false;
     }
 }
@@ -26,7 +24,6 @@ class Trie {
             node = node.children[c];
         }
         node.isWord = true;
-        node.word = word;
     }
     
     public boolean search(String word) {
