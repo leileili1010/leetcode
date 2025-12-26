@@ -9,7 +9,7 @@ class TrieNode {
 }
 
 class WordDictionary {
-    private TrieNode root;
+    TrieNode root;
 
     public WordDictionary() {
         root = new TrieNode();
@@ -17,6 +17,7 @@ class WordDictionary {
     
     public void addWord(String word) {
         TrieNode cur = root;
+
         for (char c: word.toCharArray()) {
             c -= 'a';
             if (cur.children[c] == null) {
@@ -32,23 +33,21 @@ class WordDictionary {
     }
 
     private boolean dfs(TrieNode node, String word, int idx) {
-        // base case 1:
-        if (node == null) return false;
-
-        // base case 2:
         if (idx == word.length()) return node.isWord;
 
-        // case 1: current letter is '.'
         char c = word.charAt(idx);
+        
         if (c == '.') {
             for (TrieNode child: node.children) {
-                if (dfs(child, word, idx+1)) return true;
+                if (child != null && dfs(child, word, idx+1)) return true;
             }
             return false;
         }
 
-        // case 2: normal letter
-        return dfs(node.children[c-'a'], word, idx+1);
+        if (node.children[c-'a'] != null) {
+          if (dfs(node.children[c-'a'], word, idx+1)) return true;
+        }
+        return false;
     }
 }
 
