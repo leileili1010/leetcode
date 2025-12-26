@@ -10,9 +10,9 @@ class TrieNode {
 
 class WordDictionary {
     private TrieNode root;
-    
+
     public WordDictionary() {
-        root = new TrieNode();    
+        root = new TrieNode();
     }
     
     public void addWord(String word) {
@@ -24,35 +24,32 @@ class WordDictionary {
             }
             cur = cur.children[c];
         }
-        cur.isWord = true;
     }
     
     public boolean search(String word) {
-       return dfs(root, word, 0);
+        return dfs(root, word, 0);
     }
 
     private boolean dfs(TrieNode node, String word, int idx) {
+        // base case 1:
         if (node == null) return false;
 
-        if (idx == word.length()) return node.isWord;
+        // base case 2:
+        if (idx == word.length()) return true;
 
+        // case 1: current letter is '.'
         char c = word.charAt(idx);
-
-        // case 1: current char is '.'
         if (c == '.') {
-            for (TrieNode child : node.children) {
-                if (dfs(child, word, idx + 1)) {
-                    return true;
-                }
+            for (TrieNode child: node.children) {
+                if (dfs(child, word, idx+1)) return true;
             }
             return false;
         }
 
-        // case 2: current char is a letter
-        return dfs(node.children[c - 'a'], word, idx + 1);
+        // case 2: normal letter
+        return dfs(node.children[c-'a'], word, idx+1);
     }
 }
-
 
 /**
  * Your WordDictionary object will be instantiated and called as such:
