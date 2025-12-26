@@ -41,7 +41,7 @@ class WordDictionary {
         // case 1: current char is '.'
         if (c == '.') {
             for (TrieNode child : node.children) {
-                if (child != null && dfs(child, word, idx + 1)) {
+                if (dfs(child, word, idx + 1)) {
                     return true;
                 }
             }
