@@ -1,75 +1,85 @@
-// ========== Trie Node ==========
 class TrieNode {
-    TrieNode[] children = new TrieNode[26];
-    String word = null; // 若非 null，表示这里是一个完整单词的结尾
+
+    HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
+    String word = null;
+
+    public TrieNode() {}
 }
 
-// ========== Trie ==========
-class Trie {
-    TrieNode root = new TrieNode();
-
-    public void insert(String word) {
-        TrieNode cur = root;
-        for (char c : word.toCharArray()) {
-            int idx = c - 'a';
-            if (cur.children[idx] == null) {
-                cur.children[idx] = new TrieNode();
-            }
-            cur = cur.children[idx];
-        }
-        cur.word = word;   // 标记完成一个单词
-    }
-}
-
-// ========== Solution ==========
 class Solution {
-    private static final int[][] DIRS = {{0,1},{0,-1},{1,0},{-1,0}};
-    private List<String> res = new ArrayList<>();
+
+    char[][] _board = null;
+    ArrayList<String> _result = new ArrayList<String>();
 
     public List<String> findWords(char[][] board, String[] words) {
+        // Step 1). Construct the Trie
+        TrieNode root = new TrieNode();
+        for (String word : words) {
+            TrieNode node = root;
 
-        // 1. 构建 Trie
-        Trie trie = new Trie();
-        for (String w : words) trie.insert(w);
+            for (Character letter : word.toCharArray()) {
+                if (node.children.containsKey(letter)) {
+                    node = node.children.get(letter);
+                } else {
+                    TrieNode newNode = new TrieNode();
+                    node.children.put(letter, newNode);
+                    node = newNode;
+                }
+            }
+            node.word = word; // store words in Trie
+        }
 
-        int m = board.length, n = board[0].length;
-
-        // 2. 遍历所有起点 DFS（类似 exist() 的扫描方式）
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                dfs(board, i, j, trie.root);
+        this._board = board;
+        // Step 2). Backtracking starting for each cell in the board
+        for (int row = 0; row < board.length; ++row) {
+            for (int col = 0; col < board[row].length; ++col) {
+                if (root.children.containsKey(board[row][col])) {
+                    backtracking(row, col, root);
+                }
             }
         }
-        return res;
+
+        return this._result;
     }
 
-    private void dfs(char[][] board, int row, int col, TrieNode node) {
-        char c = board[row][col];
+    private void backtracking(int row, int col, TrieNode parent) {
+        Character letter = this._board[row][col];
+        TrieNode currNode = parent.children.get(letter);
 
-        // base case 1: 已访问过或没有这个前缀
-        if (c == '#' || node.children[c - 'a'] == null) return;
-
-        node = node.children[c - 'a'];
-
-        // base case 2: 找到完整单词
-        if (node.word != null) {
-            res.add(node.word);
-            node.word = null; // 删除以防重复加入
+        // check if there is any match
+        if (currNode.word != null) {
+            this._result.add(currNode.word);
+            currNode.word = null;
         }
 
-        // mark visited
-        board[row][col] = '#';
+        // mark the current letter before the EXPLORATION
+        this._board[row][col] = '#';
 
-        // 四方向 DFS（风格与 exist() 完全一致）
-        for (int[] d : DIRS) {
-            int x = row + d[0];
-            int y = col + d[1];
-            if (x >= 0 && x < board.length && y >= 0 && y < board[0].length) {
-                dfs(board, x, y, node);
+        // explore neighbor cells in around-clock directions: up, right, down, left
+        int[] rowOffset = { -1, 0, 1, 0 };
+        int[] colOffset = { 0, 1, 0, -1 };
+        for (int i = 0; i < 4; ++i) {
+            int newRow = row + rowOffset[i];
+            int newCol = col + colOffset[i];
+            if (
+                newRow < 0 ||
+                newRow >= this._board.length ||
+                newCol < 0 ||
+                newCol >= this._board[0].length
+            ) {
+                continue;
+            }
+            if (currNode.children.containsKey(this._board[newRow][newCol])) {
+                backtracking(newRow, newCol, currNode);
             }
         }
 
-        // 回溯
-        board[row][col] = c;
+        // End of EXPLORATION, restore the original letter in the board.
+        this._board[row][col] = letter;
+
+        // Optimization: incrementally remove the leaf nodes
+        if (currNode.children.isEmpty()) {
+            parent.children.remove(letter);
+        }
     }
 }
