@@ -24,6 +24,7 @@ class WordDictionary {
             }
             cur = cur.children[c];
         }
+        cur.isWord = true;
     }
     
     public boolean search(String word) {
@@ -35,7 +36,7 @@ class WordDictionary {
         if (node == null) return false;
 
         // base case 2:
-        if (idx == word.length()) return true;
+        if (idx == word.length()) return node.isWord;
 
         // case 1: current letter is '.'
         char c = word.charAt(idx);
