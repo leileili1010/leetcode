@@ -10,7 +10,7 @@ class Solution {
         Deque<String> queue = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
         queue.offer(startGene);
-        visited.add(endGene);
+        visited.add(startGene);
 
         // level order BFS
         int steps = 0;
@@ -20,6 +20,7 @@ class Solution {
             // enter level
             for (int i = 0; i < n; i++) {
                 String cur = queue.poll();
+                if (cur.equals(endGene)) return steps;
                 char[] chars = cur.toCharArray();
 
                 for (int j = 0; j < chars.length; j++) {
@@ -28,7 +29,7 @@ class Solution {
                         if (c == old) continue;
                         chars[j] = c;
                         String newWord = new String(chars);
-                        if (newWord.equals(endGene)) return steps + 1;
+                        // if (newWord.equals(endGene)) return steps + 1;
                         if (dict.contains(newWord) && visited.add(newWord)) {
                             queue.offer(newWord);
                         } 
