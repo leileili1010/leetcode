@@ -1,54 +1,50 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        // min/shortest --> level order BFS
+        // corner case check: if endWord in wordList, if not return 0
+        // BFS 
+            // iterate each level
+                // iterate each word in the level
+                    // iterate each letter
+                        // 26
 
-        // corner case
-        Set<String> dict = new HashSet<>(wordList); 
+        // corner case 
+        Set<String> dict = new HashSet<>(wordList);
         if (!dict.contains(endWord)) return 0;
 
         // initialization
-        Set<String> beginSet = new HashSet<>();
-        Set<String> endSet = new HashSet<>();
+        Deque<String> queue = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
-        beginSet.add(beginWord);
-        endSet.add(endWord);
+        queue.offer(beginWord);
         visited.add(beginWord);
-        visited.add(endWord);
 
-        // bi-dir BFS
-        int steps = 1;
-        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
-            // always search on the smaller Set
-            if (beginSet.size() > endSet.size()) {
-                Set<String> temp = beginSet;
-                beginSet = endSet;
-                endSet = temp;
-            }
+        // BFS
+        int steps = 1; // per requirement
+        while (!queue.isEmpty()) {
+            int n = queue.size();
 
-            Set<String> nextSet = new HashSet<>();
+            // enter the level 
+            for (int i = 0; i < n; i++) {
+                String cur = queue.poll();
+                char[] chars = cur.toCharArray();
 
-            // enter level
-            for (String word: beginSet) {
-                char[] chars = word.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    char old = chars[i];
+                for (int j = 0; j < chars.length; j++) {
+                    char old = chars[j];
                     for (char c = 'a'; c <= 'z'; c++) {
                         if (c == old) continue;
-                        chars[i] = c;
+                        chars[j] = c;
                         String newWord = new String(chars);
-                        if (endSet.contains(newWord)) return steps + 1;
+                        if (newWord.equals(endWord)) return steps + 1;
                         if (dict.contains(newWord) && visited.add(newWord)) {
-                            nextSet.add(newWord);
+                            queue.offer(newWord);
                         }
                     }
-                    chars[i] = old;
+                    chars[j] = old;
                 }
             }
-            // finish level
-            beginSet = nextSet;
+            // exit level
             steps++;
         }
         return 0;
     }
 }
-
-// time: O(N * 26* L^2)
