@@ -13,31 +13,23 @@
  *     }
  * }
  */
-
-class Node {
-    boolean balanced;
-    int depth;
-
-    Node(boolean balanced, int depth) {
-        this.balanced = balanced;
-        this.depth = depth;
-    }
-}
-
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if (root == null) return true;
-
-        int left = maxDepth(root.left);
-        int right = maxDepth(root.right);
-        return Math.abs(left-right) <= 1 && isBalanced(root.left) && isBalanced(root.right);
-
+        return getHeight(root) != -1;
     }
-    
-    // postorder dfs
-    private int maxDepth(TreeNode root) {
-        if (root == null) return 0;
 
-        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    private int getHeight(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int leftH = getHeight(node.left);
+        if (leftH == -1) {
+            return -1; // 提前退出，不再递归
+        }
+        int rightH = getHeight(node.right);
+        if (rightH == -1 || Math.abs(leftH - rightH) > 1) {
+            return -1;
+        }
+        return Math.max(leftH, rightH) + 1;
     }
 }
