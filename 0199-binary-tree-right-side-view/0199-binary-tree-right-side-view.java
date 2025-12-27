@@ -15,19 +15,19 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        dfs(root, 0, res);
-        return res;
+        List<Integer> ans = new ArrayList<>();
+        dfs(root, 0, ans);
+        return ans;
     }
 
-    // preorder dfs
-    private void dfs(TreeNode node, int k, List<Integer> res) {
-        if (node == null) return;
-        if (k == res.size()) {
-            res.add(node.val);
+    private void dfs(TreeNode root, int depth, List<Integer> ans) {
+        if (root == null) {
+            return;
         }
-        
-        dfs(node.right, k+1, res);
-        dfs(node.left, k+1, res);
+        if (depth == ans.size()) { // 这个深度首次遇到
+            ans.add(root.val);
+        }
+        dfs(root.right, depth + 1, ans); // 先递归右子树，保证首次遇到的一定是最右边的节点
+        dfs(root.left, depth + 1, ans);
     }
 }
