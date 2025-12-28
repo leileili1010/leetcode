@@ -21,8 +21,10 @@ class Solution {
     private int dfs(TreeNode root, int mx) {
         if (root == null)
             return 0;
-        int left = dfs(root.left, Math.max(mx, root.val));
-        int right = dfs(root.right, Math.max(mx, root.val));
-        return left + right + (mx <= root.val ? 1 : 0);
+
+        int res = root.val >= mx? 1: 0;
+        res += dfs(root.left, Math.max(mx, root.val));
+        res += dfs(root.right, Math.max(mx, root.val));
+        return res;
     }
 }
