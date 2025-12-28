@@ -13,12 +13,44 @@
  *     }
  * }
  */
+class Result {
+    int height;
+    boolean found;
+
+    Result(int height, boolean found) {
+        this.height = height;
+        this.found = found;
+    }
+}
+
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if (subRoot == null) return true;
-        if (root == null) return false;
 
-        return isSameTree(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        int hs = getHight(subRoot); // hs = 2
+        return dfs(root, subRoot, hs).found;
+    }
+
+    private Result dfs(TreeNode node, TreeNode subRoot, int hs) {
+        // base case
+        if (node == null) return new Result(0, false);
+
+        Result left = dfs(node.left, subRoot, hs);
+        if (left.found) return new Result(0, true);
+
+        Result right = dfs(node.right, subRoot, hs);
+        if (right.found) return new Result(0, true);
+
+        // if (left.found || right.found) return new Result(0, true);
+
+        int nodeH = Math.max(left.height, right.height) + 1;
+        return new Result(nodeH, nodeH == hs && isSameTree(node, subRoot));
+    }
+
+    private int getHight(TreeNode node) {
+        if (node == null) return 0;
+
+        return Math.max(getHight(node.left), getHight(node.right)) + 1;
     }
 
     private boolean isSameTree(TreeNode p, TreeNode q) {
