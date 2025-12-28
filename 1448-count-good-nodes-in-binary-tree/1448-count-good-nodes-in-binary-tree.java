@@ -14,22 +14,15 @@
  * }
  */
 class Solution {
-    private int res = 0;
-    
     public int goodNodes(TreeNode root) {
-        dfs(root, Integer.MIN_VALUE);
-        return res;
+        return dfs(root, Integer.MIN_VALUE); // 也可以写 root.val
     }
 
-    private void dfs(TreeNode node, int max) {
-        if (node == null) return;
-
-        if (node.val >= max) {
-            res++;
-            max = node.val;
-        }
-
-        dfs(node.left, max);
-        dfs(node.right, max);
+    private int dfs(TreeNode root, int mx) {
+        if (root == null)
+            return 0;
+        int left = dfs(root.left, Math.max(mx, root.val));
+        int right = dfs(root.right, Math.max(mx, root.val));
+        return left + right + (mx <= root.val ? 1 : 0);
     }
 }
