@@ -8,30 +8,18 @@
  * }
  */
 class Solution {
-    TreeNode res;
-
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // intput: tree, node1 and node2;
-        // output: integer, No.of node
-        findLCA(root, p, q);
-        return res;
-    }
-
-    public boolean findLCA(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return false;
-
-        // 已经找到答案了 所以res才不是null 直接返回false 结束dfs
-        if (res != null) return false;
-
-        //find the target node
-        boolean left = findLCA(root.left, p, q);
-        boolean right = findLCA(root.right, p, q);
-        boolean curr = root == p || root == q; 
-
-        // 关键是每个node的val是unique的
-        if ((left && right ) || (left && curr) || (right && curr)) 
-            res = root;
-
-        return left || right || curr;        
+        if (root == null || root == p || root == q) {
+            return root; // 找到 p 或 q 就不往下递归了，原因见上面答疑
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) { // 左右都找到
+            return root; // 当前节点是最近公共祖先
+        }
+        // 如果只有左子树找到，就返回左子树的返回值
+        // 如果只有右子树找到，就返回右子树的返回值
+        // 如果左右子树都没有找到，就返回 null（注意此时 right = null）
+        return left != null ? left : right;
     }
 }
