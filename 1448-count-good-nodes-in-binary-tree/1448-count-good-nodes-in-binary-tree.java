@@ -23,8 +23,9 @@ class Solution {
             return 0;
 
         int res = root.val >= mx? 1: 0;
-        res += dfs(root.left, Math.max(mx, root.val));
-        res += dfs(root.right, Math.max(mx, root.val));
+        if (res == 1) mx = root.val;
+        res += dfs(root.left, mx);
+        res += dfs(root.right, mx);
         return res;
     }
 }
