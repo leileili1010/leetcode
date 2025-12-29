@@ -1,19 +1,24 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-        int[] count = new int[26];
+        // freq array to store the frequency of each task
+        int[] freq = new int[26];  
+        int maxCount = 0;
+
+        // Count the frequency of each task and find the maximum frequency
         for (char task : tasks) {
-            count[task - 'A']++;
+            freq[task - 'A']++;
+            maxCount = Math.max(maxCount, freq[task - 'A']);
         }
 
-        int maxf = Arrays.stream(count).max().getAsInt();
-        int maxCount = 0;
-        for (int i : count) {
-            if (i == maxf) {
-                maxCount++;
+        // Calculate the total time needed for execution
+        int time = (maxCount - 1) * (n + 1);
+        for (int f : freq) {
+            if (f == maxCount) {
+                time++;
             }
         }
 
-        int time = (maxf - 1) * (n + 1) + maxCount;
+        // Return the maximum of total time needed and the length of the task list
         return Math.max(tasks.length, time);
     }
 }
