@@ -1,39 +1,20 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
         // 1. calc freq for each letter
-        // 2. put all freq in maxheap
-        // 3. simulation
-            // while maxheap is not empty
-                // cycle = n + 1
-                // taskCount
-                // list to store processed tasks, put in maxHeap if > 0
-                // time += maxHeap is empty? taskCount: n+1
+        // 2. maxFreq and maxCount
+        // 3. formular: Math.max(tasks.length, (maxFreq-1) *(n+1) + maxCount)
 
         int[] freq = new int[26];
         for (char task: tasks) freq[task - 'A']++;
 
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b) -> (b - a));
+        int maxFreq = Arrays.stream(freq).max().getAsInt();
+        int maxCount = 0;
         for (int f: freq) {
-            if (f > 0) maxHeap.add(f);
-        }
+            if (f == maxFreq) maxCount++; 
+        }    
 
-        int time = 0;
-        while (!maxHeap.isEmpty()) {
-            int cycle = n + 1;
-            int taskCount = 0;
-            List<Integer> store = new ArrayList<>();
+        return Math.max(tasks.length, (maxFreq-1)*(n+1) + maxCount);
 
-            while (cycle > 0 && !maxHeap.isEmpty()) {
-                int task = maxHeap.poll();
-                if (--task > 0) store.add(task);
-                cycle--;
-                taskCount++;
-            }
-
-            if (store.size() > 0) maxHeap.addAll(store);
-            
-            time += maxHeap.isEmpty()? taskCount: n + 1; 
-        }
-        return time;
+  
     }
 }
