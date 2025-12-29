@@ -16,7 +16,9 @@ class Solution {
 
         while (!pq.isEmpty()) {
             int[] cur = pq.poll();
-            sb.append((char)(cur[0] + 'a'));
+            char c = (char)(cur[0] + 'a');
+            if (sb.length() > 0 && sb.charAt(sb.length()-1) == c) return "";
+            sb.append(c);
             cur[1]--;
 
             if (prev != null && prev[1] > 0) {
