@@ -1,32 +1,41 @@
 class Solution {
     public String reorganizeString(String s) {
+        int n = s.length();
         int[] freq = new int[26];
-        for (char c: s.toCharArray()) freq[c-'a']++;
 
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[1] - a[1]));
-        for (int i= 0; i < 26; i++) {
-            if (freq[i] > 0) {
-                maxHeap.offer(new int[] {i, freq[i]});
+        for (char c : s.toCharArray()) freq[c - 'a']++;
+
+        // 找最大频率字符
+        int maxFreq = 0, maxChar = 0;
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > maxFreq) {
+                maxFreq = freq[i];
+                maxChar = i;
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        while (!maxHeap.isEmpty()) {
-            int cycle = 2;
-            List<int[]> store = new ArrayList<>();
+        // 可行性判断
+        if (maxFreq > (n + 1) / 2) return "";
 
-            while (cycle > 0 && !maxHeap.isEmpty()) {
-                int[] cur = maxHeap.poll();
-                char c = (char)(cur[0] + 'a');
-                if (sb.length() > 0 && sb.charAt(sb.length() - 1) == c) return "";
-                sb.append(c);
-                if (--cur[1] > 0) store.add(cur);
-                cycle--;
-            }
+        char[] res = new char[n];
+        int idx = 0;
 
-            for (int[] node: store) maxHeap.offer(node);
+        // 1️⃣ 先填最大频率字符（偶数位）
+        while (freq[maxChar]-- > 0) {
+            res[idx] = (char) (maxChar + 'a');
+            idx += 2;
         }
 
-        return sb.toString();
+        // 2️⃣ 填其他字符
+        for (int i = 0; i < 26; i++) {
+            while (freq[i]-- > 0) {
+                if (idx >= n) idx = 1; // 切换到奇数位
+                res[idx] = (char) (i + 'a');
+                idx += 2;
+            }
+        }
+
+        return new String(res);
     }
 }
+
