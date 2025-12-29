@@ -1,30 +1,41 @@
 class Solution {
     public String reorganizeString(String s) {
+        // 1. 统计freq for each letter
+        // 2. maxFreq and maxChar
+        // 3. will we have a valid result?
+        // 4. update char[n] result 
+            // put maxChar on even index
+            // put the rest even/odd index
+        
         int[] freq = new int[26];
         for (char c: s.toCharArray()) freq[c-'a']++;
 
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) -> (b[1] - a[1])); // <index, freq>
+        int maxFreq = 0, maxChar = 0;
         for (int i = 0; i < 26; i++) {
-            if (freq[i] > 0) {
-                maxHeap.offer(new int[]{i, freq[i]});
+            if (freq[i] > maxFreq) {
+                maxFreq = freq[i];
+                maxChar = i;
             }
         }
 
-        int maxFreq = Arrays.stream(freq).max().getAsInt();
-        if (maxFreq > (s.length()+1)/2) return "";
+        int n = s.length();
+        if (maxFreq > (n+1) / 2) return "";
 
-        StringBuilder sb = new StringBuilder();
-        int[] prev = null;
-        while (!maxHeap.isEmpty()) {
-            int[] cur = maxHeap.poll();
-            sb.append((char)(cur[0] + 'a'));
-            cur[1]--;
-
-            if (prev != null && prev[1] > 0) {
-                maxHeap.offer(prev);
-            }
-            prev = cur;
+        char[] res = new char[n];
+        int idx = 0;
+        while (freq[maxChar]-- > 0) {
+            res[idx] = (char)(maxChar + 'a');
+            idx += 2;
         }
-        return sb.toString();
+
+        for (int i = 0; i < 26; i++) {
+            while (freq[i]-- > 0) {
+                if (idx >= n) idx = 1;
+                res[idx] = (char)(i + 'a');
+                idx += 2;
+            }
+        }
+        return new String(res);
+
     }
 }
