@@ -1,32 +1,36 @@
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        List<Integer> res = new ArrayList<>();
-        int n = arr.length;
-        int left = findInsert(arr, x); // the biggest number <= x
-        int right = left + 1;
-
-        for (int i = 0; i < k && i < n; i++) {
-            if (left >= 0 && (right >= n || x-arr[left] <= arr[right]-x)) {
-                res.add(0, arr[left--]);
+        int right = binarySearch(arr, x);
+        int left = right - 1;
+        while (k-- > 0) {
+            if (left < 0) {
+                right++;
+            } else if (right >= arr.length) {
+                left--;
+            } else if (x - arr[left] <= arr[right] - x) {
+                left--;
             } else {
-                res.add(arr[right++]);
+                right++;
             }
         }
-        return res;
+        List<Integer> ans = new ArrayList<Integer>();
+        for (int i = left + 1; i < right; i++) {
+            ans.add(arr[i]);
+        }
+        return ans;
     }
 
-    private int findInsert(int[] arr, int x) {
-        int left = 0, right = arr.length-1;
-
-        while (left + 1 < right) {
-            int mid = left + (right - left) / 2;
-
-            if (arr[mid] <= x) {
-                left = mid;
+    public int binarySearch(int[] arr, int x) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] >= x) {
+                high = mid;
             } else {
-                right = mid;
+                low = mid + 1;
             }
         }
-        return left;
+        return low;
     }
 }
+
