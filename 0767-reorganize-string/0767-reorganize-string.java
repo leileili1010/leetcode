@@ -24,7 +24,7 @@ class Solution {
                 cycle--;
             }
 
-            maxHeap.addAll(store);
+            if (store.size() > 0) maxHeap.addAll(store);
         }
 
         return sb.toString();
