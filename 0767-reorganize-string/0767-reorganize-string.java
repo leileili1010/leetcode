@@ -16,9 +16,7 @@ class Solution {
 
         while (!pq.isEmpty()) {
             int[] cur = pq.poll();
-            char c = (char)(cur[0] + 'a');
-            if (sb.length() > 0 && sb.charAt(sb.length()-1) == c) return "";
-            sb.append(c);
+            sb.append((char)(cur[0] + 'a'));
             cur[1]--;
 
             if (prev != null && prev[1] > 0) {
@@ -31,5 +29,3 @@ class Solution {
         return sb.length() == s.length() ? sb.toString() : "";
     }
 }
-
-
