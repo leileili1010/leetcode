@@ -9,6 +9,7 @@ class Solution {
             if (i == curRight) { // 无路可走，必须建桥
                 curRight = nextRight; // 建桥后，最远可以到达 next_right
                 ans++;
+                // if (curRight >= nums.length-1) return ans;
             }
         }
         return ans;
