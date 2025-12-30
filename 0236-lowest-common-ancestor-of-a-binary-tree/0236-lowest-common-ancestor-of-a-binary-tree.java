@@ -8,14 +8,24 @@
  * }
  */
 class Solution {
+    private TreeNode res;
+    
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || root == q || root == p) return root;
-
-        TreeNode left = lowestCommonAncestor(root.left, p, q);
-        TreeNode right = lowestCommonAncestor(root.right, p, q);
-
-        if (left != null && right != null) return root;
-
-        return left != null? left: right;
+       dfs(root, p, q);
+       return res;
     }
+
+    private boolean dfs(TreeNode node, TreeNode p, TreeNode q) {
+        if (node == null) return false;
+        if (res != null) return false;
+
+        boolean left = dfs(node.left, p, q);
+        boolean right = dfs(node.right, p, q);
+        boolean cur = node.val == p.val || node.val == q.val;
+        if (cur && left || cur && right || left && right) res = node;
+        return cur || left || right;
+
+    }
+
+
 }
