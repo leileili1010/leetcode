@@ -14,23 +14,17 @@ class Solution {
 
         ListNode odd = head;
         ListNode even = head.next;
-
-        // maintain the evenHead;
-        ListNode evenHead = even;
+        ListNode evenHead = head.next;
 
         while (even != null && even.next != null) {
-            // change pointers for odd list
             odd.next = odd.next.next;
             odd = odd.next;
 
-            // change pointers for even list
             even.next = even.next.next;
             even = even.next;
         }
-        
-        // assign even list at the end of odd list
+
         odd.next = evenHead;
-        
         return head;
     }
 }
