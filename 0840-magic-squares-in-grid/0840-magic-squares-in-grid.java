@@ -21,7 +21,7 @@ class Solution {
         for (int i = r; i < r + 3; i++) {
             for (int j = c; j < c + 3; j++) {
                 int x = grid[i][j];
-                if (seen[x]) return false;
+                if (x < 1 || x > 9 || seen[x]) return false;
                 seen[x] = true;
             }
         }
