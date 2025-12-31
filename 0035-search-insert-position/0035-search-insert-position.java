@@ -1,20 +1,21 @@
 class Solution {
     public int searchInsert(int[] nums, int target) {
-        // 找到 >= target的最小值的index
+        // sorted arr, distinct elements, 
         int n = nums.length;
         if (target > nums[n-1]) return n;
-        int start = 0, end = nums.length-1;
 
-        while (start + 1 < end) {
-            int mid = start + (end - start)/2;
-
+        // the first num >= target;
+        int left = 0, right = n-1, res = -1;
+        while (left <= right) {
+            int mid = left + (right-left)/2;
             if (nums[mid] >= target) {
-                end = mid;
+                res = mid;
+                right = mid-1;
             } else {
-                start = mid;
-            }
+                left = mid + 1;
+            } 
         }
+        return res;
 
-        return nums[start] >= target? start: end;
     }
 }
