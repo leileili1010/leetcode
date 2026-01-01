@@ -1,47 +1,36 @@
 class Solution {
-    boolean[] col, posDiag, negDiag;
-    List<List<String>> res;
-    char[][] board;
-
     public List<List<String>> solveNQueens(int n) {
-        col = new boolean[n];
-        posDiag = new boolean[2 * n];
-        negDiag = new boolean[2 * n];
-        res = new ArrayList<>();
-        board = new char[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                board[i][j] = '.';
-            }
-        }
-        backtrack(0, n);
-        return res;
+        List<List<String>> ans = new ArrayList<>();
+        int[] queens = new int[n]; // 皇后放在 (r,queens[r])
+        boolean[] col = new boolean[n];
+        boolean[] diag1 = new boolean[n * 2 - 1];
+        boolean[] diag2 = new boolean[n * 2 - 1];
+        dfs(0, queens, col, diag1, diag2, ans);
+        return ans;
     }
 
-    private void backtrack(int r, int n) {
+    private void dfs(int r, int[] queens, boolean[] col, boolean[] diag1, boolean[] diag2, List<List<String>> ans) {
+        int n = col.length;
         if (r == n) {
-            List<String> copy = new ArrayList<>();
-            for (char[] row : board) {
-                copy.add(new String(row));
+            List<String> board = new ArrayList<>(n); // 预分配空间
+            for (int c : queens) {
+                char[] row = new char[n];
+                Arrays.fill(row, '.');
+                row[c] = 'Q';
+                board.add(new String(row));
             }
-            res.add(copy);
+            ans.add(board);
             return;
         }
+        // 在 (r,c) 放皇后
         for (int c = 0; c < n; c++) {
-            if (col[c] || posDiag[r + c] || negDiag[r - c + n]) {
-                continue;
+            int rc = r - c + n - 1;
+            if (!col[c] && !diag1[r + c] && !diag2[rc]) { // 判断能否放皇后
+                queens[r] = c; // 直接覆盖，无需恢复现场
+                col[c] = diag1[r + c] = diag2[rc] = true; // 皇后占用了 c 列和两条斜线
+                dfs(r + 1, queens, col, diag1, diag2, ans);
+                col[c] = diag1[r + c] = diag2[rc] = false; // 恢复现场
             }
-            col[c] = true;
-            posDiag[r + c] = true;
-            negDiag[r - c + n] = true;
-            board[r][c] = 'Q';
-
-            backtrack(r + 1, n);
-
-            col[c] = false;
-            posDiag[r + c] = false;
-            negDiag[r - c + n] = false;
-            board[r][c] = '.';
         }
     }
 }
