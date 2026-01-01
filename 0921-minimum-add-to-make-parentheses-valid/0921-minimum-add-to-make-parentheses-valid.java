@@ -1,21 +1,15 @@
 class Solution {
     public int minAddToMakeValid(String s) {
-        int balance = 0; // 未匹配的 '(' 数量
-        int res = 0;     // 需要补充的括号数
+        Deque<Character> stack = new ArrayDeque<>();
 
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                balance++;
-            } else { // c == ')'
-                if (balance > 0) {
-                    balance--;
-                } else {
-                    res++; // 补一个 '('
-                }
+        for (char c: s.toCharArray()) {
+            if (!stack.isEmpty() && stack.peek() == '(' && c == ')') {
+                stack.pop();
+            } else {
+                stack.push(c);
             }
         }
 
-        // 剩余的 '(' 需要补 ')'
-        return res + balance;
+        return stack.size();
     }
 }
