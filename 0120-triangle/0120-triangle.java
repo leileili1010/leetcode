@@ -1,22 +1,32 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
-        int[] dp = new int[n];
+        int[][] dp = new int[n][];
 
-        // state: dp[i] from triangle[i][j] to bottom shortest path
-        // init: dp[n-1] row
-        for (int j = 0; j < n; j++) {
-            dp[j] = triangle.get(n-1).get(j);
+        // state: dp[i][j] means shortest path from top to the current triangle[i][j]
+        for (int i = 0; i < n; i++) {
+            dp[i] = new int[i+1];
         }
+
+        // init: dp[0][0] = triangle.get(0).get(0);
+        dp[0][0] = triangle.get(0).get(0);
 
         // function
-        // dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i+1][j], dp[i+1][j+1])
-        for (int i = n-2; i >= 0; i--) {
-            for (int j = 0; j <= i; j++) {
-                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j+1]);
+        // leftMost: dp[i][j] = triangle.get(i).get(j) + dp[i-1][j];
+        // rightMost: dp[i][j] = triangle.get(i).get(j) + dp[i-1][j-1];
+        // mid: dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i-1][j-1], dp[i-1][j]);
+        for (int i = 1; i < n; i++) {
+            // leftMost
+            dp[i][0] = triangle.get(i).get(0) + dp[i-1][0];
+            
+            // mid
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i-1][j-1], dp[i-1][j]);
             }
-        }
 
-        return dp[0];
+            // rightMost 
+            dp[i][i] = triangle.get(i).get(i) + dp[i-1][i-1];
+        }
+        return Arrays.stream(dp[n-1]).min().getAsInt();
     }
 }
