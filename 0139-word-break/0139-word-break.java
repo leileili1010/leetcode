@@ -1,28 +1,22 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        // 1. state: dp[i] means if s[0:i-1] - the word can be found in set
-        int n = s.length();
-        Set<String> set = new HashSet<>(wordDict);
-        boolean[] dp = new boolean[n + 1];
-        
-        // 2. init: s[0:0] means empty string, true as Empty string is always a valid segmentation
-        dp[0] = true;
+        int maxLen = 0;
+        for (String word : wordDict) {
+            maxLen = Math.max(maxLen, word.length());
+        }
+        Set<String> words = new HashSet<>(wordDict);
 
-        // 3. function:
-        // We iterate through all possible segmentations s[j:i] and check:
-            // If dp[j] is true (meaning s[0:j] can be formed).
-            // If s[j:i] exists in the wordDict.
-        // If both conditions are met, we mark dp[i] = true and break out of the loop.
+        int n = s.length();
+        boolean[] f = new boolean[n + 1];
+        f[0] = true;
         for (int i = 1; i <= n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (dp[j] && set.contains(s.substring(j, i))) {
-                    dp[i] = true;
-                    // break;
+            for (int j = i - 1; j >= Math.max(i - maxLen, 0); j--) {
+                if (f[j] && words.contains(s.substring(j, i))) {
+                    f[i] = true;
+                    break;
                 }
             }
         }
-        // 4. answer
-        return dp[n];
+        return f[n];
     }
 }
-
