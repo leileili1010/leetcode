@@ -1,5 +1,10 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
+        int maxLen = 0;
+        for (String str: wordDict) {
+            maxLen = Math.max(str.length(), maxLen);
+        }
+        
         Set<String> dict = new HashSet<>(wordDict);
         int n = s.length();
 
