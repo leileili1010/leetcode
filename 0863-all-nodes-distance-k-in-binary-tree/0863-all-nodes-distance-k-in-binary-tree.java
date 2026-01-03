@@ -8,62 +8,46 @@
  * }
  */
 class Solution {
+    Map<Integer, TreeNode> parents = new HashMap<Integer, TreeNode>();
+    List<Integer> ans = new ArrayList<Integer>();
 
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        dfsBuild(root, null, graph);
+        // 从 root 出发 DFS，记录每个结点的父结点
+        findParents(root);
 
-        List<Integer> answer = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
-        Queue<int[]> queue = new LinkedList<>();
+        // 从 target 出发 DFS，寻找所有深度为 k 的结点
+        findAns(target, null, 0, k);
 
-        // Add the target node to the queue with a distance of 0
-        queue.add(new int[] { target.val, 0 });
-        visited.add(target.val);
-
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int node = cur[0], distance = cur[1];
-
-            // If the current node is at distance k from target,
-            // add it to the answer list and continue to the next node.
-            if (distance == k) {
-                answer.add(node);
-                continue;
-            }
-
-            // Add all unvisited neighbors of the current node to the queue.
-            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.add(new int[] { neighbor, distance + 1 });
-                }
-            }
-        }
-
-        return answer;
+        return ans;
     }
 
-    // Recursively build the undirected graph from the given binary tree.
-    private void dfsBuild(
-        TreeNode cur,
-        TreeNode parent,
-        Map<Integer, List<Integer>> graph
-    ) {
-        if (cur != null && parent != null) {
-            int curVal = cur.val, parentVal = parent.val;
-            graph.putIfAbsent(curVal, new ArrayList<>());
-            graph.putIfAbsent(parentVal, new ArrayList<>());
-            graph.get(curVal).add(parentVal);
-            graph.get(parentVal).add(curVal);
+    public void findParents(TreeNode node) {
+        if (node.left != null) {
+            parents.put(node.left.val, node);
+            findParents(node.left);
         }
-
-        if (cur != null && cur.left != null) {
-            dfsBuild(cur.left, cur, graph);
+        if (node.right != null) {
+            parents.put(node.right.val, node);
+            findParents(node.right);
         }
+    }
 
-        if (cur != null && cur.right != null) {
-            dfsBuild(cur.right, cur, graph);
+    public void findAns(TreeNode node, TreeNode from, int depth, int k) {
+        if (node == null) {
+            return;
+        }
+        if (depth == k) {
+            ans.add(node.val);
+            return;
+        }
+        if (node.left != from) {
+            findAns(node.left, node, depth + 1, k);
+        }
+        if (node.right != from) {
+            findAns(node.right, node, depth + 1, k);
+        }
+        if (parents.get(node.val) != from) {
+            findAns(parents.get(node.val), node, depth + 1, k);
         }
     }
 }
