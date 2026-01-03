@@ -1,22 +1,24 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        int maxLen = 0;
-        for (String word : wordDict) {
-            maxLen = Math.max(maxLen, word.length());
-        }
-        Set<String> words = new HashSet<>(wordDict);
-
+        Set<String> dict = new HashSet<>(wordDict);
         int n = s.length();
-        boolean[] f = new boolean[n + 1];
-        f[0] = true;
+
+        // state: dp[i] means s[0, i) has valid break?
+        boolean[] dp = new boolean[n+1];
+
+        // init: s[0, 0), empty string default to have a valid break
+        dp[0] = true; 
+
+        // function 
         for (int i = 1; i <= n; i++) {
-            for (int j = i - 1; j >= Math.max(i - maxLen, 0); j--) {
-                if (f[j] && words.contains(s.substring(j, i))) {
-                    f[i] = true;
+            for (int j = 0; j < i; j++) {
+                if (dict.contains(s.substring(j, i)) && dp[j]) {
+                    dp[i] = true;
                     break;
                 }
             }
         }
-        return f[n];
+
+        return dp[n];
     }
 }
