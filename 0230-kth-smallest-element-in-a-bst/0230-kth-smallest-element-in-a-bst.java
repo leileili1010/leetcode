@@ -14,18 +14,21 @@
  * }
  */
 class Solution {
-    private List<Integer> list = new ArrayList<>();
-   
     public int kthSmallest(TreeNode root, int k) {
-        dfs(root);
-        return list.get(k-1);
-    }
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode cur = root;
 
-    public void dfs(TreeNode node) {
-        if (node == null) return;
-
-        dfs(node.left);
-        list.add(node.val);
-        dfs(node.right);
+        while (!stack.isEmpty() || cur != null) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            if (--k == 0) {
+                return cur.val;
+            }
+            cur = cur.right;
+        }
+        return cur.val;
     }
 }
