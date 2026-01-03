@@ -4,7 +4,7 @@ class Solution {
         for (String str: wordDict) {
             maxLen = Math.max(str.length(), maxLen);
         }
-        
+
         Set<String> dict = new HashSet<>(wordDict);
         int n = s.length();
 
@@ -16,7 +16,7 @@ class Solution {
 
         // function 
         for (int i = 1; i <= n; i++) {
-            for (int j = 0; j < i; j++) {
+            for (int j = i-1; j >= Math.max(i-maxLen, 0); j--) {
                 if (dict.contains(s.substring(j, i)) && dp[j]) {
                     dp[i] = true;
                     break;
