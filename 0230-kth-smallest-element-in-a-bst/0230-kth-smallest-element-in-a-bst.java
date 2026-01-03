@@ -14,23 +14,18 @@
  * }
  */
 class Solution {
+    private List<Integer> list = new ArrayList<>();
+   
     public int kthSmallest(TreeNode root, int k) {
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        TreeNode cur = root;
+        dfs(root);
+        return list.get(k-1);
+    }
 
-        while (!stack.isEmpty() || cur != null) {
-            while (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            }
+    public void dfs(TreeNode node) {
+        if (node == null) return;
 
-            cur = stack.pop();
-            if (--k == 0) {
-                return cur.val;
-            }
-
-            cur = cur.right;
-        }
-        return cur.val;
+        dfs(node.left);
+        list.add(node.val);
+        dfs(node.right);
     }
 }
